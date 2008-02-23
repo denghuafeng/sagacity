@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="gb2312"?>
+<message>
+<source>物资处订单发布</source>
+<program></program>
+<app></app>
+<ns></ns>
+<version>1</version>
+<hostname></hostname>
+<port></port>
+<database>Informix</database>
+<dbname>wzglweb</dbname>
+<servername></servername>
+<direct></direct>
+<d><de></de><de></de></d>
+<table><name>t_wzw_ddxx</name>
+<owner></owner>
+<fields>
+<field><no>1</no><name>ddbh</name><type>0</type><length>11</length></field>
+<field><no>2</no><name>ddsxrq</name><type>0</type><length>8</length></field>
+<field><no>3</no><name>ddyxrq</name><type>0</type><length>8</length></field>
+<field><no>4</no><name>ddlx</name><type>13</type><length>10</length></field>
+<field><no>5</no><name>clbh</name><type>0</type><length>10</length></field>
+<field><no>6</no><name>clmc</name><type>13</type><length>200</length></field>
+<field><no>7</no><name>jldwmc</name><type>13</type><length>10</length></field>
+<field><no>8</no><name>clsl</name><type>5</type><length>1295</length></field>
+<field><no>9</no><name>cldj</name><type>5</type><length>1295</length></field>
+<field><no>10</no><name>dhsl</name><type>5</type><length>1295</length></field>
+<field><no>11</no><name>jhckh</name><type>2</type><length>4</length></field>
+<field><no>12</no><name>jhckmc</name><type>13</type><length>200</length></field>
+<field><no>13</no><name>bz</name><type>269</type><length>100</length></field>
+</fields>
+<primary-key>1,4,5,11</primary-key>
+</table>
+<data tablename="t_wzw_ddxx" rowcount = "34">
+<row>
+<ddbh>16310701010 (供应商速写10063,1,07年一月3位流水号)</ddbh>
+<ddsxrq>20061226 定单生效日期</ddsxrq>
+<ddyxrq>20070131 定单有效日期</ddyxrq>
+<ddlx>正常(补充) :定单类型(委托加工和采购)</ddlx>
+<clbh>XJ-01-002(材料编号)</clbh>
+<clmc>15号香精</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>6700.00000 (材料数量)</clsl>
+<cldj>35.10000 (材料单价)</cldj>
+<dhsl>750.00000 (到货数量)</dhsl>
+<jhckh>212 (计划仓库号)</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010 </ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XJ-01-003 </clbh>
+<clmc>N95香精</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>4625.00000</clsl>
+<cldj>362.70000</cldj>
+<dhsl>350.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XJ-01-007 </clbh>
+<clmc>66号香精</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>175.00000</clsl>
+<cldj>52.65000</cldj>
+<dhsl>0.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XJ-01-011 </clbh>
+<clmc>96号香精</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>3325.00000</clsl>
+<cldj>76.05000</cldj>
+<dhsl>700.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XJ-01-012 </clbh>
+<clmc>97号香精</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>250.00000</clsl>
+<cldj>304.20000</cldj>
+<dhsl>0.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XJ-01-014 </clbh>
+<clmc>N94香精</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>15775.00000</clsl>
+<cldj>81.90000</cldj>
+<dhsl>350.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XJ-01-022 </clbh>
+<clmc>25号香精</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>225.00000</clsl>
+<cldj>280.80000</cldj>
+<dhsl>0.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XJ-01-023 </clbh>
+<clmc>98号香精</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>2125.00000</clsl>
+<cldj>128.70000</cldj>
+<dhsl>2125.00000</dhsl>
+<jhckh>250</jhckh>
+<jhckmc>51高扬烟草三楼A仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XJ-01-025 </clbh>
+<clmc>20号香精</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>150.00000</clsl>
+<cldj>64.35000</cldj>
+<dhsl>0.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XJ-01-026 </clbh>
+<clmc>90号香精</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>950.00000</clsl>
+<cldj>93.60000</cldj>
+<dhsl>300.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XJ-01-031 </clbh>
+<clmc>0595号香精</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>11250.00000</clsl>
+<cldj>362.70000</cldj>
+<dhsl>725.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XJ-01-034 </clbh>
+<clmc>0554号香精</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>14925.00000</clsl>
+<cldj>76.05000</cldj>
+<dhsl>300.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XJ-01-036 </clbh>
+<clmc>56号香精</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>625.00000</clsl>
+<cldj>81.90000</cldj>
+<dhsl>25.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XJ-01-037 </clbh>
+<clmc>28号香精</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>225.00000</clsl>
+<cldj>374.40000</cldj>
+<dhsl>0.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XJ-01-039 </clbh>
+<clmc>18号香精</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>125.00000</clsl>
+<cldj>362.70000</cldj>
+<dhsl>0.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XL-01-010 </clbh>
+<clmc>GL01料基</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>3500.00000</clsl>
+<cldj>117.00000</cldj>
+<dhsl>550.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XL-02-044 </clbh>
+<clmc>L0235料液</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>6100.00000</clsl>
+<cldj>128.70000</cldj>
+<dhsl>300.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XL-02-046 </clbh>
+<clmc>9925L料液</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>200.00000</clsl>
+<cldj>210.60000</cldj>
+<dhsl>0.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XL-02-047 </clbh>
+<clmc>9998L料液</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>1800.00000</clsl>
+<cldj>315.90000</cldj>
+<dhsl>1800.00000</dhsl>
+<jhckh>250</jhckh>
+<jhckmc>51高扬烟草三楼A仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XL-02-048 </clbh>
+<clmc>0020L料液</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>150.00000</clsl>
+<cldj>105.30000</cldj>
+<dhsl>0.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XL-02-054 </clbh>
+<clmc>L0290料液</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>1550.00000</clsl>
+<cldj>93.60000</cldj>
+<dhsl>625.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XL-02-056 </clbh>
+<clmc>ZPL-1料液</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>1000.00000</clsl>
+<cldj>109.98000</cldj>
+<dhsl>0.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XL-02-058 </clbh>
+<clmc>L0466料液</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>200.00000</clsl>
+<cldj>70.20000</cldj>
+<dhsl>0.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XL-02-062 </clbh>
+<clmc>L0595料液</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>13100.00000</clsl>
+<cldj>140.40000</cldj>
+<dhsl>600.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XL-02-066 </clbh>
+<clmc>L0554料液</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>24850.00000</clsl>
+<cldj>35.10000</cldj>
+<dhsl>600.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XL-02-068 </clbh>
+<clmc>L0656料液</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>1050.00000</clsl>
+<cldj>46.80000</cldj>
+<dhsl>550.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XL-02-069 </clbh>
+<clmc>L0628料液</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>300.00000</clsl>
+<cldj>157.95000</cldj>
+<dhsl>100.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XL-02-071 </clbh>
+<clmc>L0618料液</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>125.00000</clsl>
+<cldj>187.20000</cldj>
+<dhsl>0.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XL-02-072 </clbh>
+<clmc>L0697料液</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>150.00000</clsl>
+<cldj>187.20000</cldj>
+<dhsl>0.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XL-02-50a </clbh>
+<clmc>L0494料液</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>26925.00000</clsl>
+<cldj>81.90000</cldj>
+<dhsl>600.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XL-03-079 </clbh>
+<clmc>代甘油</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>10000.00000</clsl>
+<cldj>11.70000</cldj>
+<dhsl>1000.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XL-03-085 </clbh>
+<clmc>枣子酊</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>600.00000</clsl>
+<cldj>14.04000</cldj>
+<dhsl>200.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XL-03-087 </clbh>
+<clmc>固体葡萄糖</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>5000.00000</clsl>
+<cldj>8.19000</cldj>
+<dhsl>500.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+<row>
+<ddbh>16310701010</ddbh>
+<ddsxrq>20061226</ddsxrq>
+<ddyxrq>20070131</ddyxrq>
+<ddlx>正常</ddlx>
+<clbh>XL-03-088 </clbh>
+<clmc>山梨酸钾</clmc>
+<jldwmc>公斤</jldwmc>
+<clsl>500.00000</clsl>
+<cldj>52.65000</cldj>
+<dhsl>0.00000</dhsl>
+<jhckh>212</jhckh>
+<jhckmc>16厂内香精仓库</jhckmc>
+<bz> </bz>
+</row>
+</data>
+</message>
