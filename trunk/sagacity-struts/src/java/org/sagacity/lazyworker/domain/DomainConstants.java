@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.sagacity.lazyworker.domain.model;
+package org.sagacity.lazyworker.domain;
 
 import java.io.Serializable;
 
