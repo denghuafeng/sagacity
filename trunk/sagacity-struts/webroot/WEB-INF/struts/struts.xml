@@ -1,0 +1,22 @@
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.i18n.reload" value="false" />
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.custom.i18n.resources"
+		value="globalMessages" />
+	<package name="default" extends="struts-default">
+		<interceptors>
+			<interceptor-stack name="sagacityStack">
+				<interceptor-ref name="checkbox">
+					<param name="uncheckedValue">0</param>
+				</interceptor-ref>
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="sagacityStack" />
+	</package>
+	<include file="struts-system" />
+</struts>
