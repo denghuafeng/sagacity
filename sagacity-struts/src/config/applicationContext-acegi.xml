@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans default-lazy-init="true">
+
+	<!-- ======================== FILTER CHAIN ======================= -->
+	<bean id="filterChainProxy"
+		class="org.acegisecurity.util.FilterChainProxy">
+		<property name="filterInvocationDefinitionSource">
+			<value>
+				CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
+				PATTERN_TYPE_APACHE_ANT
+				/**=httpSessionContextIntegrationFilter,authenticationProcessingFilter,securityContextHolderAwareRequestFilter,rememberMeProcessingFilter,exceptionTranslationFilter,filterInvocationInterceptor
+			</value>
+			<!-- Put channelProcessingFilter before securityContextHolderAwareRequestFilter to turn on SSL switching -->
+			<!-- It's off by default b/c Canoo WebTest doesn't support SSL out-of-the-box -->
+		</property>
+	</bean>
+
+
+	<bean id="httpSessionContextIntegrationFilter"
+		class="org.acegisecurity.context.HttpSessionContextIntegrationFilter">
+	</bean>
+
+	<bean id="securityContextHolderAwareRequestFilter"
+		class="org.acegisecurity.wrapper.SecurityContextHolderAwareRequestFilter" />
+
+	<bean id="rememberMeProcessingFilter"
+		class="org.acegisecurity.ui.rememberme.RememberMeProcessingFilter">
+		<property name="authenticationManager"
+			ref="authenticationManager" />
+		<property name="rememberMeServices" ref="rememberMeServices" />
+	</bean>
+
+	<bean id="rememberMeServices"
+		class="org.acegisecurity.ui.rememberme.TokenBasedRememberMeServices">
+		<property name="userDetailsService" ref="jdbcDaoImpl" />
+		<property name="key" value="springRocks" />
+	</bean>
+
+	<bean id="rememberMeAuthenticationProvider"
+		class="org.acegisecurity.providers.rememberme.RememberMeAuthenticationProvider">
+		<property name="key" value="springRocks" />
+	</bean>
+
+	<bean id="anonymousProcessingFilter"
+		class="org.acegisecurity.providers.anonymous.AnonymousProcessingFilter">
+		<property name="key">
+			<value>foobar</value>
+		</property>
+		<property name="userAttribute">
+			<value>anonymousUser,ROLE_ANONYMOUS,ROLE_USER</value>
+		</property>
+	</bean>
+
+	<bean id="anonymousAuthenticationProvider"
+		class="org.acegisecurity.providers.anonymous.AnonymousAuthenticationProvider">
+		<property name="key">
+			<value>foobar</value>
+		</property>
+	</bean>
+    
+	<!-- 异常转换过滤器，主要是处理AccessDeniedException和AuthenticationException，将给每个异常找到合适的"去向"  -->
+	<bean id="exceptionTranslationFilter"
+		class="org.acegisecurity.ui.ExceptionTranslationFilter">
+		<property name="authenticationEntryPoint">
+			<bean
+				class="org.acegisecurity.ui.webapp.AuthenticationProcessingFilterEntryPoint">
+				<property name="loginFormUrl" value="/login.jsp" />
+				<property name="forceHttps" value="false" />
+			</bean>
+		</property>
+		<property name="accessDeniedHandler">
+			<bean
+				class="org.acegisecurity.ui.AccessDeniedHandlerImpl">
+				<property name="errorPage" value="/accessDenied.jsp" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="logoutFilter"
+		class="org.acegisecurity.ui.logout.LogoutFilter">
+		<constructor-arg value="/login.jsp" />
+		<!-- URL redirected to after logout -->
+		<constructor-arg>
+			<list>
+				<ref bean="rememberMeServices" />
+				<bean
+					class="org.acegisecurity.ui.logout.SecurityContextLogoutHandler" />
+			</list>
+		</constructor-arg>
+		<property name="filterProcessesUrl" value="/logout.jsp" />
+	</bean>
+
+	<bean id="filterInvocationInterceptor"
+		class="org.acegisecurity.intercept.web.FilterSecurityInterceptor">
+		<property name="authenticationManager"
+			ref="authenticationManager" />
+		<property name="accessDecisionManager"
+			ref="accessDecisionManager" />
+		<property name="objectDefinitionSource"
+			ref="filterDefinitionSource" />
+	</bean>
+
+	<bean id="filterDefinitionSource"
+		class="com.peonyflavor.plugin.security.intercept.DBFilterInvocationDefinitionSource">
+		<property name="convertUrlToLowercaseBeforeComparison"
+			value="true" />
+		<property name="useAntPath" value="true" />
+		<property name="acegiCacheManager">
+			<ref bean="acegiCacheManager" />
+		</property>
+	</bean>
+
+	<bean id="accessDecisionManager"
+		class="org.acegisecurity.vote.AffirmativeBased">
+		<property name="allowIfAllAbstainDecisions" value="false" />
+		<property name="decisionVoters">
+			<list>
+				<bean class="org.acegisecurity.vote.RoleVoter">
+					<property name="rolePrefix" value="" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="jdbcDaoImpl"
+		class="com.peonyflavor.pfis.modules.security.dao.AuthUserDAO"
+		autowire="byName"/>
+	
+	<!--
+		user缓存实际执行对象
+		cacheManager见applicationContext.xml
+	-->
+	<bean id="userCache"
+		class="org.acegisecurity.providers.dao.cache.EhCacheBasedUserCache"
+		autowire="byName">
+		<property name="cache" ref="userCacheBackend" />
+	</bean>
+
+	<bean id="userCacheBackend"
+		class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="cacheManager" />
+		<property name="cacheName" value="userCache" />
+	</bean>
+
+	<!-- 自建一个resourceCache以存放resource对应的role关系 -->
+	<bean id="resourceCacheBackend"
+		class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="cacheManager" />
+		<property name="cacheName" value="resourceCache" />
+	</bean>
+
+	<!--
+		resource缓存实际执行对象
+	-->
+	<bean id="resourceCache"
+		class="com.peonyflavor.plugin.security.resourcedetails.ResourceCache"
+		autowire="byName">
+		<property name="cache" ref="resourceCacheBackend" />
+	</bean>
+
+	<bean id="authenticationManager"
+		class="org.acegisecurity.providers.ProviderManager">
+		<property name="providers">
+			<list>
+				<ref local="daoAuthenticationProvider" />
+				<!--<ref local="anonymousAuthenticationProvider" />
+				--><ref local="rememberMeAuthenticationProvider" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="passwordEncoder"
+		class="org.acegisecurity.providers.encoding.Md5PasswordEncoder" />
+
+	<bean id="daoAuthenticationProvider"
+		class="org.acegisecurity.providers.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="jdbcDaoImpl" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="userCache" ref="userCache" />
+	</bean>
+
+	<!-- This bean is optional; it isn't used by any other bean as it only listens and logs -->
+	<bean id="loggerListener"
+		class="org.acegisecurity.event.authentication.LoggerListener" />
+
+
+	<bean id="authenticationProcessingFilter"
+		class="org.acegisecurity.ui.webapp.AuthenticationProcessingFilter">
+		<property name="authenticationManager"
+			ref="authenticationManager" />
+		<property name="authenticationFailureUrl"
+			value="/login.jsp?login_error=1" />
+		<property name="defaultTargetUrl" value="/main.jsp" />
+		<property name="filterProcessesUrl"
+			value="/j_acegi_security_check" />
+		<property name="rememberMeServices" ref="rememberMeServices" />
+		<property name="exceptionMappings">
+            <value>
+            	org.acegisecurity.userdetails.UsernameNotFoundException=/login.jsp?login_error=user_not_found_error
+                org.acegisecurity.BadCredentialsException=/login.jsp?login_error=user_psw_error
+                org.acegisecurity.concurrent.ConcurrentLoginException=/login.jsp?login_error=too_many_user_error
+            </value>
+        </property>
+	</bean>
+
+	<bean id="switchUserProcessingFilter"
+		class="org.acegisecurity.ui.switchuser.SwitchUserProcessingFilter">
+		<property name="userDetailsService" ref="jdbcDaoImpl" />
+		<property name="exitUserUrl">
+			<value>/system/j_acegi_exit_user</value>
+		</property>
+		<property name="targetUrl">
+			<value>/main.jsp</value>
+		</property>
+	</bean>
+</beans>
