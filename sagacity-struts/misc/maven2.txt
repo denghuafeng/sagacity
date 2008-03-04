@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=D:\dwr.jar -DgroupId=org.directwebremoting -DartifactId=dwr  -Dversion=2.0.3 -Dpackaging=jar
