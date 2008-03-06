@@ -1,6 +1,6 @@
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="../resources/styles/style.css" rel="stylesheet" type="text/css">
 <title>上海南天电脑系统有限公司</title>
 </head>
@@ -15,7 +15,7 @@
 				<tr>
 					<td width="228">&nbsp;</td>
 					<td class="wsd_head_fontsz">欢迎您登录,Administrator!</td>
-					<td width="112"><a href="../system/favorite.htm" target="mainFrame"><img src="../resources/images/head/headmenu1.gif" border="0" width="112" height="23"></a></td>
+					<td width="112"><a href="../system/favorite.jsp" target="mainFrame"><img src="../resources/images/head/headmenu1.gif" border="0" width="112" height="23"></a></td>
 					<td width="79"><a href="#"><img src="../resources/images/head/headmenu2.gif" border="0" width="78" height="23"></a></td>
 					<td width="79"><a href="#"><img src="../resources/images/head/headmenu3.gif" border="0" width="74" height="23"></a></td>
 					<td width="100">&nbsp;</td>
