@@ -5,37 +5,10 @@
 <html>
 	<head>
 		<%@ include file="/common/meta.jsp"%>
-		<title><decorator:title default="上海牡丹香精香料信息管理系统" />
+		<title><s:text name="application.title"/>
 		</title>
-		<link type="text/css"
-			href="<c:out value="${contextPath}"/>/resources/styles/zxStyle.css"
-			rel="stylesheet">
-		<link type="text/css"
-			href="<c:out value="${contextPath}"/>/resources/styles/base_style.css"
-			rel="stylesheet">
-		<link rel="stylesheet" type="text/css"
-			href="<c:out value="${contextPath}"/>/resources/styles/dhtmlXGrid.css">
-		<script language="javascript"
-			src="<c:out value="${contextPath}"/>/resources/scripts/datepicker.js"></script>
-		<script language="javascript"
-			src="<c:out value="${contextPath}"/>/resources/scripts/messages.js"></script>
-		<script language="javascript"
-			src="<c:out value="${contextPath}"/>/resources/scripts/outlookbar.js"></script>
-		<script language="javascript"
-			src="<c:out value="${contextPath}"/>/resources/scripts/clientinterface.js"></script>
-		<script language="javascript"
-			src="<c:out value="${contextPath}"/>/resources/scripts/table_js.js"></script>
-		<script language="javascript"
-			src="<c:out value="${contextPath}"/>/resources/scripts/zxFoundation.js"></script>
-		<script type='text/javascript'
-			src="<c:out value="${contextPath}"/>/resources/scripts/dhtmlXGrid/dhtmlXCommon.js"></script>
-		<script type='text/javascript'
-			src="<c:out value="${contextPath}"/>/resources/scripts/dhtmlXGrid/dhtmlXGrid.js"></script>
-		<script type='text/javascript'
-			src="<c:out value="${contextPath}"/>/resources/scripts/dhtmlXGrid/dhtmlXGridCell.js"></script>
 	</head>
 	<body>
-		<html:html locale="true" />
 		<div id="screen">
 			<table id="wsd_title">
 				<tr>
@@ -58,23 +31,9 @@
 			</table>
 		</div>
 		<div id="content">
-			<logic:messagesPresent>
-				<bean:message key="errors.header" />
-				<ul>
-					<html:messages id="error">
-						<li>
-							<bean:write name="error" />
-						</li>
-					</html:messages>
-				</ul>
-			</logic:messagesPresent>
-
-			<logic:messagesPresent message="true">
-				<html:messages id="messages" message="true" header="messages.header"
-					footer="messages.footer">
-						messageAdd("<bean:write name="messages" />");
-					</html:messages>
-			</logic:messagesPresent>
+			<s:actionerror/>
+			<s:actionmessage/>
+			<s:fielderror/>
 			<decorator:body />
 		</div>
 	</body>
