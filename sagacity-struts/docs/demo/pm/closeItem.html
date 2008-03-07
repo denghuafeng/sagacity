@@ -1,0 +1,227 @@
+<html>
+<head>
+<link href="../resources/styles/style.css" rel="stylesheet" type="text/css">
+<script language="javascript" src="../resources/scripts/checks.js"></script>
+<script language="JavaScript" src="../resources/scripts/empchecks.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title></title>
+</head>
+<body class="wsd_option_area">
+<table id="wsd_title">
+	<tr>
+		<td class="wsd_titlefont">您当前的位置</td>
+		<td class="wsd_2rightarrow">&nbsp;</td>
+		<td class="wsd_titlefont2">采购订单管理</td>
+		<td class="wsd_1rightarrow">&nbsp;</td>
+		<td class="wsd_titlefont1">质量问题查询</td>
+	</tr>
+</table>
+<br>
+<table id="wsd_inputtable">
+  <tr>
+    <td colspan="6" class="tabletitle">查询条件</td>
+  </tr>
+  <tr>
+    <td class="tablefield">选择部门:</td>
+    <td><select name="menu1">
+      <option>软件开发</option>
+      <option>系统集成</option>
+      <option>综合项目</option>
+      </select>
+    </td>
+    <td class="tablefield">选择年份：</td>
+    <td><select name="menu2">
+        <option>2004</option>
+        <option>2005</option>
+        <option>2006</option>
+      </select></td>
+    <td class="tablefield">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+		<td colspan="6" class="buttonarea"><input type="button" class="wsd_button2" value="查&nbsp;询">&nbsp;<input type="button" class="wsd_button2" value="重&nbsp;置"></td>
+  </tr>
+</table>
+<br>
+<table id="wsd_listtable">
+  <tr class="titlist">
+    <td>年份</td>
+    <td>项目名称</td>
+    <td>创建人</td>
+    <td>创建日期</td>
+    <td>评审状态</td>
+    <td>项目状态</td>
+    <td>关闭项目</td>
+  </tr>
+  <tr class="evenline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'evenline')">
+    <td>2000</td>
+    <td>湖南建行政府采购卡</td>
+    <td>蔡晓斌</td>
+    <td>2000-12-21</td>
+    <td>未评审</td>
+    <td>需求阶段</td>
+    <td><form name="form1" method="post" action="">
+      <input type="button" name="Submit" value="关闭项目">
+    </form>
+    </td>
+  </tr>
+  <tr class="oddline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'oddline')">
+    <td>2001</td>
+    <td>已接收</td>
+    <td>蔡晓斌</td>
+    <td>2001-12-21</td>
+    <td>蔡晓斌</td>
+    <td>2001-12-21</td>
+    <td><form name="form2" method="post" action="">
+      <input type="button" name="Submit2" value="关闭项目">
+    </form>
+    </td>
+  </tr>
+  <tr class="evenline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'evenline')">
+    <td>2003</td>
+    <td>已发布</td>
+    <td>蔡晓斌</td>
+    <td>2003-12-21</td>
+    <td>蔡晓斌</td>
+    <td>2003-12-21</td>
+    <td><form name="form3" method="post" action="">
+      <input type="button" name="Submit3" value="关闭项目">
+    </form>
+    </td>
+  </tr>
+  <tr class="oddline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'oddline')">
+    <td>2004</td>
+    <td>已发布</td>
+    <td>蔡晓斌</td>
+    <td>2004-12-21</td>
+    <td>蔡晓斌</td>
+    <td>2004-12-21</td>
+    <td><form name="form4" method="post" action="">
+      <input type="button" name="Submit4" value="关闭项目">
+    </form>
+    </td>
+  </tr>
+  <tr class="evenline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'evenline')">
+    <td>2005</td>
+    <td>已编制</td>
+    <td>蔡晓斌</td>
+    <td>2005-12-21</td>
+    <td>蔡晓斌</td>
+    <td>2005-12-21</td>
+    <td><form name="form5" method="post" action="">
+      <input type="button" name="Submit5" value="关闭项目">
+    </form>
+    </td>
+  </tr>
+  <tr class="oddline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'oddline')">
+    <td>2001</td>
+    <td>已接收</td>
+    <td>蔡晓斌</td>
+    <td>2001-12-21</td>
+    <td>蔡晓斌</td>
+    <td>2001-12-21</td>
+    <td><form name="form6" method="post" action="">
+      <input type="button" name="Submit6" value="关闭项目">
+    </form>
+    </td>
+  </tr>
+  <tr class="evenline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'evenline')">
+    <td>2003</td>
+    <td>已发布</td>
+    <td>蔡晓斌</td>
+    <td>2003-12-21</td>
+    <td>蔡晓斌</td>
+    <td>2003-12-21</td>
+    <td><form name="form7" method="post" action="">
+      <input type="button" name="Submit7" value="关闭项目">
+    </form>
+    </td>
+  </tr>
+  <tr class="oddline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'oddline')">
+    <td>2004</td>
+    <td>已发布</td>
+    <td>蔡晓斌</td>
+    <td>2004-12-21</td>
+    <td>蔡晓斌</td>
+    <td>2004-12-21</td>
+    <td><form name="form8" method="post" action="">
+      <input type="button" name="Submit8" value="关闭项目">
+    </form>
+    </td>
+  </tr>
+  <tr class="evenline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'evenline')">
+    <td>2005</td>
+    <td>已编制</td>
+    <td>蔡晓斌</td>
+    <td>2005-12-21</td>
+    <td>蔡晓斌</td>
+    <td>2005-12-21</td>
+    <td><form name="form9" method="post" action="">
+      <input type="button" name="Submit9" value="关闭项目">
+    </form>
+    </td>
+  </tr>
+  <tr class="oddline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'oddline')">
+    <td>2001</td>
+    <td>已接收</td>
+    <td>蔡晓斌</td>
+    <td>2001-12-21</td>
+    <td>蔡晓斌</td>
+    <td>2001-12-21</td>
+    <td><form name="form10" method="post" action="">
+      <input type="button" name="Submit10" value="关闭项目">
+    </form>
+    </td>
+  </tr>
+  <tr class="evenline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'evenline')">
+    <td>2003</td>
+    <td>已发布</td>
+    <td>蔡晓斌</td>
+    <td>2003-12-21</td>
+    <td>蔡晓斌</td>
+    <td>2003-12-21</td>
+    <td><form name="form11" method="post" action="">
+      <input type="button" name="Submit11" value="关闭项目">
+    </form>
+    </td>
+  </tr>
+  <tr class="oddline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'oddline')">
+    <td>2004</td>
+    <td>已发布</td>
+    <td>蔡晓斌</td>
+    <td>2004-12-21</td>
+    <td>蔡晓斌</td>
+    <td>2004-12-21</td>
+    <td><form name="form12" method="post" action="">
+      <input type="button" name="Submit12" value="关闭项目">
+    </form>
+    </td>
+  </tr>
+  <tr class="evenline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'evenline')">
+    <td>2005</td>
+    <td>已编制</td>
+    <td>蔡晓斌</td>
+    <td>2005-12-21</td>
+    <td>蔡晓斌</td>
+    <td>2005-12-21</td>
+    <td><form name="form13" method="post" action="">
+      <input type="button" name="Submit13" value="关闭项目">
+    </form>
+    </td>
+  </tr>
+  <tr class="pagination">
+    <td colspan="7"><div class="wsd_pageleft">
+        <input type="button" class="wsd_pagebutton" value="首页">
+        <input type="button" class="wsd_pagebutton" value="上页">
+        <input type="button" class="wsd_pagebutton" value="下页">
+        <input type="button" class="wsd_pagebutton" value="尾页">
+      </div>
+      <div class="wsd_pageright">共90条，第1/3页&nbsp;转到&nbsp;
+        <input type="text" class="wsd_pageinput" name="textfield">
+        &nbsp;页
+        <input type="button" class="wsd_pagegobutton" value="Go">
+      </div></td>
+  </tr>
+</table>
+</body>
+</html>
