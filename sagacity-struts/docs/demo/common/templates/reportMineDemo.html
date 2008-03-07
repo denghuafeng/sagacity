@@ -25,16 +25,19 @@
         <option>网络部</option>
         <option>系统集成部</option>
         <option>FED部门</option>
-      </select>
-    </td>
+      </select>    </td>
+	<td class="tablefield">状态选择:</td>
+    <td><select name="menu1">
+        <option>已确认</option>
+        <option>未确认</option>
+      </select>    
+	</td>
     <td class="tablefield">选择年份：</td>
-    <td><select name="menu2">
+    <td colspan="2"><select name="menu2">
         <option>2004</option>
         <option>2005</option>
         <option>2006</option>
-      </select></td>
-    <td class="tablefield">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+      </select>      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
   </tr>
   <tr>
 		<td colspan="6" class="buttonarea"><input type="button" class="wsd_button2" value="查&nbsp;询">&nbsp;<input type="button" class="wsd_button2" value="重&nbsp;置"></td>
@@ -43,119 +46,147 @@
 <br>
 <table id="wsd_listtable">
   <tr class="titlist">
+  	<td><input type="checkbox" /></td>
     <td>年份</td>
     <td>发布人</td>
 	<td>接收人</td>
 	<td>所属项目组</td>
 	<td>发布日期</td>
-	<td>周报下载</td>
+	<td>状态</td>
+	<td><input type="button" class="wsd_button2" value="全部确认"></td>
   </tr>
   <tr class="evenline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'evenline')">
+  <td><input type="checkbox" /></td>
     <td>2000</td>
     <td>蔡晓斌</td>
 	<td>明明</td>
 	<td>苏州光大银行</td>
     <td>2000-12-21</td>
-	<td><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
+	<td>已确认</td>
+	<td><input type="button" class="wsd_button2" value="确&nbsp;认"><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
   </tr>
   <tr class="oddline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'oddline')">
-    <td>2000</td>
+    <td><input type="checkbox" /></td>
+	<td>2000</td>
     <td>蔡晓斌</td>
 	<td>明明</td>
 	<td>苏州光大银行</td>
     <td>2000-12-21</td>
-	<td><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
+	<td>已确认</td>
+	<td><input type="button" class="wsd_button2" value="确&nbsp;认"><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
   </tr>
   <tr class="evenline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'evenline')">
-    <td>2000</td>
+    <td><input type="checkbox" /></td>
+	<td>2000</td>
     <td>蔡晓斌</td>
 	<td>明明</td>
 	<td>苏州光大银行</td>
     <td>2000-12-21</td>
-	<td><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
+	<td>已确认</td>
+	<td><input type="button" class="wsd_button2" value="确&nbsp;认"><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
   </tr>
   <tr class="oddline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'oddline')">
-    <td>2000</td>
+    <td><input type="checkbox" /></td>
+	<td>2000</td>
     <td>蔡晓斌</td>
 	<td>明明</td>
 	<td>苏州光大银行</td>
     <td>2000-12-21</td>
-	<td><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
+	<td>已确认</td>
+	<td><input type="button" class="wsd_button2" value="确&nbsp;认"><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
   </tr>
   <tr class="evenline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'evenline')">
-    <td>2000</td>
+    <td><input type="checkbox" /></td>
+	<td>2000</td>
     <td>蔡晓斌</td>
 	<td>明明</td>
 	<td>苏州光大银行</td>
     <td>2000-12-21</td>
-	<td><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
+	<td>未确认</td>
+	<td><input type="button" class="wsd_button2" value="确&nbsp;认"><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
   </tr>
   <tr class="oddline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'oddline')">
-    <td>2000</td>
+    <td><input type="checkbox" /></td>
+	<td>2000</td>
     <td>蔡晓斌</td>
 	<td>明明</td>
 	<td>苏州光大银行</td>
     <td>2000-12-21</td>
-	<td><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
+	<td>已确认</td>
+	<td><input type="button" class="wsd_button2" value="确&nbsp;认"><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
   </tr>
   <tr class="evenline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'evenline')">
+   <td><input type="checkbox" /></td>
     <td>2000</td>
     <td>蔡晓斌</td>
 	<td>明明</td>
 	<td>苏州光大银行</td>
     <td>2000-12-21</td>
-	<td><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
+	<td>未确认</td>
+	<td><input type="button" class="wsd_button2" value="确&nbsp;认"><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
   </tr>
   <tr class="oddline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'oddline')">
-    <td>2000</td>
+    <td><input type="checkbox" /></td>
+	<td>2000</td>
     <td>蔡晓斌</td>
 	<td>明明</td>
 	<td>苏州光大银行</td>
     <td>2000-12-21</td>
-	<td><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
+	<td>已确认</td>
+	<td><input type="button" class="wsd_button2" value="确&nbsp;认"><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
   </tr>
   <tr class="evenline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'evenline')">
-    <td>2000</td>
+    <td><input type="checkbox" /></td>
+	<td>2000</td>
     <td>蔡晓斌</td>
 	<td>明明</td>
 	<td>苏州光大银行</td>
     <td>2000-12-21</td>
-	<td><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
+	<td>已确认</td>
+	<td><input type="button" class="wsd_button2" value="确&nbsp;认"><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
   </tr>
   <tr class="oddline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'oddline')">
-    <td>2000</td>
+    <td><input type="checkbox" /></td>
+	<td>2000</td>
     <td>蔡晓斌</td>
 	<td>明明</td>
 	<td>苏州光大银行</td>
     <td>2000-12-21</td>
-	<td><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
+	<td>已确认</td>
+	<td><input type="button" class="wsd_button2" value="确&nbsp;认"><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
   </tr>
   <tr class="evenline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'evenline')">
-    <td>2000</td>
+    <td><input type="checkbox" /></td>
+	<td>2000</td>
     <td>蔡晓斌</td>
 	<td>明明</td>
 	<td>苏州光大银行</td>
     <td>2000-12-21</td>
-	<td><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
+	<td>未确认</td>
+	<td><input type="button" class="wsd_button2" value="确&nbsp;认"><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
   </tr>
   <tr class="oddline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'oddline')">
-    <td>2000</td>
+    <td><input type="checkbox" /></td>
+	<td>2000</td>
     <td>蔡晓斌</td>
 	<td>明明</td>
 	<td>苏州光大银行</td>
     <td>2000-12-21</td>
-	<td><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
+	<td>已确认</td>
+	<td><input type="button" class="wsd_button2" value="确&nbsp;认"><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
   </tr>
   <tr class="evenline" onMouseOver="buttonMouseOver(this)" onMouseOut="buttonMouseOut(this,'evenline')">
-    <td>2000</td>
+    <td><input type="checkbox" /></td>
+	<td>2000</td>
     <td>蔡晓斌</td>
 	<td>明明</td>
 	<td>苏州光大银行</td>
     <td>2000-12-21</td>
-	<td><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
+	<td>已确认</td>
+	<td><input type="button" class="wsd_button2" value="确&nbsp;认"><input type="button" class="wsd_button2" value="下&nbsp;载"></td>
   </tr>
   <tr class="pagination">
-    <td colspan="7"><div class="wsd_pageleft">
+    <td colspan="8"><div class="wsd_pageleft">
         <input type="button" class="wsd_pagebutton" value="首页">
         <input type="button" class="wsd_pagebutton" value="上页">
         <input type="button" class="wsd_pagebutton" value="下页">
@@ -170,49 +201,6 @@
 </table>
 
 <br>
-<table id="wsd_inputtable">
-  <tr>
-    <td colspan="6" class="tabletitle">提交周报</td>
-  </tr>
-  <tr>
-    <td class="tablefield">日期:</td>
-    <td>
-		<select name="menu1">
-			<option>2006</option>
-			<option>2005</option>
-			<option>2004</option>
-      	</select>    </td>
-    <td class="tablefield">接收人:</td>
-    <td>
-		<div align="left">
-	      <select name="menu2">
-	          <option>罗俊</option>
-	          <option>周建华</option>
-	          <option>已编制</option>
-              </select>
-       <font class="tablefield">(默认发送给王瑾)</font>
-	   </div> 
-	</td>
-	<td><div align="left"></div></td>
-  </tr>
-  <tr>
-  
-  		 <td class="tablefield">所属项目:</td>
-    <td>
-	  <select name="menu1">
-        <option>湖南建行SFB</option>
-        <option>江苏工行系统迁移</option>
-        <option>中国农行DDC</option>
-      </select>    </td>
-    <td class="tablefield">周报选择:</td>
-    <td class="tablefield">
-      <div align="left">
-        <input  type="file"/>
-        </div></td></tr>
-	<tr>
-		<td colspan="6" class="buttonarea"><input type="button" class="wsd_button2" value="发&nbsp;送">&nbsp;<input type="button" class="wsd_button2" value="重&nbsp;置"></td>
-	</tr>
-</table>
 
 
 </body>
