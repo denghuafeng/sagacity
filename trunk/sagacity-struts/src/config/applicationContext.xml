@@ -8,6 +8,7 @@
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 	<!-- 数据源的配置 //-->
+
 	<bean id="dataSource"
 		class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
@@ -38,6 +39,8 @@
 			</property>
 		-->
 	</bean>
+	
+	<!-- Hibernate SessionFactory定义 -->
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
@@ -82,6 +85,7 @@
 			advice-ref="txAdvice" />
 	</aop:config>
 
+	<!-- 事务AOP处理的方法和事务类型定义 -->
 	<tx:advice id="txAdvice">
 		<tx:attributes>
 			<tx:method name="get*" propagation="SUPPORTS"
@@ -102,6 +106,7 @@
 		</tx:attributes>
 	</tx:advice>
 
+	<!-- 事务管理器定义 -->
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
@@ -114,4 +119,13 @@
 			<value>classpath:/org/sagacity/lazywker/ehcache.xml</value>
 		</property>
 	</bean>
+	
+	<!-- 系统安全Acegi配置定义 -->
+	<!-- 
+	<import
+		resource="applicationContext-acegi.xml" />
+	 -->
+	<!-- 项目管理类定义 -->
+	<import
+		resource="classpath:/org/sagacity/lazyworker/modules/epm/applicationContext-epm.xml" />
 </beans>
