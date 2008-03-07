@@ -1,62 +1,15 @@
-<project name="sagacityframework" default="jar">
+<project name="sagacityframework" default="setup2Maven">
 	<!--初始化project相关参数-->
 	<target name="init">
-		<property name="sagacity.version" value="0.1" />
-		<property name="sagacity.home" value="." />
-		<property name="sagacity.lib" value="../${sagacity.home}/lib" />
-		<property name="sagacity.mis" value="${sagacity.home}/misc" />
-		<property name="sagacity.src" value="${sagacity.home}/src" />
-		<property name="sagacity.docs" value="${sagacity.home}/docs" />
-		<property name="sagacity.classes" value="${sagacity.home}/classes" />
-		<property name="sagacity.deploy.dir" value="${sagacity.home}/deploy" />
-		<property name="sagacity.classes" value="${sagacity.home}/classes" />
-		<property name="sagacity.framework" value="sagacity-framwork${sagacity.version}" />
-		<path id="classpath">
-			<fileset dir="${sagacity.lib}">
-				<include name="**/*.jar" />
-			</fileset>
-			<fileset dir="${sagacity.mis}/jsplib">
-				<include name="**/*.jar" />
-			</fileset>
-		</path>
+		<property name="sagacity.home" value="." />		
+		<property name="sagacity.target" value="${sagacity.home}/target" />
+		
 	</target>
 
-	<!--清楚编译完的相关文件-->
-	<target name="clean" depends="init">
-		<delete includeemptydirs="true">
-			<fileset dir="${sagacity.build.dir}" includes="**/*.*" />
-			<fileset dir="${sagacity.classes}" includes="**/*.*" />
-		</delete>
-	</target>
-
-	<!--编译java源代码-->
-	<target name="compile" depends="clean">
-		<echo>compile java source file</echo>
-		<mkdir dir="${sagacity.deploy.dir}" />
-		<mkdir dir="${sagacity.classes}" />
-		<javac srcdir="${sagacity.src}/java" destdir="${sagacity.classes}" 
-			classpathref="classpath" includes="org/sagacity/**/*.java" 
-			excludes="docroot/**,**/package*/**.*,org/sagacity/**/org/**/*.*" debug="no" encoding="UTF-8">
-		</javac>
-		<copy todir="${sagacity.classes}">
-			<fileset dir="${sagacity.src}/java">
-				<include name="org/sagacity/**/*.xml" />
-				<include name="org/sagacity/**/*.properties" />
-			</fileset>
-		</copy>
-	</target>
-
-	<!--打包成jar文件-->
-	<target name="jar" depends="clean,compile">
-		<jar jarfile="${sagacity.deploy.dir}/${sagacity.framework}" basedir="${sagacity.deploy.dir}" />
-	</target>
-
-	<!--远程部署-->
-	<target name="remoteDeploy" depends="jar">
-		<ftp server="${ftpserver}" port="21" remotedir="${remotedir}" userid="weblogic" password="weblogic" depends="yes">
-			<fileset dir="${sagacity.deploy.dir}">
-				<include name="**/sagacity.jar" />
-			</fileset>
-		</ftp>
+	<target name="setup2Maven" depends="init">
+		<exec executable="cmd.exe" dir="${sagacity.target}">
+			<arg value="/c"/>
+			<arg value="mvn install:install-file -Dfile=/sagacity-core-0.1.jar -DgroupId=org.sagacity -DartifactId=sagacity  -Dversion=0.1 -Dpackaging=jar"/>
+		</exec>	
 	</target>
 </project>
