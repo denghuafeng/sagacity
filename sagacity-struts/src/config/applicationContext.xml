@@ -9,19 +9,20 @@
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 	<bean id="configBean"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location">
-			<value>applicationContext.properties</value>
+		<property name="locations">
+			<list>
+				<value>classpath:applicationContext.properties</value>
+			</list>
 		</property>
 	</bean>
-	
+
 	<!-- 数据源的配置 //-->
 	<bean id="dataSource"
 		class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName"
 			value="${sagacity.jdbc.driverClassName}" />
-		<property name="url"
-			value="${sagacity.jdbc.url}" />
+		<property name="url" value="${sagacity.jdbc.url}" />
 		<property name="username" value="${sagacity.jdbc.username}" />
 		<property name="password" value="${sagacity.jdbc.password}" />
 	</bean>
@@ -57,7 +58,9 @@
 				<prop key="hibernate.dialect">
 					${hibernate.dialect}
 				</prop>
-				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.show_sql">
+					${hibernate.show_sql}
+				</prop>
 				<prop key="jdbc.fetch_size">${jdbc.fetch_size}</prop>
 				<prop key="jdbc.batch_size">${jdbc.batch_size}</prop>
 				<prop key="hibernate.cglib.use_reflection_optimizer">
@@ -69,7 +72,7 @@
 		<property name="mappingDirectoryLocations">
 			<list>
 				<value>
-					classpath:/org/sagacity/lazywker/domain/model
+					classpath:/org/sagacity/lazyworker/domain/model
 				</value>
 			</list>
 		</property>
@@ -122,7 +125,7 @@
 	<bean id="cacheManager"
 		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
 		<property name="configLocation">
-			<value>classpath:/org/sagacity/lazywker/ehcache.xml</value>
+			<value>classpath:ehcache.xml</value>
 		</property>
 	</bean>
 
@@ -132,6 +135,5 @@
 		resource="applicationContext-acegi.xml" />
 	-->
 	<!-- 项目管理类定义 -->
-	<import
-		resource="classpath:/org/sagacity/lazyworker/modules/epm/applicationContext-epm.xml" />
+	<import resource="classpath:applicationContext-epm.xml" />
 </beans>
