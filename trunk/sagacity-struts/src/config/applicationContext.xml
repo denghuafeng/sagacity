@@ -8,16 +8,22 @@
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 	<!-- 数据源的配置 //-->
+	<bean id="configBean"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>applicationContext.properties</value>
+		</property>
+	</bean>
 
 	<bean id="dataSource"
 		class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName"
-			value="oracle.jdbc.driver.OracleDriver" />
+			value="${sagacity.jdbc.driverClassName}" />
 		<property name="url"
-			value="jdbc:oracle:thin:@localhost:1521:sagacity" />
-		<property name="username" value="sagacity" />
-		<property name="password" value="sagacity" />
+			value="${sagacity.jdbc.url}" />
+		<property name="username" value="${sagacity.jdbc.username}" />
+		<property name="password" value="${sagacity.jdbc.password}" />
 	</bean>
 
 
@@ -39,7 +45,7 @@
 			</property>
 		-->
 	</bean>
-	
+
 	<!-- Hibernate SessionFactory定义 -->
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
@@ -49,11 +55,11 @@
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">
-					org.hibernate.dialect.OracleDialect
+					${hibernate.dialect}
 				</prop>
-				<prop key="hibernate.show_sql">true</prop>
-				<prop key="jdbc.fetch_size">50</prop>
-				<prop key="jdbc.batch_size">25</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="jdbc.fetch_size">${jdbc.fetch_size}</prop>
+				<prop key="jdbc.batch_size">${jdbc.batch_size}</prop>
 				<prop key="hibernate.cglib.use_reflection_optimizer">
 					true
 				</prop>
@@ -119,12 +125,12 @@
 			<value>classpath:/org/sagacity/lazywker/ehcache.xml</value>
 		</property>
 	</bean>
-	
+
 	<!-- 系统安全Acegi配置定义 -->
 	<!-- 
-	<import
+		<import
 		resource="applicationContext-acegi.xml" />
-	 -->
+	-->
 	<!-- 项目管理类定义 -->
 	<import
 		resource="classpath:/org/sagacity/lazyworker/modules/epm/applicationContext-epm.xml" />
