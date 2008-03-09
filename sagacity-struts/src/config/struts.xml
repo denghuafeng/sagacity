@@ -18,5 +18,5 @@
 		</interceptors>
 		<default-interceptor-ref name="sagacityStack" />
 	</package>
-	<include file="struts-system" />
+	<include file="struts-project.xml" />
 </struts>
