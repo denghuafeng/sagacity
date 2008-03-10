@@ -1,12 +1,13 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ include file="./taglibs.jsp"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title></title>
+<%@ include file="./meta.jsp"%>
 <link href="../resources/styles/style.css" rel="stylesheet" type="text/css">
 <script>
 var imagePath="../resources/images/menu/favorite";
-
-
 var menus=[["target","image","openImage","closeImage"],
             ["hotBody","hotImg","/fmenurd_up.gif","/fmenurd_down.gif"],
             ["otherBody","otherImg","/fmenuqt_up.gif","/fmenuqt_down.gif"],
@@ -33,11 +34,9 @@ function openOrClose(bakImage,target)
 	}
 }
 </script>
-
-
 </head>
 <body class="wsd_master_11" ondragstart="return false;"
-		oncontextmenu="return false;" onselectstart="return false">
+		oncontextmenu="return false;" onselectstart="return false"> 
 <table id="wsd_masterhead">
 <tr><td height="30" valign="top" class="hothead"><a href="#" onClick="openOrClose('hotImg','hotBody');"><img name="hotImg" border="0" src="../resources/images/menu/favorite/fmenurd_up.gif"></a></td></tr>
 <tr><td  id="hotbody" class="hotbody">
@@ -128,7 +127,7 @@ function openOrClose(bakImage,target)
 					
 				</table>	
 			</td>	</tr>
-		<tr><td class="hotbottom "></td></tr>
+		<tr><td class="hotbottom"></td></tr>
 	</table>
 </body>
 </html>
