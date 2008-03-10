@@ -20,6 +20,7 @@ public class ProjectAction extends BaseActionSupport {
 	}
 
 	public String save() throws Exception {
+		
 		return SUCCESS;
 	}
 }
