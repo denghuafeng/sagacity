@@ -4,6 +4,5 @@
 <s:set name="contextPath" value="<%=request.getContextPath()%>" />
 <s:set name="basePath"
 	value="<%=(request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/")%>" />
-<s:set name="image_path"
-	value="<%=request.getContextPath()%>/resources/images" />
+<s:set name="image_path" value="<%=request.getContextPath()+"/resources/images"%>" />
 
