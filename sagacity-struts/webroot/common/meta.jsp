@@ -7,18 +7,18 @@
 <meta http-equiv="keywords" content="sagacity framework"> 
 <meta name="author" content="zhongxuchen (zhongxuchen@hotmail.com)" />
 <link type="text/css"
-	href="<s:property value="#contextPath"/>/resources/styles/zxStyle.css"
+	href="../resources/styles/zxStyle.css"
 	rel="stylesheet">
 <link type="text/css"
-	href="<s:property value="#contextPath"/>/resources/styles/base_style.css"
+	href="../resources/styles/base_style.css"
 	rel="stylesheet">
 <link rel="stylesheet" type="text/css"
-	href="<s:property value="#contextPath"/>/resources/styles/dhtmlXGrid.css">
+	href="../resources/styles/dhtmlXGrid.css">
 <script language="javascript"
-	src="<s:property value="#contextPath"/>/resources/scripts/datepicker.js"></script>
+	src="../resources/scripts/datepicker.js"></script>
 <script language="javascript"
-	src="<s:property value="#contextPath"/>/resources/scripts/messages.js"></script>
+	src="../resources/scripts/messages.js"></script>
 <script language="javascript"
-	src="<s:property value="#contextPath"/>/resources/scripts/outlookbar.js"></script>
+	src="../resources/scripts/outlookbar.js"></script>
 <script language="javascript"
-	src="<s:property value="#contextPath"/>/resources/scripts/clientinterface.js"></script>
+	src="../resources/scripts/clientinterface.js"></script>
