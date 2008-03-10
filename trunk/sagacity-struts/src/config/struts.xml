@@ -17,6 +17,16 @@
 			</interceptor-stack>
 		</interceptors>
 		<default-interceptor-ref name="sagacityStack" />
+		<!-- 定义全局处理结果 -->
+		<global-results>
+			<!-- 逻辑名为sql的结果，映射到/exception.jsp页面 -->
+			<result name="globeException">/common/error.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<!-- 当Action抛出SQLException异常时，转入名为sql的结果 -->
+			<exception-mapping exception="org.sagacity.framework.exception.BaseException" 
+				result="globeException" />
+		</global-exception-mappings>
 	</package>
 	<include file="struts-project.xml" />
 </struts>
