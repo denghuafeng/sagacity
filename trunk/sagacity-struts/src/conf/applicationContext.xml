@@ -92,7 +92,7 @@
 	<bean id="simpleWorkflow"
 		class="org.springmodules.workflow.jbpm31.definition.ProcessDefinitionFactoryBean">
 		<property name="definitionLocation"
-			value="classpath:jpdl/simple/processdefinition.xml" />
+			value="classpath:jpdl/processdefinition.xml" />
 	</bean>
 	
 	<bean id="jbpmConfiguration"
