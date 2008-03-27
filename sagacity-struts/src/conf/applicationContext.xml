@@ -80,37 +80,12 @@
 				<value>
 					classpath:/org/sagacity/lazyworker/domain/model
 				</value>
-				<value>classpath*:/org/jbpm/**/*.hbm.xml</value>
+				<value>classpath:/org/jbpm/**/*.hbm.xml</value>
 			</list>
 		</property>
 		<property name="typeDefinitions">
 			<ref bean="jbpmTypes" />
 		</property>
-	</bean>
-
-	<!-- helper for reading jBPM process definitions -->
-	<bean id="simpleWorkflow"
-		class="org.springmodules.workflow.jbpm31.definition.ProcessDefinitionFactoryBean">
-		<property name="definitionLocation"
-			value="classpath:jpdl/processdefinition.xml" />
-	</bean>
-	
-	<bean id="jbpmConfiguration"
-		class="org.springmodules.workflow.jbpm31.LocalJbpmConfigurationFactoryBean">
-		<property name="sessionFactory" ref="sessionFactory" />
-		<property name="configuration" value="classpath:jbpm.cfg.xml" />
-		<property name="processDefinitions">
-			<list>
-				<!-- add new processDefinitions here -->
-				<ref local="simpleWorkflow" />
-			</list>
-		</property>
-		<property name="createSchema" value="false" />
-	</bean>
-
-	<bean id="jbpmTemplate"
-		class="org.springmodules.workflow.jbpm31.JbpmTemplate">
-		<property name="jbpmConfiguration" ref="jbpmConfiguration" />
 	</bean>
 
 	<!-- DAO 的IoC配置//-->
