@@ -48,11 +48,9 @@
 	<bean id="lobHandler"
 		class="org.springframework.jdbc.support.lob.DefaultLobHandler"
 		lazy-init="true">
-		<!--
-			<property name="nativeJdbcExtractor">
+		<property name="nativeJdbcExtractor">
 			<ref local="nativeJdbcExtractor" />
-			</property>
-		-->
+		</property>
 	</bean>
 
 	<!-- Hibernate SessionFactory定义 -->
@@ -89,16 +87,29 @@
 			<ref bean="jbpmTypes" />
 		</property>
 	</bean>
+
+	<!-- helper for reading jBPM process definitions -->
+	<bean id="simpleWorkflow"
+		class="org.springmodules.workflow.jbpm31.definition.ProcessDefinitionFactoryBean">
+		<property name="definitionLocation"
+			value="classpath:jpdl/simple/processdefinition.xml" />
+	</bean>
+	
 	<bean id="jbpmConfiguration"
 		class="org.springmodules.workflow.jbpm31.LocalJbpmConfigurationFactoryBean">
-		<property name="sessionFactory" ref="sessionFactoryForJbpm" />
+		<property name="sessionFactory" ref="sessionFactory" />
 		<property name="configuration" value="classpath:jbpm.cfg.xml" />
-		<!-- jbpm.cfg.xml 配置JBPM的参数，如邮件服务器地址等,保持默认即可,此文件需加入以SRC目录下。如目录不同，需同步更改此处配置-->
+		<property name="processDefinitions">
+			<list>
+				<!-- add new processDefinitions here -->
+				<ref local="simpleWorkflow" />
+			</list>
+		</property>
+		<property name="createSchema" value="false" />
 	</bean>
 
-	<!--  如需加入更多的方法，可以在CustomerJbpmTemplate 中加入-->
 	<bean id="jbpmTemplate"
-		class="com.col.frame.dao.jbpmDao.CustomerJbpmTemplate">
+		class="org.springmodules.workflow.jbpm31.JbpmTemplate">
 		<property name="jbpmConfiguration" ref="jbpmConfiguration" />
 	</bean>
 
