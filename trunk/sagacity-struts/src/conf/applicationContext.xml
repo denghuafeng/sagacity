@@ -21,7 +21,7 @@
 		class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName"
-			value="${sagacity.jdbc.driverClassName}" />
+			value="${sagacity.jdbc.driverClassName}"/>
 		<property name="url" value="${sagacity.jdbc.url}" />
 		<property name="username" value="${sagacity.jdbc.username}" />
 		<property name="password" value="${sagacity.jdbc.password}" />
