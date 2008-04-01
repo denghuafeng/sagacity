@@ -1,10 +1,8 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
-
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
 <meta name="author" content="江苏邮政" />
 <meta name="copyright" content="江苏邮政" />
 <meta name="url" content="http://www.xxx.com" />
@@ -44,14 +42,14 @@
    
    <!-- menu op -->
        <ul>
-          <li name="subSys" class="check" onclick="setChecked(this);"><a href="./menu.html?subsysTitle='收藏夹'&subsysName=favorite" target="leftFrame"><img src="../resources/images/menu_ico1.png" alt="" /><p>收藏夹</p></a></li>
-          <li name="subSys" onclick="setChecked(this);"><a href="./menu.html?subsysTitle=营销管理&subsysName=tradeManager" target="leftFrame"><img src="../resources/images/menu_ico3.png" alt="" /><p>营销管理</p></a></li>
-          <li name="subSys" onclick="setChecked(this);"><a href="./menu.html?subsysTitle=工作管理&subsysName=workManager" target="leftFrame">
+          <li name="subSys" class="check" onclick="setChecked(this);"><a href="./menu.jsp?subsysTitle='收藏夹'&subsysName=favorite" target="leftFrame"><img src="../resources/images/menu_ico1.png" alt="" /><p>收藏夹</p></a></li>
+          <li name="subSys" onclick="setChecked(this);"><a href="./menu.jsp?subsysTitle=营销管理&subsysName=tradeManager" target="leftFrame"><img src="../resources/images/menu_ico3.png" alt="" /><p>营销管理</p></a></li>
+          <li name="subSys" onclick="setChecked(this);"><a href="./menu.jsp?subsysTitle=工作管理&subsysName=workManager" target="leftFrame">
 		  <img src="../resources/images/menu_ico4.png" alt="" /><p>工作管理</p></a></li>
-          <li name="subSys" onclick="setChecked(this);"><a href="./menu.html?subsysTitle=知识管理" target="leftFrame"><img src="../resources/images/menu_ico5.png" alt="" /><p>知识管理</p></a></li>
-          <li name="subSys" onclick="setChecked(this);"><a href="./menu.html?subsysTitle=客户关系管理" target="leftFrame"><img src="../resources/images/menu_ico2.png" alt="" /><p>客户关系管理</p></a></li>
-          <li name="subSys" onclick="setChecked(this);"><a href="./menu.html?subsysTitle=数据中心" target="leftFrame"><img src="../resources/images/menu_ico6.png" alt="" /><p>数据中心</p></a></li>
-          <li name="subSys" onclick="setChecked(this);"><a href="./menu.html?subsysTitle=统计分析" target="leftFrame"><img src="../resources/images/menu_ico7.png" alt="" /><p>统计分析</p></a></li>         
+          <li name="subSys" onclick="setChecked(this);"><a href="./menu.jsp?subsysTitle=知识管理" target="leftFrame"><img src="../resources/images/menu_ico5.png" alt="" /><p>知识管理</p></a></li>
+          <li name="subSys" onclick="setChecked(this);"><a href="./menu.jsp?subsysTitle=客户关系管理" target="leftFrame"><img src="../resources/images/menu_ico2.png" alt="" /><p>客户关系管理</p></a></li>
+          <li name="subSys" onclick="setChecked(this);"><a href="./menu.jsp?subsysTitle=数据中心" target="leftFrame"><img src="../resources/images/menu_ico6.png" alt="" /><p>数据中心</p></a></li>
+          <li name="subSys" onclick="setChecked(this);"><a href="./menu.jsp?subsysTitle=统计分析" target="leftFrame"><img src="../resources/images/menu_ico7.png" alt="" /><p>统计分析</p></a></li>         
        </ul>
    <!-- menu ed -->
 

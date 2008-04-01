@@ -85,8 +85,8 @@
 		 <a href="../workManager/workCalendar.html"><img src="../resources/images/more.gif" alt="更多..." /></a>
        </h3>
          <ul>
-             <li><a href="../workManager/workCalendar.html"><font color="#FF0000">· 今天下午两点需要拜访砖石客户张海涛...</a></font><span>2008-07-11</span></li>
-             <li><a href="../workManager/workCalendar.html"><font color="#FF0000">· 今天下午两点需要拜访砖石客户张海涛...</a></font><span>2008-07-11</span></li>
+             <li><a href="../workManager/workCalendar.html"><font color="#FF0000">· 今天下午两点需要拜访砖石客户张海涛...</font></a><span>2008-07-11</span></li>
+             <li><a href="../workManager/workCalendar.html"><font color="#FF0000">· 今天下午两点需要拜访砖石客户张海涛...</font></a><span>2008-07-11</span></li>
              <li><a href="../workManager/myWorkPlan.html">· 测试新闻新闻新闻...</a><span>2008-07-11</span></li>
              <li><a href="####">· 测试新闻新闻新闻...</a><span>2008-07-11</span></li>
              <li><a href="####">· 测试新闻新闻新闻...</a><span>2008-07-11</span></li>
