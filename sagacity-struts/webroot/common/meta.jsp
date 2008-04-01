@@ -1,4 +1,5 @@
 <!-- HTTP 1.1 -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="Cache-Control" content="no-store" />
 <!-- HTTP 1.0 -->
 <meta http-equiv="Pragma" content="no-cache" />
@@ -6,19 +7,12 @@
 <meta http-equiv="Expires" content="0" />
 <meta http-equiv="keywords" content="sagacity framework"> 
 <meta name="author" content="zhongxuchen (zhongxuchen@hotmail.com)" />
-<link type="text/css"
-	href="../resources/styles/zxStyle.css"
-	rel="stylesheet">
-<link type="text/css"
-	href="../resources/styles/base_style.css"
-	rel="stylesheet">
-<link rel="stylesheet" type="text/css"
-	href="../resources/styles/dhtmlXGrid.css">
-<script language="javascript"
-	src="../resources/scripts/datepicker.js"></script>
-<script language="javascript"
-	src="../resources/scripts/messages.js"></script>
-<script language="javascript"
-	src="../resources/scripts/outlookbar.js"></script>
-<script language="javascript"
-	src="../resources/scripts/clientinterface.js"></script>
+	
+<link href="${contextPath}/resources/styles/style.css" rel="stylesheet" type="text/css">
+<link href="${contextPath}/resources/styles/dtree.css" rel="stylesheet" type="text/css">
+<link href="${contextPath}/resources/styles/zxStyle.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="${contextPath}/resources/scripts/checks.js"></script>
+<script type="text/javascript" src="${contextPath}/resources/scripts/empchecks.js"></script>
+<script type="text/javascript" src="${contextPath}/resources/scripts/dtree.js"></script>
+  
+
