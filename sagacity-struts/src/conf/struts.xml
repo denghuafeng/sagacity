@@ -24,9 +24,21 @@
 		</global-results>
 		<global-exception-mappings>
 			<!-- 当Action抛出SQLException异常时，转入名为sql的结果 -->
-			<exception-mapping exception="org.sagacity.framework.exception.BaseException" 
+			<exception-mapping
+				exception="org.sagacity.framework.exception.BaseException"
 				result="globeException" />
 		</global-exception-mappings>
 	</package>
+
+	<package name="common" extends="default">
+		<action name="welcome" class="com.opensymphony.xwork.ActionSupport">
+			<result name="success" type="freemarker">/index.ftl</result>
+		</action>
+		
+		<action name="login" class="com.opensymphony.xwork.ActionSupport">
+			<result name="success" type="freemarker">/login.ftl</result>
+		</action>
+	</package>
+
 	<include file="struts-project.xml" />
 </struts>
