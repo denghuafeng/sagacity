@@ -1,0 +1,19 @@
+<project name="sagacityframework" default="native2ascii">
+	<!--初始化project相关参数-->
+	<target name="init">
+		<property name="sagacity.home" value="." />	
+		<property name="sagacity.src" value="${sagacity.home}/src" />
+		<property name="sagacity.target" value="${sagacity.home}/target" />
+		<property name="sagacity.misc" value="${sagacity.home}/misc" />		
+		
+	</target>
+
+	<!--编码转换 -->
+	<target name="native2ascii" depends="init">
+		<native2ascii encoding="UTF-8" 
+			src="${sagacity.misc}/i18n/"
+			dest="${sagacity.src}/conf/"
+			includes="**/*Messages*.properties"
+			></native2ascii>
+	</target>
+</project>
