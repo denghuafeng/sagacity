@@ -33,6 +33,8 @@ public class BaseActionSupport extends ActionSupport {
 	protected final String DOWNLOAD = "download";
 
 	protected final String UPLOAD = "upload";
+	
+	protected final String CREATE = "create";
 
 	/**
 	 * 分页当前页码

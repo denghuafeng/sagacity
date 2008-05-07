@@ -8,10 +8,10 @@ import org.sagacity.framework.log.LogFactory;
 
 /**
  * 
- * @Project Name:sagacity
- * @Desciption:
- * @author Administrator
- * @version $Id:AbstractDAOSupport.java, Revision v1.0, Oct 7, 2007 9:34:05 AM $
+ *@project sagacity-core 
+ *@description:$<p>DAO基类</p>$
+ *@author zhongxuchen $<a href="mailto:zhongxuchen@hotmail.com">联系作者</a>$
+ *@version $id:AbstractDAOSupport.java,Revision:v1.0,Date:Mar 7, 2008 2:49:09 PM $
  */
 public abstract class AbstractDAOSupport<T> {
 	/**
@@ -19,5 +19,5 @@ public abstract class AbstractDAOSupport<T> {
      */
     protected Class<T> entityClass;
     
-	//protected final Logger logger = LogFactory.getFactory().getLog(getClass());
+	protected final Log logger = LogFactory.getFactory().getLog(getClass());
 }

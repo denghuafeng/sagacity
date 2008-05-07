@@ -8,5 +8,5 @@ package org.sagacity.framework.utils;
  *
  */
 public class ImageUtil {
-
+	
 }
