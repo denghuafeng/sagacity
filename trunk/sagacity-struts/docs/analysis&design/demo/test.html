@@ -1,0 +1,22 @@
+<html>
+	<script type="text/javascript">
+		var size=0;
+		function addTd()
+		{
+			var tableObj=document.getElementById("testTable");
+			
+			var trObj=tableObj.rows[0];
+			alert(trObj.cells.length);
+			size+=1;
+			var insertTd=trObj.insertCell();
+			insertTd.innerHTML="第"+size+"个";
+			alert(tableObj.innerHTML);
+		}
+	</script>
+	<input type="button" name="test" value="增加TD" onclick="addTd()">
+	<table id="testTable">
+		<tr>
+			<td>chen</td>
+		</tr>
+</table>
+</html>
