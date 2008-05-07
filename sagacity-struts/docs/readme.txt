@@ -2,7 +2,7 @@ docs目录是整个项目的文档目录，其按照项目的周期和项目过�
 
 项目开发类文档
 business：商务阶段，包括商务售前的文档和合同信息
-requirement:需求阶段
+requirement:需求阶段,包括需求文档，需求用例，需求变更等文档
 analysis&design:分析设计阶段
 architecture:架构阶段
 test:测试阶段,包括测试用例，测试报告等
