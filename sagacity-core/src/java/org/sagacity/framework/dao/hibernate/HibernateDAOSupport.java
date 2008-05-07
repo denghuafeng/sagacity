@@ -47,7 +47,7 @@ import org.springframework.util.Assert;
  * @version $id:HibernateDAOSupport.java,Revision:v1.0,Date:Oct 18, 2007 8:57:45
  *          AM $
  */
-public class HibernateDAOSupport<T> extends HibernateDaoSupport {
+public class HibernateDAOSupport<T> extends HibernateDaoSupport{
 	/**
 	 * 常量
 	 */
@@ -64,7 +64,7 @@ public class HibernateDAOSupport<T> extends HibernateDaoSupport {
 	protected final String DATE_FORMAT_YEARMONTH = "yyyyMM";
 
 	/**
-	 * Dao所管理的Entity类型.
+	 * DAO所管理的Entity类型.
 	 */
 	protected Class<T> entityClass;
 
