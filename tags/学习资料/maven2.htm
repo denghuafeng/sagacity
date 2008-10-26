@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=gb2312">
+<META name="GENERATOR" content="QuickCHM">
+<TITLE>maven2安装指南</TITLE>
+</HEAD>
+<BODY>
+<H1>maven2安装</H1>
+<H2>1.介质准备</H2>
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 从<A 
+href="http://maven.apache.org/download.html">http://maven.apache.org/download.html</A>&nbsp;下载最新的maven2.0.9,下载后解压maven到一个特定的目录下，如E:\maven2</P>
+<H2>2.配置&nbsp;</H2>
+<UL>
+  <LI>&nbsp;&nbsp; 设置环境变量,右键点击我的电脑，选择属性--&gt;高级--&gt;环境变量</LI></UL>
+<P>&nbsp;&nbsp;&nbsp;<IMG style="WIDTH: 474px; HEIGHT: 346px" height=346 
+src="maven参数设置.jpg" width=455 align=baseline></P>
+<P>&nbsp;&nbsp;&nbsp; 增加M2_HOME 为E:\maven2,在path 中增加%M2_HOME%\bin;</P>
+<UL>
+  <LI>通过命令行，mvn -version 显示</LI></UL>
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Maven version: 
+2.0.9<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Java version: 
+1.5.0_14<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OS name: "windows 
+xp" version: "5.1" arch: "x86" Family: "windows"</P>
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示安装正确。</P>
+<H2>3.通过maven 管理项目</H2>
+<P>&nbsp;&nbsp;&nbsp;&nbsp; 普通的Java项目，如基础包等： 
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; mvn archetype:create&nbsp;&nbsp; 
+-DgroupId=com.yourcompany&nbsp; -DartifactId=myproject&nbsp; 
+-DarchetypeArtifactId=maven-archetype-quickstart <BR>&nbsp;&nbsp;&nbsp; 
+普通的Web项目，如一个Web项目： <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mvn 
+archetype:create&nbsp; -DgroupId=com.yourcompany -DartifactId=myproject&nbsp; 
+-DarchetypeArtifactId=maven-archetype-webapp </P>
+<P>&nbsp;&nbsp;&nbsp;&nbsp; 如果你的开发工具是eclipse：则进入通过maven创建的项目目录下，通过mvn 
+eclipse:eclipse 生成eclipse的项目文件<BR></P>
+<P>&nbsp;&nbsp;&nbsp; </P>
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </P>
+<P>&nbsp;&nbsp;&nbsp; </P>
+<P>&nbsp;&nbsp;&nbsp; </P>
+<P>&nbsp;&nbsp;&nbsp; </P>
+<P>&nbsp;</P>
+</BODY>
+</HTML>

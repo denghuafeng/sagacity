@@ -1,0 +1,30 @@
+<HTML>
+<HEAD>
+<META NAME="GENERATOR" Content="Microsoft DHTML Editing Control">
+<TITLE></TITLE>
+</HEAD>
+<BODY text=#000000 vLink=#800080 aLink=#0000ff link=#0000ff bgColor=#ffffff>
+<H2>1.JDK安装配置</H2>
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 首先下载JDK 5.0（JDK 5.0的下载页面为：<A 
+href="http://java.sun.com/j2se/1.5.0/download.jsp">http://java.sun.com/j2se/1.5.0/download.jsp</A>）； </P>
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 然后运行JDK 
+5.0安装jdk-1_5_0_07-windows-i587-p.exe到一定的目录：如：C:\Java</P>
+<H2>2.配置JDK的环境变量</H2>
+<P><IMG style="WIDTH: 772px; HEIGHT: 464px" height=456 src="jdk环境变量设置.gif" 
+width=701 align=baseline></P>
+<P>在“我的电脑”上点右键—&gt;“属性”—&gt;“高级”—&gt; “环境变量(N)”。 </P>
+<UL>
+  <LI>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+  新建系统变量JAVA_HOME：C:\Java\jdk1.5.0_07； 
+  <LI> 
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+  新建系统变量CLASSPATH：.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;%JAVA_HOME%\jre\rt.jar;（注意：点号表示当前目录，不能省略） 
+  <LI>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+  在系统变量Path的值的前面加入以下内容：%JAVA_HOME%\bin;(注意:这里的分号不能省略) </LI></UL>
+<P><STRONG>到这里，JDK安装完毕</STRONG> </P>
+<P>注意:如果以后要安装诸如Eclipse、Borland JBuilder、JCreator、IntelliJ 
+IDEA等集成开发环境(IDE,Integrated Development 
+Environment),应该在IDE中编译运行一个简单的HelloWorld程序，以保证IDE可以识别出JDK的位置。  
+<BR></P>
+</BODY>
+</HTML>

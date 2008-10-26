@@ -1,0 +1,51 @@
+<HTML><HEAD>
+</HEAD><BODY><UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="maven参数设置">
+<PARAM NAME="Local" VALUE="C:\Documents and Settings\chenrenfei\桌面\maven参数设置.png">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="eclipse安装">
+<PARAM NAME="Local" VALUE="eclipse\eclipse.htm">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="nexus安装使用">
+<PARAM NAME="Local" VALUE="nexus.htm">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="subversion安装使用">
+<PARAM NAME="Local" VALUE="subversion.htm">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="subversion安装使用">
+<PARAM NAME="Local" VALUE="subversion.htm">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="maven2安装指南">
+<PARAM NAME="Local" VALUE="NewTopic.htm">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="eclipse安装">
+<PARAM NAME="Local" VALUE="eclipse.htm">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="eclipse安装">
+<PARAM NAME="Local" VALUE="eclipse.htm">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="maven2安装指南">
+<PARAM NAME="Local" VALUE="maven2.htm">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="jdk安装">
+<PARAM NAME="Local" VALUE="jdk安装.htm">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="概述">
+<PARAM NAME="Local" VALUE="概述.htm">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="slf4j使用配置">
+<PARAM NAME="Local" VALUE="slf4j使用配置.htm">
+</OBJECT>
+</UL></BODY></HTML>
