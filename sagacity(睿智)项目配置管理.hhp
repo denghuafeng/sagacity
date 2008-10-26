@@ -1,0 +1,39 @@
+[OPTIONS]
+Compatibility=1.1 Or later
+Default Window=Main
+Default topic=D:\workspace\nantian\sagacity\tags\学习资料\NewTopic.htm
+Default font=宋体,9,1
+Contents file=maven2安装指南.hhc
+Index file=maven2安装指南.hhk
+Display compile progress=Yes
+Full-text search=Yes
+Language=0x804 中文(中国)
+
+[WINDOWS]
+Main="","maven2安装指南.hhc","maven2安装指南.hhk","D:\workspace\nantian\sagacity\tags\学习资料\NewTopic.htm","D:\workspace\nantian\sagacity\tags\学习资料\NewTopic.htm",,,,,0x20,180,0x104E,[80,60,720,540],0x0,0x0,,,,,0
+
+[FILES]
+C:\Documents and Settings\chenrenfei\桌面\maven参数设置.png
+eclipse.htm
+eclipse.htm
+eclipse\eclipse.htm
+eclipse\eclipse.htm
+jdk安装.htm
+maven2.htm
+NewTopic.htm
+NewTopic.htm
+NewTopic.htm
+NewTopic.htm
+NewTopic.htm
+NewTopic.htm
+NewTopic.htm
+NewTopic.htm
+nexus.htm
+nexus.htm
+sagacity项目指南.htm
+slf4j使用配置.htm
+subversion.htm
+subversion.htm
+subversion.htm
+概述.htm
+技术架构.htm
