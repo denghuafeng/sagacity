@@ -124,6 +124,14 @@
 				<exclude name="**/.svn/**" />
 			</fileset>
 		</zip>
+		
+		<!--select组件 -->
+		<zip destfile="${sagacity.classes}/components/select1.0.zip">
+			<fileset dir="${sagacity.components}/select/">
+				<include name="**/*.*" />
+				<exclude name="**/.svn/**" />
+			</fileset>
+		</zip>
 
 		<echo message="开始打包jar" />
 		<jar jarfile="${sagacity.build.dir}/sagacity-core-1.0.jar" basedir="${sagacity.classes}/" />
