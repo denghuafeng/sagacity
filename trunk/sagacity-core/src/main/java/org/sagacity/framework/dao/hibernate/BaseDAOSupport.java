@@ -682,11 +682,12 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 			int paramIndex = 0;
 			// 设置分页时的查询参数
 			if (paginationModel.getPageNo() != -1) {
+				int paramLength=(params==null)?0:params.length;
 				switch (dbType) {
 				case 4:
-					pst.setInt(params.length + 1, (realStartPage - 1)
+					pst.setInt(paramLength+ 1, (realStartPage - 1)
 							* paginationModel.getPageSize());
-					pst.setInt(params.length + 2, realStartPage
+					pst.setInt(paramLength + 2, realStartPage
 							* paginationModel.getPageSize());
 					break;
 				// informix 数据库
@@ -697,9 +698,9 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 					paramIndex = 2;
 					break;
 				default:
-					pst.setInt(params.length + 1, realStartPage
+					pst.setInt(paramLength + 1, realStartPage
 							* paginationModel.getPageSize());
-					pst.setInt(params.length + 2, (realStartPage - 1)
+					pst.setInt(paramLength + 2, (realStartPage - 1)
 							* paginationModel.getPageSize());
 					break;
 				}
