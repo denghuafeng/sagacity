@@ -283,7 +283,7 @@ public class SelectTag extends BaseTagSupport {
 							+ "px;background-image:url("
 							+ ((HttpServletRequest) this.pageContext
 									.getRequest()).getContextPath()
-							+ "/resources/images/select_dropDown.gif);background-position:right top;background-repeat:no-repeat;\" onclick=\"onSltDropDown(this,'OptionList_"
+							+ "/resources/components/select/images/select_dropDown.gif);background-position:right top;background-repeat:no-repeat;\" onclick=\"onSltDropDown(this,'OptionList_"
 							+ sltId + "');\" />");
 
 			writer
