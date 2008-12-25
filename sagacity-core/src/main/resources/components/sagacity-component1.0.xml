@@ -31,4 +31,10 @@
 		<resource><![CDATA[/components/prompt3.1.zip]]></resource>
 		<unzipPath>/resources/components/prompt/</unzipPath>
 	</component>
+	<component id="select" name="select">
+		<description>select组件</description>
+		<url><![CDATA[]]></url>
+		<resource><![CDATA[/components/select1.0.zip]]></resource>
+		<unzipPath>/resources/components/select/</unzipPath>
+	</component>
 </components>
