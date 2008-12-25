@@ -1,0 +1,142 @@
+<project name="sagacity-core" default="sagacity-core.jar" xmlns:artifact="urn:maven-artifact-ant">
+	<!--初始化project相关参数-->
+	<target name="init">
+		<property name="sagacity.home" value="." />
+		<property name="sagacity.conf" value="${basedir}/src/main/resources" />
+		<property name="sagacity.src" value="${sagacity.home}/src/main/java" />
+		<property name="sagacity.test" value="${sagacity.home}/src/test/java" />
+		<property name="sagacity.components" value="${sagacity.home}/resources" />
+		<property name="sagacity.misc" value="${sagacity.home}/misc" />
+		<property name="sagacity.docs" value="${sagacity.home}/docs" />
+		<property name="sagacity.build.dir" value="${sagacity.home}/target" />
+		<property name="sagacity.classes" value="${sagacity.build.dir}/classes" />
+		<property name="sagacity.app.dir" value="${sagacity.home}/webapp" />
+		<property name="sagacity.appbuild.dir" value="${sagacity.build.dir}/sagacity" />
+
+		<!--使用Maven2依赖管理 -->
+		<path id="maven-ant-tasks.classpath" path="lib/maven-ant-tasks-2.0.9.jar" />
+		<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
+
+		<!--定义Maven2变量-->
+		<artifact:pom id="maven.project" file="pom.xml" />
+		<artifact:dependencies pathId="classpath" filesetid="maven.fileset">
+			<pom refid="maven.project" />
+		</artifact:dependencies>
+	</target>
+
+	<!--清除编译完的相关文件-->
+	<target name="clean" depends="init">
+		<mkdir dir="${sagacity.classes}" />
+		<delete includeemptydirs="true">
+			<fileset dir="${sagacity.build.dir}" includes="**/*.*" />
+			<fileset dir="${sagacity.classes}" includes="**/*.*" />
+		</delete>
+	</target>
+
+	<!--编译java源代码-->
+	<target name="compile" depends="clean,init">
+		<echo>compile java source file</echo>
+		<mkdir dir="${sagacity.classes}" />
+		<javac srcdir="${sagacity.src}/" destdir="${sagacity.classes}" classpathref="classpath" encoding="UTF-8">
+			<include name="org/sagacity/framework/**/*.java" />
+			<include name="org/sagacity/core/**/*.java" />
+			<include name="org/sagacity/exoteric/**/*.java" />
+			<include name="org/sagacity/tools/**/*.java" />
+			<exclude name="org/sagacity/lazyworker/**/*.java" />
+			<exclude name="org/sagacity/demo/**/*.java" />
+			<exclude name="**/.svn/**" />
+		</javac>
+	</target>
+
+	<!-- 基于jdk1.4 兼容struts1.x和struts2.0 以及webwork 版本的基础类 -->
+	<target name="sagacity-core.jar" depends="clean,compile">
+		<mkdir dir="${sagacity.classes}/META-INF" />
+		<mkdir dir="${sagacity.classes}/components/xtable" />
+		<copy todir="${sagacity.classes}/">
+			<fileset dir="${sagacity.src}/">
+				<include name="**/*.xml" />
+				<include name="**/*.properties" />
+				<exclude name="**/.svn/**" />
+			</fileset>
+		</copy>
+		<copy todir="${sagacity.classes}/" file="${sagacity.conf}/sagacity.properties" />
+		<copy todir="${sagacity.classes}/META-INF">
+			<fileset dir="${sagacity.conf}/components/">
+				<include name="sagacity2.0.tld" />
+				<exclude name="**/.svn/**" />
+			</fileset>
+		</copy>
+		<copy todir="${sagacity.classes}/components/xtable">
+			<fileset dir="${sagacity.conf}/components/xtable/">
+				<include name="*.txt" />
+				<include name="*.xml" />
+				<exclude name="**/.svn/**" />
+			</fileset>
+		</copy>
+		<mkdir dir="${sagacity.classes}/components" />
+		<copy todir="${sagacity.classes}/components">
+			<fileset dir="${sagacity.conf}/components">
+				<include name="sagacity*.xml" />
+				<include name="sagacity*.properties" />
+				<exclude name="**/.svn/**" />
+			</fileset>
+		</copy>
+
+		<echo>压缩日期资源</echo>
+		<!--日期组件-->
+		<zip destfile="${sagacity.classes}/components/calendar4.1.zip">
+			<fileset dir="${sagacity.components}/calendar/">
+				<include name="**/*.*" />
+				<exclude name="**/.svn/**" />
+			</fileset>
+		</zip>
+
+		<!--dhtml grid and tab 等组件-->
+		<zip destfile="${sagacity.classes}/components/dhtml.zip">
+			<fileset dir="${sagacity.components}/dhtml/">
+				<include name="**/*.*" />
+				<exclude name="**/.svn/**" />
+			</fileset>
+		</zip>
+
+		<!--xtable 组件-->
+		<zip destfile="${sagacity.classes}/components/xtable1.0.zip">
+			<fileset dir="${sagacity.components}/xtable/">
+				<include name="**/*.*" />
+				<exclude name="**/.svn/**" />
+			</fileset>
+		</zip>
+
+		<!--sagacity 公用 组件-->
+		<zip destfile="${sagacity.classes}/components/sagacity-core1.0.zip">
+			<fileset dir="${sagacity.components}">
+				<include name="scripts/**/*.js" />
+				<include name="styles/**/*.css" />
+				<include name="images/**/*.*" />
+				<exclude name="**/.svn/**" />
+			</fileset>
+		</zip>
+
+		<!--消息操作提示，替代浏览器自带的 alert,prompt，提供特定效果,引用ymPrompt2.0开源脚本-->
+		<zip destfile="${sagacity.classes}/components/prompt3.1.zip">
+			<fileset dir="${sagacity.components}/prompt">
+				<include name="**/*.*" />
+				<exclude name="**/.svn/**" />
+			</fileset>
+		</zip>
+
+		<echo message="开始打包jar" />
+		<jar jarfile="${sagacity.build.dir}/sagacity-core-1.0.jar" basedir="${sagacity.classes}/" />
+		<checksum file="${sagacity.build.dir}/sagacity-core-1.0.jar" algorithm="SHA" fileext=".sha1" />
+		<copy file="${sagacity.build.dir}/sagacity-core-1.0.jar" todir="D:\workspace\nantian\nt-gims\lib" />
+	</target>
+
+	<!-- copy maven dependencies jar to appoint path(提供一个提取maven2
+	dependencies jar 提取参照，在本项目中没有实际采用)-->
+	<target name="test" depends="init">
+		<copy todir="D:\workspace\test1\webapp\WEB-INF\lib">
+			<fileset refid="maven.fileset" />
+			<mapper type="flatten" />
+		</copy>
+	</target>
+</project>

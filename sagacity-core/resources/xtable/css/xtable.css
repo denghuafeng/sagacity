@@ -1,0 +1,157 @@
+/*==list table style==*/
+#sag_listtable 
+{
+	font-size: 9pt;
+	border-collapse: collapse;
+	width: 100%;
+	padding-left:10;
+	padding-right:10;
+	border: 1px solid #A0B7C5;
+	text-align: center;
+}
+
+#sag_listtable td 
+{
+	font-size: 9pt;
+	padding-top: 2px;
+	border: 1px solid #A0B7C5;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+#sag_listtable th 
+{
+	font-size: 9pt;
+	padding-top: 2px;
+	border: 1px solid #A0B7C5;
+	padding-left: 5px;
+	white-space: nowrap;
+	padding-right: 5px;
+}
+
+#sag_listtable .titlist{
+	color:#2A2927; 
+	font-weight:bold; 
+	padding-top:2px; 
+	padding-left:10px; 
+	font-size: 9pt;	
+	background-image:url(../images/title.gif); 
+	background-repeat: repeat-x;
+	height: 21; 
+	white-space: nowrap; 
+	text-align:center;
+}
+
+#sag_listtable .pagination 
+{
+	font-size: 9pt;
+	height: 26;
+	white-space: nowrap;
+	text-align: center;
+	background: #EEF3F7;
+	background-image: url(../images/pagination.gif);
+	background-repeat: repeat-x;
+}
+
+#sag_listtable .oddline {
+	font-size: 9pt;	
+	height: 18; 
+	white-space: nowrap; 
+	background: #E2F0FB;
+	text-align:center; 
+	white-space: nowrap; 
+}
+
+#sag_listtable .evenline {
+	font-size: 9pt;	
+	height: 18; 
+	white-space: nowrap; 
+	background: #FFF; 
+	text-align:center; 
+	white-space: nowrap;
+}
+.sag_trover
+{
+	font-size: 9pt;
+	height: 18;
+	white-space: nowrap;
+	background: #F0CDAD;
+	text-align: center;
+}
+.sag_titleover 
+{
+	font-size: 9pt;
+	height: 20;
+	white-space: nowrap;
+	background: #D0EAFE;
+	text-align: center;
+}
+
+.sag_msgalert
+{
+	font-size: 9pt;
+	color: #FF0000;
+	height: 20;
+	text-align: center;
+	font-weight: 600;
+}
+.sag_bgcolor4 
+{
+	font-size: 9pt;
+	height: 20;
+	white-space: nowrap;
+	background: #CCE5F8;
+	text-align: center;
+}
+
+.sag_pagebutton 
+{
+	font-family: "宋体";
+	font-size: 9pt;
+	padding-top: 3px;
+	color: #5A6EA9;
+	background-image: url(../images/pagebutton.gif);
+	background-repeat: no-repeat;
+	height: 18px;
+	width: 50px;
+	border: none;
+	font-weight: 400;
+	cursor:hand;
+}
+
+.sag_pagegobutton 
+{
+	font-family: "宋体";
+	font-size: 9pt;
+	padding-top: 3px;
+	color: #5A6EA9;
+	background-image: url(../images/pagegobutton.gif);
+	background-repeat: no-repeat;
+	height: 18px;
+	width: 19px;
+	border: none;
+	font-weight: 400;
+	cursor:hand;
+}
+
+.sag_pageleft 
+{
+	float: left;
+	padding-left: 5px;
+	vertical-align: center;
+}
+
+.sag_pageright 
+{
+	float: right;
+	padding-right: 5px;
+	vertical-align: bottom;	
+}
+
+.sag_pageinput 
+{
+	border: 1px solid #7EA6E3;
+	height: 16px;
+	width: 25px;
+	background: #EEF3F7;
+}

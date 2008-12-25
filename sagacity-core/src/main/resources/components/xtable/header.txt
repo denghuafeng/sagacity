@@ -1,0 +1,10 @@
+<table #{toolbarStyle}>
+<tr class="pagination">
+    <td>
+    <div class="sag_pageright">
+        @export($<a href="#{exportAction}" title="#{exportTitle}">#{title}</a>)
+        #{pageExtToolbar}
+    </div>
+    </td>
+</tr>
+</table>
