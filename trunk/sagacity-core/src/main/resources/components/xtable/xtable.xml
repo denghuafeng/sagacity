@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xtable>
+	<!-- 扩展自定义标记//在项目中扩展可以将此文件复制并添加相应的扩展方法,放到classes/template/xtable
+	目录下
+	 -->
+	<marcs>
+		<marc name="dateFormat"
+			class="org.sagacity.framework.web.views.tags.xtable.marco.impl.DateFormat" />
+		<marc name="dataFormat"
+			class="org.sagacity.framework.web.views.tags.xtable.marco.impl.DataFormat" />
+		<marc name="autoLink"
+			class="org.sagacity.framework.web.views.tags.xtable.marco.impl.AutoLink" />
+		<marc name="jscript"
+			class="org.sagacity.framework.web.views.tags.xtable.marco.impl.JScript" />
+		<marc name="export"
+			class="org.sagacity.framework.web.views.tags.xtable.marco.impl.ExportType" />
+		<marc name="lineStyle"
+			class="org.sagacity.framework.web.views.tags.xtable.marco.impl.LineStyle" />
+		<marc name="loop"
+			class="org.sagacity.framework.web.views.tags.xtable.marco.impl.Loop" />
+		<marc name="switch"
+			class="org.sagacity.framework.web.views.tags.xtable.marco.impl.Switch" />
+		<marc name="substr"
+			class="org.sagacity.framework.web.views.tags.xtable.marco.impl.SubString" />
+		<marc name="URLEncode"
+			class="org.sagacity.framework.web.views.tags.xtable.marco.impl.URLEncode" />
+	</marcs>
+
+	<!-- 导出文件方式定义 -->
+	<exportTypes>
+		<export type="excel" param="excel" title="EXCEL" extName="xls"
+			exportRender="org.sagacity.framework.web.views.tags.xtable.render.impl.ExcelRender"
+			active="true" />
+		<export type="xml" param="xml" title="XML" extName="xml"
+			exportRender="org.sagacity.framework.web.views.tags.xtable.render.impl.XMLRender"
+			active="false" />
+		<export type="pdf" param="pdf" title="PDF" extName="pdf"
+			exportRender="org.sagacity.framework.web.views.tags.xtable.render.impl.PdfRender"
+			active="false" />
+	</exportTypes>
+	<properties>
+		<!-- 请不要改变名称,name为固定值 -->
+		<property name="firstPageName" value="首页" />
+		<property name="priorPageName" value="上页" />
+		<property name="nextPageName" value="下页" />
+		<property name="lastPageName" value="尾页" />
+		<property name="showAllPageName" value="所有页" />
+		<property name="paginationName" value="分页模式" />
+		<property name="totalPageName" value="共" />
+		<property name="pageIndexName" value="第" />
+		<property name="pageName" value="页" />
+		<property name="perPage" value="每页" />
+		<property name="recordCountName" value="条" />
+		<property name="gotoName" value="转到" />
+		<property name="exportTitle" value="下载" />
+	</properties>
+</xtable>
+

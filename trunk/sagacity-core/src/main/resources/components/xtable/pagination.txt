@@ -1,0 +1,25 @@
+<table #{toolbarStyle}>
+<tr class="pagination">
+    <td>
+    <div class="sag_pageleft"#{display}>
+      <input type="button" class="sag_pagebutton" value="#{firstPageName}" onclick="gotoPage('#{pageNo}','#{goPage}','#{totalPage}',#{firstPage})">
+      <input type="button" class="sag_pagebutton" value="#{priorPageName}" onclick="gotoPage('#{pageNo}','#{goPage}','#{totalPage}',#{prePage})">
+      <input type="button" class="sag_pagebutton" value="#{nextPageName}" onclick="gotoPage('#{pageNo}','#{goPage}','#{totalPage}',#{nextPage})">
+      <input type="button" class="sag_pagebutton" value="#{lastPageName}" onclick="gotoPage('#{pageNo}','#{goPage}','#{totalPage}',#{lastPage})">
+      &nbsp;&nbsp;
+      #{totalPageName}#{recordCount}#{recordCountName},#{pageIndexName} #{pageNo}/ #{totalPage}#{pageName}&nbsp;
+      #{perPage}<script>sagUtils.createSelect("#{pageSizeName}","10#20#30#40#50","#","#{pageSize}","");</script>#{recordCountName}&nbsp;
+      #{gotoName}&nbsp;
+      <input type="text" class="sag_pageinput" name="#{goPage}" value="#{pageNo}" onkeyup="validateGotoPageNumber(this,#{pageNo},#{totalPage});">
+          &nbsp;#{pageName}
+       <input type="button" class="sag_pagegobutton" value="Go" onclick="gotoPage('#{pageNo}','#{goPage}','#{totalPage}',document.getElementsByName('#{goPage}')[0].value)">
+    </div>
+    <div class="sag_pageright">
+        &nbsp;&nbsp;
+        <a id="hiddenShowAll" href="javascript:gotoPage('#{pageNo}','#{goPage}','#{totalPage}',#{showAllOrPageNo})">#{showAllOrPagination}</a>&nbsp;
+        @export(#{recordCount}$<a href="#{exportAction}" title="#{exportTitle}">#{title}</a>)
+        #{pageExtToolbar}
+    </div>
+    </td>
+</tr>
+</table>
