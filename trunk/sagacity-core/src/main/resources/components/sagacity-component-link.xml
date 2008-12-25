@@ -73,4 +73,12 @@
 			</url>
 		</urls>
 	</component>
+	<component id="select">
+		<description>select组件</description>
+		<urls>
+			<url>
+			<![CDATA[<script type="text/javascript" src="${contextPath}/resources/components/select/scripts/select.js" defer></script>]]>
+			</url>
+		</urls>
+	</component>
 </resources>
