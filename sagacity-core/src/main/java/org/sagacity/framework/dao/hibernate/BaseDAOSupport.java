@@ -1441,8 +1441,12 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 
 	/**
 	 * 组合查询语句in 对应的字符
-	 * 
+	 * @param conditions
+	 * @param colIndex
+	 * @param property
+	 * @param isChar
 	 * @return
+	 * @throws Exception
 	 */
 	protected String combineQueryInStr(Object conditions, Integer colIndex,
 			String property, boolean isChar) throws Exception {
