@@ -18,11 +18,11 @@ import java.util.Iterator;
  * @project sagacity-core
  * @description:$
  *          <p>
- *          数据处理工具�?
+ *          数据处理工具类
  *          <li>提供数字类型的数据转换成特定格式的字符串</li>
  *          <li>提供转换字符串到数字类型数据</li>
  *          <li>提供随机数获取方法，包括给定范围的数据取出不重复的数�?</li>
- *          <li>提供字符串表达式函数的执�?</li>
+ *          <li>提供字符串表达式函数的执行</li>
  *          </p>$
  * @author zhongxuchen $<a href="mailto:zhongxuchen@hotmail.com">联系作�??</a>$
  * @version $id:DataUtil.java,Revision:v1.0,Date:Oct 18, 2007 9:19:50 AM $
