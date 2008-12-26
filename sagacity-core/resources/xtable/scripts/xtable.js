@@ -18,6 +18,62 @@ function xtable_selected(row) {
 }
 
 /**
+ * 产生下拉列表
+ * @param name
+ * @param sourceStr
+ * @param splitSign
+ * @param sltValue
+ * @param onchange
+ * @return
+ */
+function xtableGenSelect(name,sourceStr,splitSign,sltValue,onchange)
+{
+	document.write("<select name="+name+"");
+	if(onchange!="")
+		document.write(" onchange="+onchange+"");
+	document.write(" style='font-size:8pt;'>");
+	var options=sourceStr.split(splitSign);
+	for(i=0;i<options.length;i++)
+	{
+		document.write("<option value="+options[i]+((options[i]==sltValue)?" selected":"")+">"+options[i]+"</option>");
+	}
+	document.write("</select>");	
+}
+
+/**
+ * checkbox 全选或单选操作 create by chenrenfei
+ * 2008-06-16
+ */
+function allOrNoneCheck(target,allChoose,self) {	
+		var items=document.getElementsByName(target);
+		var allslt=document.getElementById(allChoose);
+		//单选
+		if(self.getAttribute("name")==target)
+		{
+			if(self.checked==false)
+				allslt.checked=false;
+			else
+			{
+				var chkcnt=0;
+				for (i = 0; i < items.length; i++) {
+					if(items[i].checked)
+						chkcnt++;
+				}
+				if(chkcnt==items.length)
+					allslt.checked=true;
+			}
+	  }	else
+	  {
+			if (items.length > 0) {
+				for (i = 0; i < items.length; i++) {
+					items[i].checked = self.checked;
+				}
+			} else {
+				items.checked = self.checked;
+			}
+	}
+}
+/**
  * 
  * @param obj
  * @return
