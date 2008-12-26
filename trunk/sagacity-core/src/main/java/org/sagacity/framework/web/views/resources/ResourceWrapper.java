@@ -11,6 +11,7 @@ import java.util.List;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.sagacity.framework.utils.StringUtil;
 import org.sagacity.framework.web.views.resources.model.ResourceFile;
 import org.sagacity.framework.web.views.resources.model.ResourceLink;
 
@@ -90,10 +91,12 @@ public class ResourceWrapper {
 					linkIter = component.element("urls").elementIterator();
 					while (linkIter.hasNext()) {
 						linkElement = (Element) linkIter.next();
-						ResourceLink resLink = new ResourceLink();
-						resLink.setId(id);
-						resLink.setLinkHtml(linkElement.getTextTrim());
-						links.add(resLink);
+						if (StringUtil.isNotNullAndBlank(linkElement.getTextTrim())) {
+							ResourceLink resLink = new ResourceLink();
+							resLink.setId(id);
+							resLink.setLinkHtml(linkElement.getTextTrim());
+							links.add(resLink);
+						}
 					}
 					componentResources.put(id, links);
 				}
@@ -110,6 +113,6 @@ public class ResourceWrapper {
 	public static void main(String[] args) {
 		List tmp = ResourceWrapper.getComponentLinks("base");
 		for (int i = 0; i < tmp.size(); i++)
-			System.err.println(((ResourceLink)tmp.get(i)).getLinkHtml());
+			System.err.println(((ResourceLink) tmp.get(i)).getLinkHtml());
 	}
 }
