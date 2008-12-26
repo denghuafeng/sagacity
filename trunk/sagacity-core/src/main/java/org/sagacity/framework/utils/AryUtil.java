@@ -241,6 +241,7 @@ public class AryUtil {
 	}
 
 	/**
+	 * @deprecated 此功能已经在BaseDAOSupport中提供
 	 * 合成数据库in 查询的条件
 	 * @param conditions:数据库in条件的数据集合，可以是POJO List或Object[]
 	 * @param colIndex:二维数组对应列编号
