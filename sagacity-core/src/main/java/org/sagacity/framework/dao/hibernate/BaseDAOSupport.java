@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -37,11 +38,12 @@ import org.sagacity.framework.dao.model.sp.StoreProcParam;
 import org.sagacity.framework.dao.model.sp.StoreProcParamNotSupportException;
 import org.sagacity.framework.dao.utils.SqlUtil;
 import org.sagacity.framework.dao.utils.SqlUtil.QueryParam;
+import org.sagacity.framework.log.Log;
+import org.sagacity.framework.log.LogFactory;
+import org.sagacity.framework.utils.AryUtil;
 import org.sagacity.framework.utils.DateUtil;
 import org.sagacity.framework.utils.StringUtil;
 import org.sagacity.framework.web.model.PaginationModel;
-import org.sagacity.framework.log.Log;
-import org.sagacity.framework.log.LogFactory;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -49,10 +51,10 @@ import org.springframework.util.Assert;
 
 /**
  * @project sagacity-core
- * @description:$
- *          <p>
- *          基于hibernate 以及其它orm 框架体系的底层核心操作方法
- *          </p>$
+ * @description:$ <p>
+ *                基于hibernate 以及其它orm 框架体系的底层核心操作方法
+ *                </p>
+ *                $
  * @author zhongxuchen $<a href="mailto:zhongxuchen@hotmail.com">联系作者</a>$
  * @version $id:BaseDAOSupport.java,Revision:v1.0,Date:2008-10-22 下午04:21:51 $
  */
@@ -147,8 +149,11 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 							.getCurrentSession());
 			QueryParam queryParam = SqlUtil.filterNullConditions(queryStr,
 					null, parameters);
-			return getHibernateTemplate().find(queryParam.getQueryStr(),
-					queryParam.getParamsValue());
+			if (queryParam.getParamsValue() != null)
+				return getHibernateTemplate().find(queryParam.getQueryStr(),
+						queryParam.getParamsValue());
+			else
+				return getHibernateTemplate().find(queryParam.getQueryStr());
 		} else
 			return null;
 	}
@@ -682,10 +687,10 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 			int paramIndex = 0;
 			// 设置分页时的查询参数
 			if (paginationModel.getPageNo() != -1) {
-				int paramLength=(params==null)?0:params.length;
+				int paramLength = (params == null) ? 0 : params.length;
 				switch (dbType) {
 				case 4:
-					pst.setInt(paramLength+ 1, (realStartPage - 1)
+					pst.setInt(paramLength + 1, (realStartPage - 1)
 							* paginationModel.getPageSize());
 					pst.setInt(paramLength + 2, realStartPage
 							* paginationModel.getPageSize());
@@ -1325,7 +1330,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 					((PreparedStatementSetter) params).setValues(pst);
 				} else if (params instanceof Object[]) {
 					Object[] realParams = (Object[]) params;
-					//将from前的参数剔除
+					// 将from前的参数剔除
 					SqlUtil.setParamsValue(pst, SqlUtil.subArray(realParams, 0,
 							realParams.length - paramCnt), 0);
 				}
@@ -1432,6 +1437,72 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 			return paramObjs[0];
 		else
 			return paramObjs;
+	}
+
+	/**
+	 * 组合查询语句in 对应的字符
+	 * 
+	 * @return
+	 */
+	protected String combineQueryInStr(Object conditions, Integer colIndex,
+			String property, boolean isChar) throws Exception {
+		StringBuffer conditons = new StringBuffer("");
+		String flag = "";
+		if (isChar)
+			flag = "'";
+		int dimen = AryUtil.judgeObjectDimen(conditions);
+		switch (dimen) {
+		case 0:
+			break;
+		// 一维数组
+		case 1: {
+			Object[] ary;
+			if (conditions instanceof Collection)
+				ary = ((Collection) conditions).toArray();
+			else if (conditions instanceof Object[])
+				ary = (Object[]) conditions;
+			else
+				ary = ((Map) conditions).values().toArray();
+
+			for (int i = 0; i < ary.length; i++) {
+				if (i != 0)
+					conditons.append(",");
+				conditons.append(flag);
+				if (property == null)
+					conditons.append(ary[i]);
+				else
+					conditons.append(BeanUtils.getProperty(ary[i], property));
+
+				conditons.append(flag);
+			}
+			break;
+		}
+			// 二维数据
+		case 2: {
+			Object[][] ary;
+			if (conditions instanceof Collection)
+				ary = AryUtil.twoDimenlistToArray((Collection) conditions);
+			else if (conditions instanceof Object[][])
+				ary = (Object[][]) conditions;
+			else
+				ary = AryUtil.twoDimenlistToArray(((Map) conditions).values());
+
+			for (int i = 0; i < ary.length; i++) {
+				if (i != 0)
+					conditons.append(",");
+				conditons.append(flag);
+				if (property == null)
+					conditons.append(ary[i][colIndex.intValue()]);
+				else
+					conditons.append(BeanUtils.getProperty(ary[i][colIndex
+							.intValue()], property));
+				conditons.append(flag);
+			}
+			break;
+		}
+
+		}
+		return conditons.toString();
 	}
 
 	public static void main(String[] args) {
