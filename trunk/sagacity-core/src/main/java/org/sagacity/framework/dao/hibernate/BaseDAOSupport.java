@@ -1440,73 +1440,22 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	}
 
 	/**
-	 * 组合查询语句in 对应的字符
+	 * 合成数据库in 查询的条件
+	 * 
 	 * @param conditions
+	 *            :数据库in条件的数据集合，可以是POJO List或Object[]
 	 * @param colIndex
+	 *            :二维数组对应列编号
 	 * @param property
+	 *            :POJO property
 	 * @param isChar
-	 * @return
+	 *            :in 是否要加单引号
+	 * @return:example:1,2,3或'1','2','3'
 	 * @throws Exception
 	 */
 	protected String combineQueryInStr(Object conditions, Integer colIndex,
 			String property, boolean isChar) throws Exception {
-		StringBuffer conditons = new StringBuffer("");
-		String flag = "";
-		if (isChar)
-			flag = "'";
-		int dimen = AryUtil.judgeObjectDimen(conditions);
-		switch (dimen) {
-		case 0:
-			break;
-		// 一维数组
-		case 1: {
-			Object[] ary;
-			if (conditions instanceof Collection)
-				ary = ((Collection) conditions).toArray();
-			else if (conditions instanceof Object[])
-				ary = (Object[]) conditions;
-			else
-				ary = ((Map) conditions).values().toArray();
-
-			for (int i = 0; i < ary.length; i++) {
-				if (i != 0)
-					conditons.append(",");
-				conditons.append(flag);
-				if (property == null)
-					conditons.append(ary[i]);
-				else
-					conditons.append(BeanUtils.getProperty(ary[i], property));
-
-				conditons.append(flag);
-			}
-			break;
-		}
-			// 二维数据
-		case 2: {
-			Object[][] ary;
-			if (conditions instanceof Collection)
-				ary = AryUtil.twoDimenlistToArray((Collection) conditions);
-			else if (conditions instanceof Object[][])
-				ary = (Object[][]) conditions;
-			else
-				ary = AryUtil.twoDimenlistToArray(((Map) conditions).values());
-
-			for (int i = 0; i < ary.length; i++) {
-				if (i != 0)
-					conditons.append(",");
-				conditons.append(flag);
-				if (property == null)
-					conditons.append(ary[i][colIndex.intValue()]);
-				else
-					conditons.append(BeanUtils.getProperty(ary[i][colIndex
-							.intValue()], property));
-				conditons.append(flag);
-			}
-			break;
-		}
-
-		}
-		return conditons.toString();
+		return SqlUtil.combineQueryInStr(conditions, colIndex, property, isChar);
 	}
 
 	public static void main(String[] args) {
