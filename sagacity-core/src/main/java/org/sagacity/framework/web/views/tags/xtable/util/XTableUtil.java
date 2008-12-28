@@ -287,8 +287,6 @@ public class XTableUtil implements Serializable {
 				}
 			}
 		}
-
-		// exportAction+="&jsessionid="+request.getSession().getId();
 		return exportAction;
 	}
 
