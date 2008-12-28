@@ -58,8 +58,7 @@ public class ExcelRender implements Render {
 			xlsSheet = xlsFile.createSheet();
 			xlsFile.setSheetName(0,
 					exportModel.getExportFile() == null ? "sheet1"
-							: exportModel.getExportFile(),
-					HSSFWorkbook.ENCODING_UTF_16);
+							: exportModel.getExportFile());
 			titleStyle = xlsFile.createCellStyle();
 			titleStyle.setFillForegroundColor(HSSFColor.LIGHT_GREEN.index);
 			titleStyle.setFillPattern(HSSFCellStyle.BORDER_THIN);
@@ -95,7 +94,6 @@ public class ExcelRender implements Render {
 		for (int var = 0; var < titles.size(); var++) {
 			colCell = (Cell) titles.get(var);
 			HSSFCell cell = title.createCell((short) var);
-			cell.setEncoding(HSSFWorkbook.ENCODING_UTF_16);
 			cell.setCellStyle(titleStyle);
 			cell.setCellValue(colCell.getCellContent() == null ? "" : colCell
 					.getCellContent());
@@ -110,7 +108,6 @@ public class ExcelRender implements Render {
 		HSSFRow title = xlsSheet.createRow(0);
 		for (int var = 0; var < titles.length; var++) {
 			HSSFCell cell = title.createCell((short) var);
-			cell.setEncoding(HSSFWorkbook.ENCODING_UTF_16);
 			cell.setCellStyle(titleStyle);
 			cell.setCellValue(titles[var]);
 		}
@@ -130,7 +127,6 @@ public class ExcelRender implements Render {
 				width = row.size();
 			for (int j = 0; j < width; j++) {
 				HSSFCell cell = datas.createCell((short) j);
-				cell.setEncoding(HSSFWorkbook.ENCODING_UTF_16);
 				cell.setCellStyle(valueStyle);
 				if ((row.get(j) instanceof Integer)
 						|| (row.get(j) instanceof Double)
