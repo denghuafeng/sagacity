@@ -365,7 +365,7 @@ public class XTableTag extends BaseTagSupport {
 			} else {
 				JspWriter writer = body.getEnclosingWriter();
 
-				// 输入组件需要的js,css等资源
+				// 输出组件需要的js,css等资源
 				super.renderResources(this.COMPONENT_ID, writer);
 
 				xTableModel.setToolsBarValign(this.toolsBarValign);
