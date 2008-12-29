@@ -14,6 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.acegisecurity.providers.encoding.Md5PasswordEncoder;
+import org.acegisecurity.providers.encoding.ShaPasswordEncoder;
 
 /**
  * 
@@ -683,9 +684,10 @@ public class StringUtil {
 		return getMarkEndIndex(beginMarkSignTmp, endMarkSignTmp, tmpSource,
 				startIndex);
 	}
-	
+
 	/**
 	 * 通过正则表达式判断是否匹配
+	 * 
 	 * @param source
 	 * @param regex
 	 * @return
@@ -696,12 +698,27 @@ public class StringUtil {
 		return m.find();
 	}
 
-	public static void main(String[] args) {
-		
-			
+	/**
+	 * md5加密
+	 * 
+	 * @param plaintext
+	 * @return
+	 */
+	public static String encodeByMd5(String plaintext) {
 		Md5PasswordEncoder encoder = new Md5PasswordEncoder();
-		System.err.println(encoder.encodePassword("admin",null));
-		
+		return encoder.encodePassword(plaintext, null);
+	}
+
+	public static String encodeBySha(String plaintext) {
+		ShaPasswordEncoder encoder = new ShaPasswordEncoder();
+		return encoder.encodePassword(plaintext, null);
+	}
+
+	public static void main(String[] args) {
+
+		Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		System.err.println(encoder.encodePassword("admin", null));
+
 		String tmp = "@switch(#{paramType}$#[8];[createSelect(\"paramItems\",\"#{chooseValues}\",\"#\")#&nbsp;])";
 
 		System.err.println(StringUtil.getMarkEndIndex("(", ")", tmp, 0));
@@ -711,7 +728,9 @@ public class StringUtil {
 			System.err.println("value=" + values[i]);
 		}
 		String tmp1 = "abc.doc";
-		System.err.println(2%2);
+		System.err.println(2 % 2);
+		System.err.println(StringUtil.encodeByMd5("nihoa"));
+		System.err.println(StringUtil.encodeBySha("nihoa"));
 	}
 
 }
