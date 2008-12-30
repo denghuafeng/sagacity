@@ -3,7 +3,7 @@
  */
 package org.sagacity.exoteric.security.resourcedetails;
 
-import org.acegisecurity.GrantedAuthority;
+import org.springframework.security.GrantedAuthority;
 import org.springframework.util.Assert;
 
 /**

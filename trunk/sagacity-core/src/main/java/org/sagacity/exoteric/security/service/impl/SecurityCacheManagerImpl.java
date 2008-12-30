@@ -7,8 +7,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.acegisecurity.GrantedAuthority;
-import org.acegisecurity.providers.dao.UserCache;
+import org.springframework.security.GrantedAuthority;
+import org.springframework.security.providers.dao.UserCache;
 import org.sagacity.exoteric.security.dao.SecurityDAO;
 import org.sagacity.exoteric.security.resourcedetails.Resource;
 import org.sagacity.exoteric.security.resourcedetails.ResourceCache;
