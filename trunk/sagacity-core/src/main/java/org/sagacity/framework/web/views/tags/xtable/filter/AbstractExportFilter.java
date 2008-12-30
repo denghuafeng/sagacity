@@ -53,7 +53,8 @@ public abstract class AbstractExportFilter implements Filter {
 			HttpServletResponse response,ExportModel exportModel) {
 		try {
 			if (exportModel != null) {
-				String viewResolver = exportModel.getExportRender();
+				//String viewResolver = exportModel.getExportRender();
+				String viewResolver="org.sagacity.framework.web.views.tags.xtable.filter.resolver.XlsViewResolver";
 				Class classDefinition = Class.forName(viewResolver);
 				ViewResolver handleExportViewResolver = (ViewResolver) classDefinition
 						.newInstance();
