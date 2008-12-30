@@ -329,7 +329,7 @@ public class XTableTag extends BaseTagSupport {
 	public int doAfterBody() throws JspException {
 		try {
 			BodyContent body = getBodyContent();
-
+			
 			// 解析table的体内容获取样式定义和相应的字符串指令
 			HashMap tagBodyHash = XTableUtil.parseTagBody(TagUtil.getInstance()
 					.clearHtmlMark(body.getString()));
@@ -355,11 +355,14 @@ public class XTableTag extends BaseTagSupport {
 							.setExportFile(this.exportFile == null ? this.caption
 									: this.exportFile);
 					exportModel.setTemplateFile(this.exportTemplate);
+					exportModel.setHeadTitles(this.xTableModel.getHeaderList());
+					exportModel.setRowsData(this.xTableModel.getRowsData());
 					Render render = (Render) Class.forName(
 							exportModel.getExportRender()).newInstance();
-
+					
 					render.render(pageContext, body, null, this.xTableModel);
 					// this.pageContext.getResponse().flushBuffer();
+					//this.pageContext.getRequest().setAttribute(XTableConstants.XTABLE_EXPORT_VIEW, exportModel);
 					return this.SKIP_PAGE;
 				}
 			} else {
