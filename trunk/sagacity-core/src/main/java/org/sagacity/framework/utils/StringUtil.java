@@ -13,8 +13,8 @@ import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.acegisecurity.providers.encoding.Md5PasswordEncoder;
-import org.acegisecurity.providers.encoding.ShaPasswordEncoder;
+import org.springframework.security.providers.encoding.Md5PasswordEncoder;
+import org.springframework.security.providers.encoding.ShaPasswordEncoder;
 
 /**
  * 
