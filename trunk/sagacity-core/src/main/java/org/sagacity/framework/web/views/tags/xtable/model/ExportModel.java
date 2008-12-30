@@ -4,6 +4,7 @@
 package org.sagacity.framework.web.views.tags.xtable.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @project abchina
@@ -50,6 +51,38 @@ public class ExportModel implements Serializable {
 	 */
 	private String exportFile;
 	
+	private List headTitles;
+	
+	private List rowsData;
+	
+	private List footerData;
+	
+	public List getHeadTitles() {
+		return headTitles;
+	}
+
+	public void setHeadTitles(List headTitles) {
+		this.headTitles = headTitles;
+	}
+
+
+
+	public List getRowsData() {
+		return rowsData;
+	}
+
+	public void setRowsData(List rowsData) {
+		this.rowsData = rowsData;
+	}
+
+	public List getFooterData() {
+		return footerData;
+	}
+
+	public void setFooterData(List footerData) {
+		this.footerData = footerData;
+	}
+
 	/**
 	 * 模板文件,excel用excelUtil,xml,text用freemarker
 	 */
