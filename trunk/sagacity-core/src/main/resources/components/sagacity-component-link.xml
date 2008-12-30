@@ -5,10 +5,6 @@
 		<description>基础平台所需要的资源信息</description>
 		<urls>
 			<url>
-			<![CDATA[<link rel="stylesheet" type="text/css" href="${contextPath}/resources/sagacity/styles/sagacity-framework.css" />]]>
-			</url>
-			<url>
-			<![CDATA[<script type="text/javascript" src="${contextPath}/resources/sagacity/scripts/sagacity-utils.js"></script>]]>
 			</url>
 		</urls>
 	</component>
