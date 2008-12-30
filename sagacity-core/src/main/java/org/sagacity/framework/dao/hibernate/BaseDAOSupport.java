@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -40,7 +39,6 @@ import org.sagacity.framework.dao.utils.SqlUtil;
 import org.sagacity.framework.dao.utils.SqlUtil.QueryParam;
 import org.sagacity.framework.log.Log;
 import org.sagacity.framework.log.LogFactory;
-import org.sagacity.framework.utils.AryUtil;
 import org.sagacity.framework.utils.DateUtil;
 import org.sagacity.framework.utils.StringUtil;
 import org.sagacity.framework.web.model.PaginationModel;
