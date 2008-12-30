@@ -1,14 +1,12 @@
 package org.sagacity.framework.web.views.struts2;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.ServletRequestAware;
-import org.apache.struts2.interceptor.SessionAware;
 import org.sagacity.framework.log.Log;
 import org.sagacity.framework.log.LogFactory;
 
@@ -27,7 +25,7 @@ import com.opensymphony.xwork2.ActionSupport;
  *          上午11:07:39 $
  */
 public class BaseActionSupport extends ActionSupport implements
-		ServletRequestAware, SessionAware {
+		ServletRequestAware {
 	protected final Log logger = LogFactory.getFactory().getLog(getClass());
 
 	/**
@@ -47,16 +45,6 @@ public class BaseActionSupport extends ActionSupport implements
 	protected final String CREATE = "create";
 
 	protected HttpServletRequest request = null;
-
-	private Map session = null;
-
-	public Map getSession() {
-		return session;
-	}
-
-	public void setSession(Map session) {
-		this.session = session;
-	}
 
 	public void setServletRequest(HttpServletRequest servletRequest) {
 		request = servletRequest;
