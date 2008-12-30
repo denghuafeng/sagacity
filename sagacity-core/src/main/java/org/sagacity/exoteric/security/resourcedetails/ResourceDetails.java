@@ -2,7 +2,7 @@ package org.sagacity.exoteric.security.resourcedetails;
 
 import java.io.Serializable;
 
-import org.acegisecurity.GrantedAuthority;
+import org.springframework.security.GrantedAuthority;
 
 /**
  * 提供资源信息

@@ -5,7 +5,7 @@ package org.sagacity.exoteric.security.service;
 
 import java.util.Collection;
 
-import org.acegisecurity.userdetails.UserDetails;
+import org.springframework.security.userdetails.UserDetails;
 
 /**
  * 
