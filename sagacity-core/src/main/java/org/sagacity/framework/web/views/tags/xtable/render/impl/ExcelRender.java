@@ -52,6 +52,7 @@ public class ExcelRender implements Render {
 	public void render(PageContext pageContext, BodyContent bodyContent,
 			JspWriter writer, XTableModel tableModel) {
 		try {
+			
 			ExportModel exportModel = (ExportModel) tableModel.getExportTypes()
 					.get("excel");
 			xlsFile = new HSSFWorkbook();
@@ -76,7 +77,8 @@ public class ExcelRender implements Render {
 			List title = (List) tableModel.getHeaderList().get(0);
 			this.setTitle(title);
 			this.addRows(tableModel.getRowsData(), title.size());
-
+			writer.clear();
+			bodyContent = pageContext.pushBody();
 			this.download(pageContext, bodyContent,
 					exportModel.getExportFile(), exportModel.getExtName());
 		} catch (Exception e) {
