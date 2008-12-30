@@ -17,6 +17,8 @@ public class XTableConstants implements Serializable {
 	 */
 	public static final String PLACE_HOLDER="placeHolder";
 	
+	public static final String XTABLE_EXPORT_VIEW="_xtable_export_view_model";
+	
 	/**
 	 * 是否导出文件
 	 */
