@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyTagSupport;
@@ -639,8 +640,9 @@ public class BaseTagSupport extends BodyTagSupport {
 	 * @param componentId
 	 */
 	public void renderResources(final String componentId, JspWriter writer)
-			throws IOException {	
-		String ctxPath = pageContext.getServletContext().getContextPath();
+			throws IOException {
+		
+		String ctxPath = ((HttpServletRequest)pageContext.getRequest()).getContextPath();
 		List linksHtml = new ArrayList();
 		List tmp = ResourceWrapper.getComponentLinks(componentId);
 		List base = ResourceWrapper
@@ -671,7 +673,11 @@ public class BaseTagSupport extends BodyTagSupport {
 				if (writer != null) {
 					writer.println(linkHtml);
 				} else
+				{
 					this.pageContext.getOut().println(linkHtml);
+					bodyContent.clear();
+					bodyContent = pageContext.pushBody();
+				}
 				resourceMap.put(linkHtml, linkHtml);
 			}
 		}
