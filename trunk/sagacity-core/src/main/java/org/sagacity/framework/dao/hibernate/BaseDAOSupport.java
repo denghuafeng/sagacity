@@ -739,8 +739,8 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	}
 
 	/**
-	 * sybase jdbc 方式分页查询，sybase12.5及以下版本因为不能使用top嵌套 只提供采用临时表方式实现分页
-	 * 
+	 * sybase jdbc 方式分页查询，sybase12.5及以下版本因为不能使用top嵌套 
+	 * 只提供采用临时表方式实现分页
 	 * @param queryStr
 	 * @param rowCallbackHandler
 	 * @param params
@@ -851,8 +851,9 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	}
 
 	/**
-	 * 本方法一般针对SqlServer分页查询,采用先取出所有结果集,再通过页编号过滤取出当前页数据
-	 * 
+	 * 本方法一般针对非主流数据库没有提供分页机制的查询,
+	 * 采用先取出所有结果集,再通过页编号过滤取出当前页数据
+	 * 一般不建议采取这种方式
 	 * @deprecated 2008.08.26 修正了findPageByJdbc,此方法停止使用
 	 * @param queryStr
 	 * @param rowCallbackHandler
@@ -1007,7 +1008,6 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 
 	/**
 	 * 快速删除表中的数据
-	 * 
 	 * @param tableName
 	 */
 	protected void truncate(String tableName) {
@@ -1218,7 +1218,6 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 
 	/**
 	 * 数据查询参数对象类型转换
-	 * 
 	 * @param paramsObj
 	 * @return
 	 */
@@ -1238,7 +1237,6 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 
 	/**
 	 * hql语句分页获取其总记录数
-	 * 
 	 * @param hql
 	 * @param paramNames
 	 * @param paramValues
