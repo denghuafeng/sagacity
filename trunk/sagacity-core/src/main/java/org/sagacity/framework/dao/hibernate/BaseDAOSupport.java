@@ -1417,8 +1417,8 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 		for (int i = 0; i < paramObjs.length; i++) {
 			if (paramObjs[i] != null) {
 				for (int j = 0; j < contrastSigns.length; j++) {
-					if (contrastSigns[i].equals("")) {
-						if (((String) params).trim().equals("")) {
+					if (contrastSigns[i].equals("") && paramObjs[i] instanceof String) {
+						if (((String) paramObjs[i]).trim().equals("")) {
 							paramObjs[i] = null;
 							break;
 						}
