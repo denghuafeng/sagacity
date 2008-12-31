@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 
  *@project sagacity-core 
- *@description:$<p>在此说明类的功能</p>$
+ *@description:$<p>行结果集反调处理接口</p>$
  *@author Administrator $<a href="mailto:zhongxuchen@hotmail.com">联系作者</a>$
  *@version $id:RowCallbackHandler.java,Revision:v1.0,Date:2008-12-9 下午10:18:14 $
  */
