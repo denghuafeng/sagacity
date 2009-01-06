@@ -19,20 +19,25 @@ import org.sagacity.framework.utils.StringUtil;
 
 /**
  * @project sagacity-core
- * @description:$
- *          <p>
- *          提供BaseDAOSupport的相关sql数据库部分公共处理方法
- *          </p>$
+ * @description:$ <p>
+ *                提供BaseDAOSupport的相关sql数据库部分公共处理方法
+ *                </p>
+ *                $
  * @author zhongxuchen $<a href="mailto:zhongxuchen@hotmail.com">联系作者</a>$
  * @version $id:SQLUtil.java,Revision:v1.0,Date:2008-12-2 下午03:47:21 $
  */
 public class SqlUtil {
 	/**
-     * 合成数据库in 查询的条件
-	 * @param conditions:数据库in条件的数据集合，可以是POJO List或Object[]
-	 * @param colIndex:二维数组对应列编号
-	 * @param property:POJO property
-	 * @param isChar:in 是否要加单引号
+	 * 合成数据库in 查询的条件
+	 * 
+	 * @param conditions
+	 *            :数据库in条件的数据集合，可以是POJO List或Object[]
+	 * @param colIndex
+	 *            :二维数组对应列编号
+	 * @param property
+	 *            :POJO property
+	 * @param isChar
+	 *            :in 是否要加单引号
 	 * @return:example:1,2,3或'1','2','3'
 	 * @throws Exception
 	 */
@@ -96,7 +101,7 @@ public class SqlUtil {
 		}
 		return conditons.toString();
 	}
-	
+
 	/**
 	 * 处理字段信息,提取出sql查询字段，针对sybase分页，如: select t1.id,t2.name,sum() total
 	 * result:id,name,total
@@ -278,7 +283,7 @@ public class SqlUtil {
 										+ "\'");
 						paramsName = (String[]) subArray(paramsName, i, 1);
 						paramsValue = subArray(paramsValue, i, 1);
-					//// 去除in (?)部分
+						// // 去除in (?)部分
 					} else if (StringUtil.matchs(markContentSql.toLowerCase(),
 							"\\s+in\\s+\\(\\s*\\?\\s*\\)")) {
 						queryStr += markContentSql.replace("?", paramsValue[i]
@@ -425,8 +430,7 @@ public class SqlUtil {
 		queryStr.append("      #[and t.CAR_MODE like ? ] ");
 		queryStr.append("      #[and t.IS_ACTIVE=?]");
 
-		Object[] paramsValue = new Object[] { null, null, null,
-				"1" };
+		Object[] paramsValue = new Object[] { null, null, null, "1" };
 		QueryParam sqlParam = SqlUtil.filterNullConditions(queryStr.toString(),
 				null, paramsValue);
 		System.err.println("tmp=" + sqlParam.getQueryStr());

@@ -91,6 +91,19 @@ public class XTableModel implements Serializable {
 	 */
 	private String templateFile;
 	
+	/**
+	 * 导出处理类
+	 */
+	private String exportResolver;
+	
+	public String getExportResolver() {
+		return exportResolver;
+	}
+
+	public void setExportResolver(String exportResolver) {
+		this.exportResolver = exportResolver;
+	}
+
 	public String getTemplateFile() {
 		return templateFile;
 	}
