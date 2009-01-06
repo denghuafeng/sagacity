@@ -727,10 +727,8 @@ public class StringUtil {
 		for (int i = 0; i < values.length; i++) {
 			System.err.println("value=" + values[i]);
 		}
-		String tmp1 = "abc.doc";
-		System.err.println(2 % 2);
-		System.err.println(StringUtil.encodeByMd5("nihoa"));
-		System.err.println(StringUtil.encodeBySha("nihoa"));
+		System.err.println(StringUtil.encodeByMd5("admin"));
+		System.err.println(StringUtil.encodeBySha("admin"));
 	}
 
 }
