@@ -29,13 +29,13 @@
 	<!-- 导出文件方式定义 -->
 	<exportTypes>
 		<export type="excel" param="excel" title="EXCEL" extName="xls"
-			exportRender="org.sagacity.framework.web.views.tags.xtable.render.impl.ExcelRender"
+			exportRender="org.sagacity.framework.web.views.tags.xtable.filter.resolver.XlsViewResolver"
 			active="true" />
 		<export type="xml" param="xml" title="XML" extName="xml"
-			exportRender="org.sagacity.framework.web.views.tags.xtable.render.impl.XMLRender"
+			exportRender="org.sagacity.framework.web.views.tags.xtable.filter.resolver.XMLViewResolver"
 			active="false" />
 		<export type="pdf" param="pdf" title="PDF" extName="pdf"
-			exportRender="org.sagacity.framework.web.views.tags.xtable.render.impl.PdfRender"
+			exportRender="org.sagacity.framework.web.views.tags.xtable.filter.resolver.PdfViewResolver"
 			active="false" />
 	</exportTypes>
 	<properties>
