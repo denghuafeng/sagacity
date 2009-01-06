@@ -11,7 +11,7 @@ import java.util.GregorianCalendar;
 
 /**
  * 
- *@project sagacity-core 
+ *@project sagacity-core
  *@description:$<p>日期处理支持类，提供日期的基本操作处理</p>$
  *@author Administrator $<a href="mailto:zhongxuchen@hotmail.com">联系作者</a>$
  *@version $id:DateUtil.java,Revision:v1.0,Date:2008-12-14 下午08:01:19 $
@@ -58,8 +58,7 @@ public class DateUtil {
 	}
 
 	/**
-	 * 将日期字符串或时间转换成时间类型 日期字符串中的日期分隔符可是:"/",".","-"，
-	 * 返回时间具体到秒 只提供常用的日期格式处理
+	 * 将日期字符串或时间转换成时间类型 日期字符串中的日期分隔符可是:"/",".","-"， 返回时间具体到秒 只提供常用的日期格式处理
 	 * 
 	 * @param str
 	 * @return Date
@@ -159,7 +158,7 @@ public class DateUtil {
 			String result;
 			Date tmp = null;
 			if (dt instanceof String) {
-				//因为是取时分秒，�?以前面的年月日可以是任意�?
+				// 因为是取时分秒，�?以前面的年月日可以是任意�?
 				if (dt.toString().length() == 8) {
 					dt = "2008-01-01 " + ((String) dt);
 					df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -278,6 +277,7 @@ public class DateUtil {
 
 	/**
 	 * 计算日期+月数
+	 * 
 	 * @param dt
 	 * @param month
 	 * @return
@@ -298,6 +298,7 @@ public class DateUtil {
 
 	/**
 	 * add year
+	 * 
 	 * @param dt
 	 * @param year
 	 * @return
@@ -333,38 +334,13 @@ public class DateUtil {
 	}
 
 	public static int getYear() {
-		GregorianCalendar currentDate = new GregorianCalendar();
-		return currentDate.get(Calendar.YEAR);
-	}
-
-	public static int getMonth() {
-		GregorianCalendar currentDate = new GregorianCalendar();
-		return currentDate.get(Calendar.MONTH) + 1;
-	}
-
-	public static int getDay() {
-		GregorianCalendar currentDate = new GregorianCalendar();
-		return currentDate.get(Calendar.DAY_OF_MONTH);
-	}
-
-	public static int getHour() {
-		GregorianCalendar currentDate = new GregorianCalendar();
-		return currentDate.get(Calendar.HOUR_OF_DAY);
-	}
-
-	public static int getMinute() {
-		GregorianCalendar currentDate = new GregorianCalendar();
-		return currentDate.get(Calendar.MINUTE);
-	}
-
-	public static int getSecond() {
-		GregorianCalendar currentDate = new GregorianCalendar();
-		return currentDate.get(Calendar.SECOND);
+		return getYear(null);
 	}
 
 	public static int getYear(Object dateValue) {
 		GregorianCalendar currentDate = new GregorianCalendar();
-		currentDate.setTime(convertDateObject(dateValue));
+		if (dateValue != null)
+			currentDate.setTime(convertDateObject(dateValue));
 		return currentDate.get(Calendar.YEAR);
 	}
 
@@ -373,38 +349,120 @@ public class DateUtil {
 		return Integer.toString(year).substring(2);
 	}
 
+	public static int getMonth() {
+		return getMonth(null);
+	}
+
 	public static int getMonth(Object dateValue) {
 		GregorianCalendar currentDate = new GregorianCalendar();
-		currentDate.setTime(convertDateObject(dateValue));
+		if (dateValue != null)
+			currentDate.setTime(convertDateObject(dateValue));
 		return currentDate.get(Calendar.MONTH) + 1;
+	}
+
+	public static int getDay() {
+		return getDay(null);
 	}
 
 	public static int getDay(Object dateValue) {
 		GregorianCalendar currentDate = new GregorianCalendar();
-		currentDate.setTime(convertDateObject(dateValue));
+		if (dateValue != null)
+			currentDate.setTime(convertDateObject(dateValue));
 		return currentDate.get(Calendar.DAY_OF_MONTH);
+	}
+
+	public static int getHour() {
+		return getHour(null);
 	}
 
 	public static int getHour(Object dateValue) {
 		GregorianCalendar currentDate = new GregorianCalendar();
-		currentDate.setTime(convertDateObject(dateValue));
+		if (dateValue != null)
+			currentDate.setTime(convertDateObject(dateValue));
 		return currentDate.get(Calendar.HOUR_OF_DAY);
+	}
+
+	public static int getMinute() {
+		return getMinute(null);
 	}
 
 	public static int getMinute(Object dateValue) {
 		GregorianCalendar currentDate = new GregorianCalendar();
-		currentDate.setTime(convertDateObject(dateValue));
+		if (dateValue != null)
+			currentDate.setTime(convertDateObject(dateValue));
 		return currentDate.get(Calendar.MINUTE);
+	}
+
+	public static int getSecond() {
+		return getSecond(null);
 	}
 
 	public static int getSecond(Object dateValue) {
 		GregorianCalendar currentDate = new GregorianCalendar();
-		currentDate.setTime(convertDateObject(dateValue));
+		if (dateValue != null)
+			currentDate.setTime(convertDateObject(dateValue));
 		return currentDate.get(Calendar.SECOND);
 	}
 
 	/**
-	 * @todo 获取个时间的周数
+	 * 获取当前日历
+	 * 
+	 * @return
+	 */
+	public static GregorianCalendar getCalendar() {
+		return new GregorianCalendar();
+	}
+
+	public static int getDayOfWeek() {
+		return getDayOfWeek(null);
+	}
+
+	public static int getDayOfWeek(Object dateValue) {
+		GregorianCalendar currentDate = getCalendar();
+		if (dateValue != null)
+			currentDate.setTime(convertDateObject(dateValue));
+		int week = currentDate.get(Calendar.DAY_OF_WEEK) - 1;
+		if (week == 0)
+			return 7;
+		return week;
+	}
+
+	public static int getWeekOfMonth() {
+		return getWeekOfMonth(null);
+	}
+
+	/**
+	 * 获取给定日期所在月的第几周
+	 * 
+	 * @param dateValue
+	 * @return
+	 */
+	public static int getWeekOfMonth(Object dateValue) {
+		GregorianCalendar currentDate = getCalendar();
+		if (dateValue != null)
+			currentDate.setTime(convertDateObject(dateValue));
+		return currentDate.get(Calendar.WEEK_OF_MONTH) - 1;
+	}
+
+	public static int getWeekOfYear() {
+		return getWeekOfYear(null);
+	}
+
+	/**
+	 * 获取给定日期所在年的第几周
+	 * 
+	 * @param dateValue
+	 * @return
+	 */
+	public static int getWeekOfYear(Object dateValue) {
+		GregorianCalendar currentDate = getCalendar();
+		if (dateValue != null)
+			currentDate.setTime(convertDateObject(dateValue));
+		return currentDate.get(Calendar.WEEK_OF_YEAR) - 1;
+	}
+
+	/**
+	 * @todo 获取相隔两个时间的周数
 	 * @param floorDate
 	 * @param goalDate
 	 * @return
@@ -524,9 +582,10 @@ public class DateUtil {
 				.getTime()) / 24).intValue();
 		// return currentDate.get;
 	}
-	
+
 	/**
 	 * 将日期转化为中文格式
+	 * 
 	 * @param dateValue
 	 * @return
 	 */
@@ -583,8 +642,12 @@ public class DateUtil {
 		System.err.println(DateUtil.getMonthDays(DateUtil
 				.parseString("2008-03-01")));
 		System.err.println(DateUtil.format2China("2008-03-01 15:20:20"));
-		System.err.println(DateUtil.formatDate(DateUtil.getNowTime(),"yyMMdd"));
-		
+		System.err
+				.println(DateUtil.formatDate(DateUtil.getNowTime(), "yyMMdd"));
+
 		System.err.println(DateUtil.getIntervalDate("20080804", "20080901"));
+		System.err.println(DateUtil.getDayOfWeek(null));
+		System.err.println(DateUtil.getWeekOfMonth("20090104"));
+		System.err.println(DateUtil.getWeekOfYear("20081227"));
 	}
 }
