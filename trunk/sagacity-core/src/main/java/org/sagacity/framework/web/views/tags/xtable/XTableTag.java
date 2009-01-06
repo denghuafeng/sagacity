@@ -16,9 +16,7 @@ import org.sagacity.framework.utils.StringUtil;
 import org.sagacity.framework.web.model.PaginationModel;
 import org.sagacity.framework.web.views.tags.BaseTagSupport;
 import org.sagacity.framework.web.views.tags.TagUtil;
-import org.sagacity.framework.web.views.tags.xtable.model.ExportModel;
 import org.sagacity.framework.web.views.tags.xtable.model.XTableModel;
-import org.sagacity.framework.web.views.tags.xtable.render.Render;
 import org.sagacity.framework.web.views.tags.xtable.render.impl.HtmlRender;
 import org.sagacity.framework.web.views.tags.xtable.util.XTableUtil;
 
@@ -282,6 +280,17 @@ public class XTableTag extends BaseTagSupport {
 			xTableModel.setOnMouseOut(this.onmouseout);
 			xTableModel.setOnMouseOver(this.onmouseover);
 
+			/**
+			 * 导出文件
+			 */
+			xTableModel.setExportFile(this.exportFile == null ? this.caption
+					: this.exportFile);
+
+			/**
+			 * 设置模板文件
+			 */
+			xTableModel.setTemplateFile(this.exportTemplate);
+
 			// 设置标题
 			xTableModel.setCaption(this.caption);
 			xTableModel.setExportTypes(XTableUtil.getInstance()
@@ -329,7 +338,7 @@ public class XTableTag extends BaseTagSupport {
 	public int doAfterBody() throws JspException {
 		try {
 			BodyContent body = getBodyContent();
-			
+
 			// 解析table的体内容获取样式定义和相应的字符串指令
 			HashMap tagBodyHash = XTableUtil.parseTagBody(TagUtil.getInstance()
 					.clearHtmlMark(body.getString()));
@@ -348,33 +357,21 @@ public class XTableTag extends BaseTagSupport {
 					// 提取标签头信息，供导出excel以及输出html分页时用来计算头的colspan
 					this.xTableModel.setHeaderList(XTableUtil.getInstance()
 							.parseHead(headStr));
-					// 获取导出文件的信息
-					ExportModel exportModel = (ExportModel) xTableModel
-							.getExportTypes().get(exportType);
-					exportModel
-							.setExportFile(this.exportFile == null ? this.caption
-									: this.exportFile);
-					exportModel.setTemplateFile(this.exportTemplate);
-					exportModel.setHeadTitles(this.xTableModel.getHeaderList());
-					exportModel.setRowsData(this.xTableModel.getRowsData());
-					Render render = (Render) Class.forName(
-							exportModel.getExportRender()).newInstance();
-					
-					render.render(pageContext, body, null, this.xTableModel);
-					// this.pageContext.getResponse().flushBuffer();
-					//this.pageContext.getRequest().setAttribute(XTableConstants.XTABLE_EXPORT_VIEW, exportModel);
-					return this.SKIP_PAGE;
 				}
-			} else {
-				JspWriter writer = body.getEnclosingWriter();
-
-				// 输出组件需要的js,css等资源
-				super.renderResources(this.COMPONENT_ID, writer);
-
-				xTableModel.setToolsBarValign(this.toolsBarValign);
-				HtmlRender htmlRender = new HtmlRender();
-				htmlRender.render(null, null, writer, xTableModel);
+				this.pageContext.getRequest().setAttribute(
+						XTableConstants.XTABLE_EXPORT_VIEW, this.xTableModel);
+				return this.SKIP_PAGE;
 			}
+			
+			JspWriter writer = body.getEnclosingWriter();
+
+			// 输出组件需要的js,css等资源
+			super.renderResources(this.COMPONENT_ID, writer);
+
+			xTableModel.setToolsBarValign(this.toolsBarValign);
+			HtmlRender htmlRender = new HtmlRender();
+			htmlRender.render(null, null, writer, xTableModel);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

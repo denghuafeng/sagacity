@@ -85,6 +85,32 @@ public class XTableModel implements Serializable {
 	 * 
 	 */
 	private String onMouseOut;
+	
+	/**
+	 * 模板文件
+	 */
+	private String templateFile;
+	
+	public String getTemplateFile() {
+		return templateFile;
+	}
+
+	public void setTemplateFile(String templateFile) {
+		this.templateFile = templateFile;
+	}
+
+	/**
+	 * 导出文件名称
+	 */
+	private String exportFile;
+
+	public String getExportFile() {
+		return exportFile;
+	}
+
+	public void setExportFile(String exportFile) {
+		this.exportFile = exportFile;
+	}
 
 	/**
 	 * @return the onMouseOver
