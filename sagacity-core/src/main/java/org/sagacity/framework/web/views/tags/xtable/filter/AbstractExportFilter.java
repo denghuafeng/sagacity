@@ -50,13 +50,19 @@ public abstract class AbstractExportFilter implements Filter {
 			chain.doFilter(request, response);
 		}
 	}
-
+	
+	/**
+	 * 处理xtable的导出excel,pdf等功能
+	 * @param request
+	 * @param response
+	 * @param exportModel
+	 */
 	protected void handleExport(HttpServletRequest request,
 			HttpServletResponse response, XTableModel exportModel) {
 		try {
 			if (exportModel != null) {
 				// String viewResolver = exportModel.getExportRender();
-				String viewResolver = "org.sagacity.framework.web.views.tags.xtable.filter.resolver.XlsViewResolver";
+				String viewResolver = exportModel.getExportResolver();
 				Class classDefinition = Class.forName(viewResolver);
 				ViewResolver handleExportViewResolver = (ViewResolver) classDefinition
 						.newInstance();
@@ -92,8 +98,6 @@ public abstract class AbstractExportFilter implements Filter {
 	private boolean isExport(HttpServletRequest request) {
 		String isExport = null;
 		try {
-			System.err.println("%%%%%%%%%%%%%%%%%%%="
-					+ request.getParameter(XTableConstants.IS_EXPORT_PARAM));
 			isExport = request.getParameter(XTableConstants.IS_EXPORT_PARAM);
 		} catch (Exception e) {
 			e.printStackTrace();

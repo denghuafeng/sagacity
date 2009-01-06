@@ -16,6 +16,7 @@ import org.sagacity.framework.utils.StringUtil;
 import org.sagacity.framework.web.model.PaginationModel;
 import org.sagacity.framework.web.views.tags.BaseTagSupport;
 import org.sagacity.framework.web.views.tags.TagUtil;
+import org.sagacity.framework.web.views.tags.xtable.model.ExportModel;
 import org.sagacity.framework.web.views.tags.xtable.model.XTableModel;
 import org.sagacity.framework.web.views.tags.xtable.render.impl.HtmlRender;
 import org.sagacity.framework.web.views.tags.xtable.util.XTableUtil;
@@ -182,147 +183,16 @@ public class XTableTag extends BaseTagSupport {
 				this.release();
 				return this.SKIP_BODY;
 			}
+			
 			// 获取表格的数据源
-			Object dataSource = this.getDataResource();
-			// 数据源的类型标志
-			int dataClassFlag = 0;
+			Object dataSource = this.getDataResource();		
 			if (dataSource == null) {
 				logger.debug("the " + this.property + " XTable is Null!");
 				return this.SKIP_BODY;
 			}
-
-			// 处理数据源的格式类型,类型包括xtableModel,list,pagination三类格式
-			if (dataSource instanceof XTableModel) {
-				xTableModel = (XTableModel) dataSource;
-				if (xTableModel.getPaginationModel() != null)
-					xTableModel.setItems(xTableModel.getPaginationModel()
-							.getItems());
-			} else {
-				xTableModel = new XTableModel();
-				if (dataSource instanceof PaginationModel) {
-					dataClassFlag = 1;
-					xTableModel
-							.setPaginationModel((PaginationModel) dataSource);
-					xTableModel.setItems(xTableModel.getPaginationModel()
-							.getItems());
-					xTableModel.setPageSize(Integer.toString(xTableModel
-							.getPaginationModel().getPageSize()));
-				} else {
-					xTableModel.setItems(dataSource);
-				}
-			}
-
-			// 判断数据源是否为空, 不为空则根据properties提取相关属性数据构造表格每行的数据
-			if (xTableModel.getItems() != null) {
-				this.displayProperties = XTableUtil.processDisplayProperties(
-						this.displayProperties, xTableModel.getItems());
-				List rowsData = TagUtil
-						.getInstance()
-						.reflactList(
-								xTableModel.getItems(),
-								this.displayProperties,
-								true,
-								this.model
-										.equalsIgnoreCase(XTableConstants.XTABLE_MODEL.XTABLE_MODEL_UNLIMITWIDTH) ? 0
-										: 1);
-
-				// 如果xtable是不定宽模式,将数据的第一行取出作为表头信息
-				if (this.model
-						.equalsIgnoreCase(XTableConstants.XTABLE_MODEL.XTABLE_MODEL_UNLIMITWIDTH)) {
-					xTableModel.setHeaderList(rowsData.subList(0, 1));
-					xTableModel.setRowsData(rowsData
-							.subList(1, rowsData.size()));
-				} else
-					xTableModel.setRowsData(rowsData);
-
-				// 自动增加sequence
-				if (this.displayProperties.toLowerCase().trim().indexOf(
-						"xtable_seqNo,") != 0)
-					this.displayProperties = "xtable_seqNo,"
-							+ this.displayProperties.trim();
-				// 参数分割后的顺序map
-				HashMap propertiesMap = TagUtil.getInstance().splitProperties(
-						this.displayProperties);
-				xTableModel.setPropertiesMap(propertiesMap);
-			} else {
-				System.out
-						.println("table "
-								+ (this.caption == null ? (this.id == null ? this.datasource
-										: this.id)
-										: this.caption)
-								+ " datasource is empty!");
-			}
-
-			xTableModel.setTableId(this.styleId);
-
-			// 判断数据是从form或者是scope中直接取出来
-			if (this.dataContainer.equalsIgnoreCase("pojo")) {
-				if (dataClassFlag == 0) {
-					xTableModel.setPageNoProperty(this.datasource
-							+ ".paginationModel.pageNo");
-					xTableModel.setPageSizeProperty(this.datasource
-							+ ".paginationModel.pageNo");
-				} else if (dataClassFlag == 1) {
-					xTableModel.setPageNoProperty(this.datasource + ".pageNo");
-					xTableModel.setPageSizeProperty(this.datasource
-							+ ".pageSize");
-				}
-			} else {
-				xTableModel.setPageNoProperty(this.styleId + "PageNo");
-				xTableModel.setPageSizeProperty(this.styleId + "PageSize");
-			}
-			xTableModel.setToolBarStyle(this.toolBarStyle);
-
-			xTableModel.setEvenLine(this.evenLineStyle);
-			xTableModel.setOddLine(this.oddLineStyle);
-			xTableModel.setOnclickEvent(this.onclick);
-
-			xTableModel.setOnMouseOut(this.onmouseout);
-			xTableModel.setOnMouseOver(this.onmouseover);
-
-			/**
-			 * 导出文件
-			 */
-			xTableModel.setExportFile(this.exportFile == null ? this.caption
-					: this.exportFile);
-
-			/**
-			 * 设置模板文件
-			 */
-			xTableModel.setTemplateFile(this.exportTemplate);
-
-			// 设置标题
-			xTableModel.setCaption(this.caption);
-			xTableModel.setExportTypes(XTableUtil.getInstance()
-					.getExportTypes());
-			// 设置上下文路径
-			xTableModel.setContextPath(((HttpServletRequest) this.pageContext
-					.getRequest()).getContextPath());
-
-			// 是否自动对齐
-			if (!this.autoAlign.equalsIgnoreCase("true"))
-				xTableModel.setAutoAlign(false);
-
-			// 是否导出文件
-			if (!this.hasExport.equalsIgnoreCase("true"))
-				xTableModel.setHasExport(false);
-
-			// 是否有分页条
-			if (!this.hasPaging.equalsIgnoreCase("true"))
-				xTableModel.setHasPaging(false);
-
-			// 设置自定义宏标记
-			xTableModel.setMarcoSplitSign(this.marcoSplitSign);
-			// 组合导文件的url
-			String exportUrl = XTableUtil.getInstance().assembExportUrl(
-					this.exportAction,
-					(HttpServletRequest) this.pageContext.getRequest(),
-					xTableModel.getPageNoProperty());
-
-			exportUrl += (exportUrl.indexOf("?") != -1 ? "&" : "?")
-					+ xTableModel.getPageNoProperty() + "="
-					+ URLEncoder.encode("-1");
-			xTableModel.setExportAction(exportUrl);
+			//构造数据模型
+			construtDataModel(dataSource);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return this.SKIP_BODY;
@@ -344,9 +214,6 @@ public class XTableTag extends BaseTagSupport {
 					.clearHtmlMark(body.getString()));
 			this.xTableModel.setTagBodyDefine(tagBodyHash);
 
-			// 构造导出文件时url parameter名称
-			this.xTableModel.setExportParam(this.exportParam);
-
 			// 如果导出列表
 			if (this.isExportData) {
 				// 根据导出类型获取导出处理类的实体，导出
@@ -358,11 +225,14 @@ public class XTableTag extends BaseTagSupport {
 					this.xTableModel.setHeaderList(XTableUtil.getInstance()
 							.parseHead(headStr));
 				}
+				// 导出处理实现类
+				xTableModel.setExportResolver(((ExportModel) xTableModel
+						.getExportTypes().get(exportType)).getExportRender());
 				this.pageContext.getRequest().setAttribute(
 						XTableConstants.XTABLE_EXPORT_VIEW, this.xTableModel);
 				return this.SKIP_PAGE;
 			}
-			
+
 			JspWriter writer = body.getEnclosingWriter();
 
 			// 输出组件需要的js,css等资源
@@ -385,7 +255,151 @@ public class XTableTag extends BaseTagSupport {
 		release();
 		return this.EVAL_PAGE;
 	}
+		
+	/**
+	 * 构造数据模型
+	 * @param dataSource
+	 * @throws Exception
+	 */
+	private void construtDataModel(Object dataSource) throws Exception
+	{
+		// 数据源的类型标志
+		int dataClassFlag = 0;
+		// 处理数据源的格式类型,类型包括xtableModel,list,pagination三类格式
+		if (dataSource instanceof XTableModel) {
+			xTableModel = (XTableModel) dataSource;
+			if (xTableModel.getPaginationModel() != null)
+				xTableModel.setItems(xTableModel.getPaginationModel()
+						.getItems());
+		} else {
+			xTableModel = new XTableModel();
+			if (dataSource instanceof PaginationModel) {
+				dataClassFlag = 1;
+				xTableModel
+						.setPaginationModel((PaginationModel) dataSource);
+				xTableModel.setItems(xTableModel.getPaginationModel()
+						.getItems());
+				xTableModel.setPageSize(Integer.toString(xTableModel
+						.getPaginationModel().getPageSize()));
+			} else {
+				xTableModel.setItems(dataSource);
+			}
+		}
 
+		// 判断数据源是否为空, 不为空则根据properties提取相关属性数据构造表格每行的数据
+		if (xTableModel.getItems() != null) {
+			this.displayProperties = XTableUtil.processDisplayProperties(
+					this.displayProperties, xTableModel.getItems());
+			List rowsData = TagUtil.getInstance().reflactList(xTableModel.getItems(),
+							this.displayProperties,
+							true,
+							this.model
+									.equalsIgnoreCase(XTableConstants.XTABLE_MODEL.XTABLE_MODEL_UNLIMITWIDTH) ? 0
+									: 1);
+
+			// 如果xtable是不定宽模式,将数据的第一行取出作为表头信息
+			if (this.model
+					.equalsIgnoreCase(XTableConstants.XTABLE_MODEL.XTABLE_MODEL_UNLIMITWIDTH)) {
+				xTableModel.setHeaderList(rowsData.subList(0, 1));
+				xTableModel.setRowsData(rowsData
+						.subList(1, rowsData.size()));
+			} else
+				xTableModel.setRowsData(rowsData);
+
+			// 自动增加sequence
+			if (this.displayProperties.toLowerCase().trim().indexOf(
+					"xtable_seqNo,") != 0)
+				this.displayProperties = "xtable_seqNo,"
+						+ this.displayProperties.trim();
+			// 参数分割后的顺序map
+			HashMap propertiesMap = TagUtil.getInstance().splitProperties(
+					this.displayProperties);
+			xTableModel.setPropertiesMap(propertiesMap);
+		} else {
+			System.out
+					.println("table "
+							+ (this.caption == null ? (this.id == null ? this.datasource
+									: this.id)
+									: this.caption)
+							+ " datasource is empty!");
+		}
+
+		xTableModel.setTableId(this.styleId);
+
+		// 判断数据是从form或者是scope中直接取出来
+		if (this.dataContainer.equalsIgnoreCase("pojo")) {
+			if (dataClassFlag == 0) {
+				xTableModel.setPageNoProperty(this.datasource
+						+ ".paginationModel.pageNo");
+				xTableModel.setPageSizeProperty(this.datasource
+						+ ".paginationModel.pageNo");
+			} else if (dataClassFlag == 1) {
+				xTableModel.setPageNoProperty(this.datasource + ".pageNo");
+				xTableModel.setPageSizeProperty(this.datasource
+						+ ".pageSize");
+			}
+		} else {
+			xTableModel.setPageNoProperty(this.styleId + "PageNo");
+			xTableModel.setPageSizeProperty(this.styleId + "PageSize");
+		}
+		xTableModel.setToolBarStyle(this.toolBarStyle);
+
+		xTableModel.setEvenLine(this.evenLineStyle);
+		xTableModel.setOddLine(this.oddLineStyle);
+		xTableModel.setOnclickEvent(this.onclick);
+
+		xTableModel.setOnMouseOut(this.onmouseout);
+		xTableModel.setOnMouseOver(this.onmouseover);
+
+		// 构造导出文件时url parameter名称
+		this.xTableModel.setExportParam(this.exportParam);
+
+		/**
+		 * 导出文件
+		 */
+		xTableModel.setExportFile(this.exportFile == null ? this.caption
+				: this.exportFile);
+
+		/**
+		 * 设置模板文件
+		 */
+		xTableModel.setTemplateFile(this.exportTemplate);
+
+		// 设置标题
+		xTableModel.setCaption(this.caption);
+		xTableModel.setExportTypes(XTableUtil.getInstance()
+				.getExportTypes());
+
+		// 设置上下文路径
+		xTableModel.setContextPath(((HttpServletRequest) this.pageContext
+				.getRequest()).getContextPath());
+
+		// 是否自动对齐
+		if (!this.autoAlign.equalsIgnoreCase("true"))
+			xTableModel.setAutoAlign(false);
+
+		// 是否导出文件
+		if (!this.hasExport.equalsIgnoreCase("true"))
+			xTableModel.setHasExport(false);
+
+		// 是否有分页条
+		if (!this.hasPaging.equalsIgnoreCase("true"))
+			xTableModel.setHasPaging(false);
+
+		// 设置自定义宏标记
+		xTableModel.setMarcoSplitSign(this.marcoSplitSign);
+		// 组合导文件的url
+		String exportUrl = XTableUtil.getInstance().assembExportUrl(
+				this.exportAction,
+				(HttpServletRequest) this.pageContext.getRequest(),
+				xTableModel.getPageNoProperty());
+
+		exportUrl += (exportUrl.indexOf("?") != -1 ? "&" : "?")
+				+ xTableModel.getPageNoProperty() + "="
+				+ URLEncoder.encode("-1");
+		xTableModel.setExportAction(exportUrl);
+	}
+	
 	/**
 	 * 释放资源
 	 */
