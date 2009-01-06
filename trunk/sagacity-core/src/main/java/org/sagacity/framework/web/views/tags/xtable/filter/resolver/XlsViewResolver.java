@@ -42,7 +42,6 @@ public class XlsViewResolver implements ViewResolver {
 	 */
 	public void resolveView(ServletRequest request, ServletResponse response,
 			XTableModel exportModel) throws Exception {
-		System.err.println("###########################");
 		// TODO Auto-generated method stub
 		xlsFile = new HSSFWorkbook();
 		xlsSheet = xlsFile.createSheet();
