@@ -278,6 +278,7 @@ public class SqlUtil {
 										+ "\'");
 						paramsName = (String[]) subArray(paramsName, i, 1);
 						paramsValue = subArray(paramsValue, i, 1);
+					//// 去除in (?)部分
 					} else if (StringUtil.matchs(markContentSql.toLowerCase(),
 							"\\s+in\\s+\\(\\s*\\?\\s*\\)")) {
 						queryStr += markContentSql.replace("?", paramsValue[i]
