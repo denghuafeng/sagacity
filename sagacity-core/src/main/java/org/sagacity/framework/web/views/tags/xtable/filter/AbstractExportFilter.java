@@ -29,12 +29,7 @@ public abstract class AbstractExportFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		// 判断是否有xtable或xgrid的数据导出操作
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-
-		System.err.println("^^^^^^^^^^^^^#####################"
-				+ httpRequest.getRequestURL());
 		boolean isExported = this.isExport(httpRequest);
-		System.err.println("^^^^^^^^^^^^^" + isExported);
-
 		if (isExported) {
 			String exportFileName = request
 					.getParameter(XTableConstants.XTABLE_EXPORT_FILE);
