@@ -15,7 +15,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.sagacity.framework.web.views.tags.xtable.model.Cell;
-import org.sagacity.framework.web.views.tags.xtable.model.ExportModel;
+import org.sagacity.framework.web.views.tags.xtable.model.XTableModel;
 
 /**
  *@project sagacity-core
@@ -41,7 +41,8 @@ public class XlsViewResolver implements ViewResolver {
 	 * java.lang.Object)
 	 */
 	public void resolveView(ServletRequest request, ServletResponse response,
-			ExportModel exportModel) throws Exception {
+			XTableModel exportModel) throws Exception {
+		System.err.println("###########################");
 		// TODO Auto-generated method stub
 		xlsFile = new HSSFWorkbook();
 		xlsSheet = xlsFile.createSheet();
@@ -61,7 +62,7 @@ public class XlsViewResolver implements ViewResolver {
 		valueStyle.setBorderBottom((short) 1);
 		valueStyle.setBorderLeft((short) 1);
 		valueStyle.setBorderRight((short) 1);
-		List title = (List) exportModel.getHeadTitles().get(0);
+		List title = (List) exportModel.getHeaderList().get(0);
 		this.setTitle(title);
 		this.addRows(exportModel.getRowsData(), title.size());
 		xlsFile.write(response.getOutputStream());

@@ -6,7 +6,7 @@ package org.sagacity.framework.web.views.tags.xtable.filter.resolver;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import org.sagacity.framework.web.views.tags.xtable.model.ExportModel;
+import org.sagacity.framework.web.views.tags.xtable.model.XTableModel;
 
 /**
  *@project sagacity-core
@@ -23,5 +23,5 @@ public interface ViewResolver {
 	 * @throws Exception
 	 */
 	public void resolveView(ServletRequest request, ServletResponse response,
-			ExportModel viewData) throws Exception;
+			XTableModel viewData) throws Exception;
 }

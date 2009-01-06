@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.sagacity.framework.web.views.tags.xtable.XTableConstants;
 import org.sagacity.framework.web.views.tags.xtable.filter.resolver.ViewResolver;
-import org.sagacity.framework.web.views.tags.xtable.model.ExportModel;
+import org.sagacity.framework.web.views.tags.xtable.model.XTableModel;
 
 /**
  *@project sagacity-core
@@ -29,32 +29,34 @@ public abstract class AbstractExportFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		// 判断是否有xtable或xgrid的数据导出操作
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		boolean isExported = this.isExport(httpRequest);
 
-		Object exportData = request
-				.getAttribute(XTableConstants.XTABLE_EXPORT_VIEW);
-		ExportModel exportModel = null;
-		if (exportData != null)
-			exportModel = (ExportModel) exportData;
+		System.err.println("^^^^^^^^^^^^^#####################"
+				+ httpRequest.getRequestURL());
+		boolean isExported = this.isExport(httpRequest);
+		System.err.println("^^^^^^^^^^^^^" + isExported);
+
 		if (isExported) {
-			String exportFileName = (exportModel.getExportFile() == null ? Long
-					.toString(System.currentTimeMillis()) : exportModel
-					.getExportFile())
-					+ "." + exportModel.getExtName();
+			String exportFileName = request
+					.getParameter(XTableConstants.XTABLE_EXPORT_FILE);
 			doFilterInternal(request, response, chain, exportFileName);
+			Object exportData = request
+					.getAttribute(XTableConstants.XTABLE_EXPORT_VIEW);
+			XTableModel exportModel = null;
+			if (exportData != null)
+				exportModel = (XTableModel) exportData;
 			handleExport((HttpServletRequest) request,
-					(HttpServletResponse) response,exportModel);
+					(HttpServletResponse) response, exportModel);
 		} else {
 			chain.doFilter(request, response);
 		}
 	}
 
 	protected void handleExport(HttpServletRequest request,
-			HttpServletResponse response,ExportModel exportModel) {
+			HttpServletResponse response, XTableModel exportModel) {
 		try {
 			if (exportModel != null) {
-				//String viewResolver = exportModel.getExportRender();
-				String viewResolver="org.sagacity.framework.web.views.tags.xtable.filter.resolver.XlsViewResolver";
+				// String viewResolver = exportModel.getExportRender();
+				String viewResolver = "org.sagacity.framework.web.views.tags.xtable.filter.resolver.XlsViewResolver";
 				Class classDefinition = Class.forName(viewResolver);
 				ViewResolver handleExportViewResolver = (ViewResolver) classDefinition
 						.newInstance();
@@ -90,6 +92,8 @@ public abstract class AbstractExportFilter implements Filter {
 	private boolean isExport(HttpServletRequest request) {
 		String isExport = null;
 		try {
+			System.err.println("%%%%%%%%%%%%%%%%%%%="
+					+ request.getParameter(XTableConstants.IS_EXPORT_PARAM));
 			isExport = request.getParameter(XTableConstants.IS_EXPORT_PARAM);
 		} catch (Exception e) {
 			e.printStackTrace();
