@@ -729,6 +729,8 @@ public class StringUtil {
 		}
 		System.err.println(StringUtil.encodeByMd5("admin"));
 		System.err.println(StringUtil.encodeBySha("admin"));
+		System.err.println(StringUtil.addLeftZero2Len("1",3));
+		
 	}
 
 }
