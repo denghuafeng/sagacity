@@ -16,6 +16,10 @@ import java.util.Properties;
  *@version $id:Constants.java,Revision:v1.0,Date:May 21, 2008 10:09:59 AM $
  */
 public class Constants implements Serializable {
+	/**
+	 * session存放于applicaion中的id
+	 */
+	public static final String GLOBAL_APP_SESSION="_global_app_session";
 	
 	/**
      * The name of this package.
