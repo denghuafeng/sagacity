@@ -38,7 +38,7 @@
         <property name="resultFlag" type="java.lang.Integer">
             <column name="RESULT_FLAG" not-null="true" />
         </property>
-        <property name="isClient" type="java.lang.Byte">
+        <property name="isClient" type="java.lang.Integer">
             <column name="IS_CLIENT" not-null="true">
                 <comment>一般应用分： 终端访问发起和后台定时任务发起， 终端发起要求记录IP</comment>
             </column>
