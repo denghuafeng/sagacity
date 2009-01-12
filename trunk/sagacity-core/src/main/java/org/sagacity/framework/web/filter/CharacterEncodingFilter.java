@@ -29,24 +29,13 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
- * <p>
- * Title: zhongxu Foundation Class
- * </p>
- * <p>
- * Description: chenrenfei的Java类工具包,版权所有不经允许不得抄袭
- * </p>
- * <p>
- * Copyright: Copyright (c) 2004
- * </p>
- * <p>
- * Company: zx
- * </p>
  * 
- * @author chenrenfei
- * @version 1.0.0
+ *@project sagacity-core 
+ *@description:$<p>设置request 编码格式以及response文件头编码</p>$
+ *@author Administrator $<a href="mailto:zhongxuchen@hotmail.com">联系作者</a>$
+ *@version $id:CharacterEncodingFilter.java,Revision:v1.0,Date:2009-1-12 下午02:10:29 $
  */
 public class CharacterEncodingFilter implements Filter {
-	public static ThreadLocal threadLocal = new ThreadLocal();
 
 	/**
 	 * The default character encoding to set for requests that pass through this
@@ -102,7 +91,6 @@ public class CharacterEncodingFilter implements Filter {
 				response.setContentType("text/html;charset=" + encoding);
 			}
 		}
-		threadLocal.set(request.getRemoteAddr());
 		// Pass control on to the next filter
 		chain.doFilter(request, response);
 	}
