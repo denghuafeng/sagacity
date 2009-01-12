@@ -25,7 +25,7 @@ public class TransLogModel implements Serializable {
 	private Date transTime;
 	private String terminalIp;
 	private Integer resultFlag;
-	private Byte isClient;
+	private Integer isClient;
 
 	// Constructors
 
@@ -35,7 +35,7 @@ public class TransLogModel implements Serializable {
 
 	/** minimal constructor */
 	public TransLogModel(Long transId, String appCode, String transType,
-			String content, Date transTime, Integer resultFlag, Byte isClient) {
+			String content, Date transTime, Integer resultFlag, Integer isClient) {
 		this.transId = transId;
 		this.appCode = appCode;
 		this.transType = transType;
@@ -48,7 +48,7 @@ public class TransLogModel implements Serializable {
 	/** full constructor */
 	public TransLogModel(Long transId, String appCode, String transType,
 			String refObject, String content, String operator, Date transTime,
-			String terminalIp, Integer resultFlag, Byte isClient) {
+			String terminalIp, Integer resultFlag, Integer isClient) {
 		this.transId = transId;
 		this.appCode = appCode;
 		this.transType = transType;
@@ -135,11 +135,11 @@ public class TransLogModel implements Serializable {
 		this.resultFlag = resultFlag;
 	}
 
-	public Byte getIsClient() {
+	public Integer getIsClient() {
 		return this.isClient;
 	}
 
-	public void setIsClient(Byte isClient) {
+	public void setIsClient(Integer isClient) {
 		this.isClient = isClient;
 	}
 
