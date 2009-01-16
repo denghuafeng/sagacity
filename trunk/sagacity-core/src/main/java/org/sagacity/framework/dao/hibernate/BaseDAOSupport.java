@@ -16,7 +16,6 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -93,9 +92,24 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	 * 
 	 * @return 数据库的类型
 	 */
-	protected String getCurrentSessionDBDialect() {
-		String dialect = ((SessionImpl) this.getSession()).getFactory()
-				.getDialect().getClass().getName();
+	protected String getCurrentSessionDBDialect() throws SQLException {
+		return getCurrentSessionDBDialect(null);
+	}
+
+	/**
+	 * 获取当前会话的数据库类型
+	 * 
+	 * @return 数据库的类型
+	 */
+	protected String getCurrentSessionDBDialect(Connection conn)
+			throws SQLException {
+		String dialect;
+		if (conn != null) {
+			dialect = conn.getMetaData().getDatabaseProductName()
+					+ conn.getMetaData().getDatabaseProductVersion();
+		} else
+			dialect = ((SessionImpl) this.getSession()).getFactory()
+					.getDialect().getClass().getName();
 		logger.debug("current session dataBase dialect:" + dialect);
 		return dialect;
 	}
@@ -213,6 +227,23 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	}
 
 	/**
+	 * 
+	 * @param sqlOrNamedSql
+	 * @param preparHandler
+	 * @param paramsObj
+	 * @param rowCallHandler
+	 * @param conn
+	 * @return
+	 * @throws Exception
+	 */
+	protected List findByJdbcQuery(String sqlOrNamedSql,
+			PreparedStatementSetter preparHandler, Object paramsObj,
+			RowCallbackHandler rowCallHandler) throws Exception {
+		return findByJdbcQuery(sqlOrNamedSql, preparHandler, paramsObj,
+				rowCallHandler, null);
+	}
+
+	/**
 	 * sql 查询并返回结果
 	 * 
 	 * @param queryStr
@@ -224,7 +255,8 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	 */
 	protected List findByJdbcQuery(String sqlOrNamedSql,
 			PreparedStatementSetter preparHandler, Object paramsObj,
-			RowCallbackHandler rowCallHandler) throws Exception {
+			RowCallbackHandler rowCallHandler, Connection conn)
+			throws Exception {
 		String queryStr = SqlUtil.processQuery(sqlOrNamedSql,
 				getHibernateTemplate().getSessionFactory().getCurrentSession());
 		logger.debug("findByJdbcQuery=" + queryStr);
@@ -237,8 +269,11 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 		try {
-			pst = this.getSession().connection().prepareStatement(
-					queryParam.getQueryStr());
+			if (conn != null)
+				pst = conn.prepareStatement(queryParam.getQueryStr());
+			else
+				pst = this.getSession().connection().prepareStatement(
+						queryParam.getQueryStr());
 			if (preparHandler != null)
 				preparHandler.setValues(pst);
 			else if (params != null && params.length > 0) {
@@ -278,6 +313,19 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	}
 
 	/**
+	 * 
+	 * @param sqlOrNamedSql
+	 * @param preparHandler
+	 * @param paramsObj
+	 * @throws Exception
+	 */
+	protected void executeJdbcSql(String sqlOrNamedSql,
+			PreparedStatementSetter preparHandler, Object paramsObj)
+			throws Exception {
+		executeJdbcSql(sqlOrNamedSql, preparHandler, paramsObj, null);
+	}
+
+	/**
 	 * 无返回结果的SQL执行
 	 * 
 	 * @param executeSql
@@ -285,8 +333,8 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	 * @throws Exception
 	 */
 	protected void executeJdbcSql(String sqlOrNamedSql,
-			PreparedStatementSetter preparHandler, Object paramsObj)
-			throws Exception {
+			PreparedStatementSetter preparHandler, Object paramsObj,
+			Connection conn) throws Exception {
 		String executeSql = SqlUtil.processQuery(sqlOrNamedSql,
 				getHibernateTemplate().getSessionFactory().getCurrentSession());
 		logger.debug("executeJdbcSql=" + executeSql);
@@ -298,8 +346,11 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 		params = queryParam.getParamsValue();
 		PreparedStatement pst = null;
 		try {
-			pst = this.getSession().connection().prepareStatement(
-					queryParam.getQueryStr());
+			if (conn != null)
+				pst = conn.prepareStatement(queryParam.getQueryStr());
+			else
+				pst = this.getSession().connection().prepareStatement(
+						queryParam.getQueryStr());
 			if (preparHandler != null)
 				preparHandler.setValues(pst);
 			else if (params != null && params.length > 0)
@@ -545,6 +596,14 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 				}, true);
 	}
 
+	protected PaginationModel findPageByJdbc(String sqlOrNamedSql,
+			final RowCallbackHandler rowCallbackHandler,
+			final Object paramsObj, final PaginationModel paginationModel)
+			throws Exception {
+		return findPageByJdbc(sqlOrNamedSql, rowCallbackHandler, paramsObj,
+				paginationModel, null);
+	}
+
 	/**
 	 * 本方法提供各类型数据库基于原始sql的分页功能，目前只实现了oracle,sybase,mysql,db2,
 	 * sqlserver2005的分页sql处理,除此之外的数据库目前用Sick(欠妥的)方式提供临时实现
@@ -558,8 +617,8 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	 */
 	protected PaginationModel findPageByJdbc(String sqlOrNamedSql,
 			final RowCallbackHandler rowCallbackHandler,
-			final Object paramsObj, final PaginationModel paginationModel)
-			throws Exception {
+			final Object paramsObj, final PaginationModel paginationModel,
+			Connection conn) throws Exception {
 		Object[] params = convertParams(paramsObj);
 		QueryParam queryParam = SqlUtil
 				.filterNullConditions(SqlUtil.processQuery(sqlOrNamedSql,
@@ -568,29 +627,29 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 		String queryStr = queryParam.getQueryStr();
 		params = queryParam.getParamsValue();
 		logger.debug("findPageByJdbc:分页查询sql为:" + queryStr);
-		String dbDialect = getCurrentSessionDBDialect();
+		String dbDialect = getCurrentSessionDBDialect(conn);
 		PaginationModel result = null;
 		if (StringUtil.IndexOfIgnoreCase(dbDialect, "oracle") != -1)
 			result = findPageCommonJdbc(queryStr, rowCallbackHandler, params,
-					paginationModel, 1);
+					paginationModel, 1, conn);
 		else if (StringUtil.IndexOfIgnoreCase(dbDialect, "db2") != -1)
 			result = findPageCommonJdbc(queryStr, rowCallbackHandler, params,
-					paginationModel, 2);
+					paginationModel, 2, conn);
 		else if (StringUtil.IndexOfIgnoreCase(dbDialect, "sqlserver") != -1)
 			result = findPageCommonJdbc(queryStr, rowCallbackHandler, params,
-					paginationModel, 3);
+					paginationModel, 3, conn);
 		else if (StringUtil.IndexOfIgnoreCase(dbDialect, "mysql") != -1)
 			result = findPageCommonJdbc(queryStr, rowCallbackHandler, params,
-					paginationModel, 4);
+					paginationModel, 4, conn);
 		else if (StringUtil.IndexOfIgnoreCase(dbDialect, "informix") != -1)
 			result = findPageCommonJdbc(queryStr, rowCallbackHandler, params,
-					paginationModel, 5);
+					paginationModel, 5, conn);
 		else if (StringUtil.IndexOfIgnoreCase(dbDialect, "sybase") != -1)
 			result = findPageBySybaseJdbc(queryStr, rowCallbackHandler, params,
-					paginationModel);
+					paginationModel, conn);
 		else
 			result = findPageByJdbcSick(queryStr, rowCallbackHandler, params,
-					paginationModel);
+					paginationModel, conn);
 		logger.debug("findPageByJdbc"
 				+ (result == null ? "结果为空" : "记录条数:" + result.getRecordCount()
 						+ "共" + result.getTotalPage() + "页!"));
@@ -604,12 +663,15 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	 * @param rowCallbackHandler
 	 * @param params
 	 * @param paginationModel
+	 * @param dbType
+	 * @param conn
 	 * @return
 	 * @throws Exception
 	 */
 	private PaginationModel findPageCommonJdbc(String queryStr,
 			final RowCallbackHandler rowCallbackHandler, final Object[] params,
-			final PaginationModel paginationModel, int dbType) throws Exception {
+			final PaginationModel paginationModel, int dbType, Connection conn)
+			throws Exception {
 		PaginationModel pageModel = null;
 		int recordCount = 0;
 		int realStartPage = 1;
@@ -619,7 +681,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 		try {
 			// 获取记录总笔数
 			if (paginationModel.getPageNo() != -1) {
-				recordCount = getJdbcRecordCount(queryStr, params);
+				recordCount = getJdbcRecordCount(queryStr, params, conn);
 				// 总记录数为零则不需要再查询
 				if (recordCount == 0)
 					return new PaginationModel(null, 0, paginationModel
@@ -678,9 +740,11 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 				}
 			} else
 				paginationSQL.append(queryStr);
-
-			pst = this.getSession().connection().prepareStatement(
-					paginationSQL.toString());
+			if (conn != null)
+				pst = conn.prepareStatement(paginationSQL.toString());
+			else
+				pst = this.getSession().connection().prepareStatement(
+						paginationSQL.toString());
 			// informix数据库参数从2开始
 			int paramIndex = 0;
 			// 设置分页时的查询参数
@@ -745,13 +809,14 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	 * @param rowCallbackHandler
 	 * @param params
 	 * @param paginationModel
-	 * @param isSickCount
+	 * @param conn
 	 * @return
 	 * @throws Exception
 	 */
 	private PaginationModel findPageBySybaseJdbc(String queryStr,
 			final RowCallbackHandler rowCallbackHandler, final Object[] params,
-			final PaginationModel paginationModel) throws Exception {
+			final PaginationModel paginationModel, Connection conn)
+			throws Exception {
 		PaginationModel pageModel = null;
 		int recordCount = 0;
 		int realStartPage = 1;
@@ -763,7 +828,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 		try {
 			// 需要做分页查询
 			if (paginationModel.getPageNo() != -1) {
-				recordCount = getJdbcRecordCount(queryStr, params);
+				recordCount = getJdbcRecordCount(queryStr, params, conn);
 				// 总记录数为零则不需要再查询
 				if (recordCount == 0)
 					return new PaginationModel(null, 0, paginationModel
@@ -803,9 +868,11 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 				logger.info("分页查询临时表SQL=" + paginationSQL.toString());
 			} else
 				paginationSQL.append(queryStr);
-
-			pst = this.getSession().connection().prepareStatement(
-					paginationSQL.toString());
+			if (conn != null)
+				pst = conn.prepareStatement(paginationSQL.toString());
+			else
+				pst = this.getSession().connection().prepareStatement(
+						paginationSQL.toString());
 			// 设置非分页时的查询参数
 			if (paginationModel.getPageNo() == -1) {
 				if (params != null && params.length > 0) {
@@ -863,7 +930,8 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	 */
 	private PaginationModel findPageByJdbcSick(String queryStr,
 			final RowCallbackHandler rowCallbackHandler, final Object[] params,
-			final PaginationModel paginationModel) throws Exception {
+			final PaginationModel paginationModel, Connection conn)
+			throws Exception {
 		PaginationModel resultPageModel = null;
 		int recordCount = 0;
 		PreparedStatement pst = null;
@@ -879,8 +947,10 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 				recordCount = 0;
 				realStartPage = -1;
 			}
-
-			pst = this.getSession().connection().prepareStatement(queryStr);
+			if (conn != null)
+				pst = conn.prepareStatement(queryStr);
+			else
+				pst = this.getSession().connection().prepareStatement(queryStr);
 			if (params != null && params.length > 0) {
 				SqlUtil.setParamsValue(pst, (Object[]) params, 0);
 			}
@@ -978,11 +1048,25 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	 * @return
 	 */
 	protected List getTableColumnsMeta(String tableName) {
+		return getTableColumnsMeta(tableName, null);
+	}
+
+	/**
+	 * 获取表的列字段类型信息
+	 * 
+	 * @param tableName
+	 * @param conn
+	 * @return
+	 */
+	protected List getTableColumnsMeta(String tableName, Connection conn) {
 		List columnsMeta = new ArrayList();
 		ResultSet rs = null;
 		try {
-			rs = this.getSession().connection().getMetaData().getColumns(null,
-					null, tableName, null);
+			if (conn != null)
+				rs = conn.getMetaData().getColumns(null, null, tableName, null);
+			else
+				rs = this.getSession().connection().getMetaData().getColumns(
+						null, null, tableName, null);
 			while (rs.next()) {
 				Object[] colMeta = { rs.getString("COLUMN_NAME"),
 						rs.getString("TYPE_NAME"), rs.getInt("COLUMN_SIZE"),
@@ -1003,22 +1087,35 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 		return columnsMeta;
 	}
 
+	protected void truncate(String tableName) {
+		truncate(tableName, null);
+	}
+
 	/**
 	 * 快速删除表中的数据
 	 * 
 	 * @param tableName
 	 */
-	protected void truncate(String tableName) {
+	protected void truncate(String tableName, Connection conn) {
 		String truncateSql = "truncate table " + tableName;
 		try {
-			String dialect = this.getCurrentSessionDBDialect();
+			String dialect = this.getCurrentSessionDBDialect(conn);
 			if (StringUtil.IndexOfIgnoreCase(dialect, "Sybase") != -1) {
-				if (this.getSession().connection().getAutoCommit() == false)
-					this.getSession().connection().setAutoCommit(true);
+				if (conn != null) {
+					if (conn.getAutoCommit() == false)
+						conn.setAutoCommit(true);
+				} else {
+					if (this.getSession().connection().getAutoCommit() == false)
+						this.getSession().connection().setAutoCommit(true);
+				}
 			}
 			this.executeJdbcSql(truncateSql, null, null);
-			if (StringUtil.IndexOfIgnoreCase(dialect, "Sybase") != -1)
-				this.getSession().connection().setAutoCommit(false);
+			if (StringUtil.IndexOfIgnoreCase(dialect, "Sybase") != -1) {
+				if (conn != null)
+					conn.setAutoCommit(false);
+				else
+					this.getSession().connection().setAutoCommit(false);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1302,7 +1399,8 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	 * @param params
 	 * @return
 	 */
-	private int getJdbcRecordCount(String queryStr, Object params) {
+	private int getJdbcRecordCount(String queryStr, Object params,
+			Connection conn) {
 		// 剔除回车、换行、tab符号
 		String tmpStr = SqlUtil.clearMistyChars(queryStr);
 		int recordCount = 0;
@@ -1325,8 +1423,11 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 		try {
-			pst = this.getSession().connection().prepareStatement(
-					countQueryStr.toString());
+			if (conn != null)
+				pst = conn.prepareStatement(countQueryStr.toString());
+			else
+				pst = this.getSession().connection().prepareStatement(
+						countQueryStr.toString());
 			if (params != null) {
 				if (params instanceof PreparedStatementSetter) {
 					((PreparedStatementSetter) params).setValues(pst);
@@ -1466,6 +1567,6 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 		String queryStr = " select * from HR_ORGAN_INFO where 1=1 and CREATE_DATE>=? and CREATE_DATE<=?  ";
 
 		BaseDAOSupport test = new BaseDAOSupport();
-		test.getJdbcRecordCount(queryStr, new Object[] { "", "" });
+		test.getJdbcRecordCount(queryStr, new Object[] { "", "" }, null);
 	}
 }
