@@ -41,6 +41,24 @@ function xtableGenSelect(name,sourceStr,splitSign,sltValue,onchange)
 }
 
 /**
+ * 判断是否全选
+ * @param target
+ * @return
+ */
+function validateCheckboxIsChecked(target)
+{
+	var obj=document.getElementsByName(target);
+	if(obj==null || obj.length<1)
+		return false;
+	for(i=0;i<obj.length;i++)
+	{
+		if(obj[i].checked)
+			return true;
+	}
+	return false;
+}
+
+/**
  * checkbox 全选或单选操作 create by chenrenfei
  * 2008-06-16
  */
@@ -73,6 +91,7 @@ function allOrNoneCheck(target,allChoose,self) {
 			}
 	}
 }
+
 /**
  * 
  * @param obj
