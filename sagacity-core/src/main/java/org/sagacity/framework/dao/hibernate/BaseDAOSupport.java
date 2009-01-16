@@ -977,32 +977,30 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	 * @param tableName
 	 * @return
 	 */
-	protected HashMap getTableColumnMeta(String tableName) {
-		final HashMap columnMeta = new HashMap();
+	protected List getTableColumnsMeta(String tableName) {
+		List columnsMeta = new ArrayList();
+		ResultSet rs = null;
 		try {
-			String mediaSql = "select * from " + tableName + " where 1=0";
+			rs = this.getSession().connection().getMetaData().getColumns(null,
+					null, tableName, null);
+			while (rs.next()) {
+				Object[] colMeta = { rs.getString("COLUMN_NAME"),
+						rs.getString("TYPE_NAME"), rs.getInt("COLUMN_SIZE"),
+						rs.getInt("DECIMAL_DIGITS"), rs.getInt("NULLABLE") };
+				columnsMeta.add(colMeta);
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException se) {
 
-			this.findByJdbcQuery(mediaSql, null, null,
-					new RowCallbackHandler() {
-						public void processRow(ResultSet rs)
-								throws SQLException {
-							String columnName;
-							int columnType;
-							ResultSetMetaData md = rs.getMetaData();
-
-							for (int i = 1; i < md.getColumnCount() + 1; i++) {
-								columnName = md.getColumnName(i);
-								columnType = md.getColumnType(i);
-								columnMeta.put(columnName, new Integer(
-										columnType));
-							}
-						}
-					});
-		} catch (Exception e) {
-			e.printStackTrace();
+			}
 		}
-
-		return columnMeta;
+		return columnsMeta;
 	}
 
 	/**
