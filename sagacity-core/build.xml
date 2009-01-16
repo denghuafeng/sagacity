@@ -137,6 +137,7 @@
 		<jar jarfile="${sagacity.build.dir}/sagacity-core-1.0.jar" basedir="${sagacity.classes}/" />
 		<checksum file="${sagacity.build.dir}/sagacity-core-1.0.jar" algorithm="SHA" fileext=".sha1" />
 		<copy file="${sagacity.build.dir}/sagacity-core-1.0.jar" todir="D:\workspace\nantian\nt-gims\lib" />
+		<copy file="${sagacity.build.dir}/sagacity-core-1.0.jar" todir="D:\workspace\nantian\bcss\lib" />
 	</target>
 
 	<!-- copy maven dependencies jar to appoint path(提供一个提取maven2
