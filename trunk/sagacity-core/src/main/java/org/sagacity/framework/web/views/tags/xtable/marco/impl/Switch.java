@@ -16,7 +16,7 @@ import org.sagacity.framework.web.views.tags.xtable.util.XTableUtil;
  * @project abchina
  * @description:$
  *          <p>
- * @switch("#{status}","[1,2,3];[]")
+ * @switch("#[status]$[1,2,3];[a,b,c]")
  *          </p>$
  * @author zhongxuchen $<a href="mailto:zhongxuchen@hotmail.com">联系作者</a>$
  * @version $id:Case.java,Revision:v1.0,Date:Jun 10, 2008 9:44:06 PM $
@@ -41,6 +41,7 @@ public class Switch implements MarcoFacade {
 			if (paramValue == null)
 				paramValue = "null";
 			String splitSign = ",";
+			
 			// 提取分割符号
 			if (template.trim().indexOf("[") != 0)
 				splitSign = template.trim().substring(0,

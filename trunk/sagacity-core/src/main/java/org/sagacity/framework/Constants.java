@@ -22,9 +22,24 @@ public class Constants implements Serializable {
 	public static final String GLOBAL_APP_SESSION="_global_app_session";
 	
 	/**
+	 * 发起http请求的客户端用户ip地址
+	 */
+	public static final String HTTP_REQUIRE_IP="_http_require_ip";
+	
+	/**
+	 * 当前系统用户session
+	 */
+	public static final String GLOBAL_CURRENT_USER_SESSION="_global_current_user_session";
+	
+	/**
      * The name of this package.
      */
     public static final String Package = "org.apache.struts.taglib.html";
+    
+    /**
+     * 应用系统编码
+     */
+    public static final String APP_CODE="app.code";
     
     /**
      * 组件资源url对应的html属性定义,pageContext.getAttribute(#this)获取相应的css,js资源map对象

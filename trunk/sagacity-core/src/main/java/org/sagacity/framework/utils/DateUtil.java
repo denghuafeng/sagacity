@@ -107,7 +107,31 @@ public class DateUtil {
 			return null;
 		}
 	}
-
+	
+	/**
+	 * 将日期字符串或时间转换成时间类型 日期字符串中的日期分隔符可是:"/",".","-"， 返回时间具体到秒 只提供常用的日期格式处理
+	 * 
+	 * @param str
+	 * @return Date
+	 * @throws UtilException
+	 */
+	public static Date parseString(String dateString,String format) {
+		if (dateString == null || "".equals(dateString)
+				|| "null".equals(dateString.toLowerCase())) {
+			System.err.println("The date string is null!");
+			return null;
+		}
+		try {
+			if(StringUtil.isNullOrBlank(format))
+				return parseString(dateString);
+			DateFormat df = new SimpleDateFormat(format);
+			return df.parse(dateString);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+	}
 	/**
 	 * 日期对象类型转换
 	 * 
@@ -625,8 +649,8 @@ public class DateUtil {
 	public static void main(String[] args) {
 
 		Date tmp = DateUtil.parseString("2002-4-12 20:20:11");
-		System.err.println("a" + DateUtil.formatDate("202011", "HH:mm:ss"));
-		System.err.println(DateUtil.getYear("2002-4-12 20:20:11"));
+		System.err.println(DateUtil.formatDate(DateUtil.getNowTime(), "yyyy-MM-dd HH:mm:ss.sss"));
+		System.err.println(DateUtil.parseString("2002-4","yyyy-MM"));
 		System.err.println(DateUtil.getMonth("2002-4-12 20:20:11"));
 		System.err.println(DateUtil.getDay("2002-4-12 20:20:11"));
 		System.err.println(DateUtil.formatDate(tmp,

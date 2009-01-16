@@ -3,9 +3,9 @@
  */
 package org.sagacity.framework.service;
 
-import org.sagacity.framework.dao.BizLogDAO;
 import org.sagacity.framework.log.Log;
 import org.sagacity.framework.log.LogFactory;
+import org.sagacity.framework.service.transations.TransLogger;
 
 /**
  * 
@@ -26,13 +26,13 @@ public abstract class BaseService {
 	/**
 	 * 事务日志DAO
 	 */
-	protected BizLogDAO transLogger;
+	protected TransLogger transLogger;
 	
 	/**
 	 * 通过IoC方式构造事务日志DAO实例
 	 * @param transLogger
 	 */
-	public void setTransLogger(BizLogDAO transLogger) {
+	public void setTransLogger(TransLogger transLogger) {
 		this.transLogger = transLogger;
 	}
 	

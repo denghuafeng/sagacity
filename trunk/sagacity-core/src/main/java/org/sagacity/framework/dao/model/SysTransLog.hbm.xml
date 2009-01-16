@@ -7,7 +7,7 @@
 <hibernate-mapping>
     <class name="org.sagacity.framework.dao.model.TransLogModel" table="sys_trans_log">
         <id name="transId" type="java.lang.Long">
-            <column name="TRANS_ID" precision="12" scale="0" />
+            <column name="TRANS_ID" precision="20" scale="0" />
             <generator class="assigned" />
         </id>
         <property name="appCode" type="java.lang.String">
@@ -24,7 +24,7 @@
             </column>
         </property>
         <property name="content" type="java.lang.String">
-            <column name="CONTENT" length="500" not-null="true" />
+            <column name="CONTENT" length="1000" not-null="true" />
         </property>
         <property name="operator" type="java.lang.String">
             <column name="OPERATOR" length="10" />
