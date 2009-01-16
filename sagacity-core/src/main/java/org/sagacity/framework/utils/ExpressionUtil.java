@@ -11,12 +11,23 @@ import org.sagacity.framework.exception.ExpressionException;
 
 /**
  * @project abchina
- * @description:$
- * <p>表达式运�?:支持运算�?</p>$
+ * @description:$ <p>
+ *                表达式运�?:支持运算�?
+ *                </p>
+ *                $
  * @author zhongxuchen $<a href="mailto:zhongxuchen@hotmail.com">联系作�??</a>$
- * @version $id:ExpressionUtil.java,Revision:v1.0,Date:Aug 26, 2008 10:39:26 AM $
+ * @version $id:ExpressionUtil.java,Revision:v1.0,Date:Aug 26, 2008 10:39:26 AM
+ *          $
  */
 public class ExpressionUtil {
+	private static ExpressionUtil me;
+
+	public static ExpressionUtil getInstance() {
+		if (me == null)
+			me = new ExpressionUtil();
+		return me;
+	}
+
 	public static String OPTS = "+-*/%><][!|&=#";
 
 	public Object calculate(String expression) throws ExpressionException {
@@ -243,8 +254,8 @@ public class ExpressionUtil {
 					return 0;
 			}
 		} catch (Exception e) {
-			throw new ExpressionException("�?" + value1 + "�?" + value2 + "在进�?"
-					+ opt + "运算时非法！");
+			throw new ExpressionException("�?" + value1 + "�?" + value2
+					+ "在进�?" + opt + "运算时非法！");
 		}
 		throw new ExpressionException("运算�?" + opt + "非法�?");
 	}
@@ -293,7 +304,8 @@ public class ExpressionUtil {
 				return String.valueOf(Math.exp(db));
 			}
 		} catch (Exception e) {
-			throw new ExpressionException("函数" + function + "�?" + value + "非法!");
+			throw new ExpressionException("函数" + function + "�?" + value
+					+ "非法!");
 		}
 
 		throw new ExpressionException("函数" + function + "不支持！");
@@ -301,7 +313,7 @@ public class ExpressionUtil {
 
 	public static void main(String[] args) {
 		ExpressionUtil be = new ExpressionUtil();
-		String exp = "sin(ceil(sqrt(100)))*29+20+30*3+0|0|1+1&1*5+2=2";
+		String exp = "29.8/20";
 		try {
 			System.out.println(be.calculate(exp));
 		} catch (ExpressionException eE) {
