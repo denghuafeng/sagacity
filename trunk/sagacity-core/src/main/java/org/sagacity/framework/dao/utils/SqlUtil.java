@@ -428,7 +428,7 @@ public class SqlUtil {
 		queryStr.append("where 1=1 ");
 		queryStr.append("      #[and t.REGIST_DATE>=? and t.REGIST_DATE<= ? ]");
 		queryStr.append("      #[and t.CAR_MODE like ? ] ");
-		queryStr.append("      #[and t.IS_ACTIVE=?]");
+		queryStr.append("      and t.IS_ACTIVE=?");
 
 		Object[] paramsValue = new Object[] { null, null, null, "1" };
 		QueryParam sqlParam = SqlUtil.filterNullConditions(queryStr.toString(),

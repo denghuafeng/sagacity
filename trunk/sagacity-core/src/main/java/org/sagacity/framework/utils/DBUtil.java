@@ -14,7 +14,7 @@ import org.sagacity.framework.log.LogFactory;
  * @project sagacity-core
  * @description:$
  *          <p>
- *          在此说明类的功能
+ *          数据库连接工具类
  *          </p>$
  * @author Administrator $<a href="mailto:zhongxuchen@hotmail.com">联系作者</a>$
  * @version $id:DBUtil.java,Revision:v1.0,Date:Dec 24, 2008 3:52:05 PM $

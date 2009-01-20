@@ -394,7 +394,6 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 		else
 			return getSequence(entityClass.getName(), null, null, null, size,
 					false);
-
 	}
 
 	/**
@@ -919,6 +918,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 
 	/**
 	 * 本方法一般针对非主流数据库没有提供分页机制的查询, 采用先取出所有结果集,再通过页编号过滤取出当前页数据 一般不建议采取这种方式
+	 * 通过游标的方式实现分页
 	 * 
 	 * @deprecated 2008.08.26 修正了findPageByJdbc,此方法停止使用
 	 * @param queryStr
@@ -928,7 +928,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	 * @return
 	 * @throws Exception
 	 */
-	private PaginationModel findPageByJdbcSick(String queryStr,
+	protected PaginationModel findPageByJdbcSick(String queryStr,
 			final RowCallbackHandler rowCallbackHandler, final Object[] params,
 			final PaginationModel paginationModel, Connection conn)
 			throws Exception {
@@ -940,6 +940,11 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 		try {
 			// 获取记录总笔数
 			if (paginationModel.getPageNo() != -1) {
+				recordCount = getJdbcRecordCount(queryStr, params, conn);
+				// 总记录数为零则不需要再查询
+				if (recordCount == 0)
+					return new PaginationModel(null, 0, paginationModel
+							.getPageSize(), 1);
 				realStartPage = (paginationModel.getPageNo() * paginationModel
 						.getPageSize()) >= (recordCount + paginationModel
 						.getPageSize()) ? 1 : paginationModel.getPageNo();
@@ -947,37 +952,51 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 				recordCount = 0;
 				realStartPage = -1;
 			}
+			
+			// 游标类型：
+			//ResultSet.TYPE_FORWORD_ONLY:只进游标
+			//ResultSet.TYPE_SCROLL_INSENSITIVE:可滚动。但是不受其他用户对数据库更改的影响。
+            //ResultSet.TYPE_SCROLL_SENSITIVE:可滚动。当其他用户更改数据库时这个记录也会改变。
+			//能否更新记录：
+			//ResultSet.CONCUR_READ_ONLY,只读
+			//ResultSet.CONCUR_UPDATABLE,可更新
 			if (conn != null)
-				pst = conn.prepareStatement(queryStr);
+				pst = conn.prepareStatement(queryStr,
+						ResultSet.TYPE_SCROLL_INSENSITIVE,
+						ResultSet.CONCUR_READ_ONLY);
 			else
-				pst = this.getSession().connection().prepareStatement(queryStr);
+				pst = this.getSession().connection().prepareStatement(queryStr,
+						ResultSet.TYPE_SCROLL_INSENSITIVE,
+						ResultSet.CONCUR_READ_ONLY);
 			if (params != null && params.length > 0) {
 				SqlUtil.setParamsValue(pst, (Object[]) params, 0);
 			}
+
+			// 设置最大查询行
+			pst.setMaxRows(realStartPage * paginationModel.getPageSize());
 			rs = pst.executeQuery();
+
 			List items = null;
 			int rowCnt = rs.getMetaData().getColumnCount();
-			int index = 1;
+			//将游标移动到第一条记录
+			rs.first();
+			//游标移动到要输出的第一条记录
+			rs
+					.relative((realStartPage - 1)
+							* paginationModel.getPageSize() + 1);
 			while (rs.next()) {
-				if (index >= (realStartPage - 1)
-						* paginationModel.getPageSize() + 1
-						&& index <= realStartPage
-								* paginationModel.getPageSize()) {
-					if (rowCallbackHandler != null)
-						rowCallbackHandler.processRow(rs);
-					else {
-						if (items == null)
-							items = new ArrayList();
-						List rowData = new ArrayList();
-						for (int i = 0; i < rowCnt; i++) {
-							rowData.add(rs.getObject(i + 1));
-						}
-						items.add(rowData);
+				if (rowCallbackHandler != null)
+					rowCallbackHandler.processRow(rs);
+				else {
+					if (items == null)
+						items = new ArrayList();
+					List rowData = new ArrayList();
+					for (int i = 0; i < rowCnt; i++) {
+						rowData.add(rs.getObject(i + 1));
 					}
+					items.add(rowData);
 				}
-				index++;
 			}
-			recordCount = index;
 			if (rowCallbackHandler != null)
 				items = rowCallbackHandler.getResult();
 			resultPageModel = new PaginationModel(items, (paginationModel
@@ -1339,7 +1358,6 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 
 	/**
 	 * hql语句分页获取其总记录数
-	 * 
 	 * @param hql
 	 * @param paramNames
 	 * @param paramValues
@@ -1488,8 +1506,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	}
 
 	/**
-	 * 转换sql参数
-	 * 
+	 * 转换sql参数,判断对象值是否为"",是则设置对象[或对象数组中的]值为null
 	 * @param params
 	 * @return
 	 */
@@ -1498,8 +1515,8 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	}
 
 	/**
-	 * 转换sql参数
-	 * 
+	 * 转换sql参数,将对象数组中的值与给定的参照数值比较，
+	 * 如果相等则置数组中的值为null
 	 * @param params
 	 * @param contrasts
 	 * @return

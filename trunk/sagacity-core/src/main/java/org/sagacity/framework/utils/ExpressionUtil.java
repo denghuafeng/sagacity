@@ -20,11 +20,9 @@ import org.sagacity.framework.exception.ExpressionException;
  *          $
  */
 public class ExpressionUtil {
-	private static ExpressionUtil me;
+	private static ExpressionUtil me=new ExpressionUtil();
 
 	public static ExpressionUtil getInstance() {
-		if (me == null)
-			me = new ExpressionUtil();
 		return me;
 	}
 
@@ -315,7 +313,7 @@ public class ExpressionUtil {
 		ExpressionUtil be = new ExpressionUtil();
 		String exp = "29.8/20";
 		try {
-			System.out.println(be.calculate(exp));
+			System.out.println(ExpressionUtil.getInstance().calculate(exp));
 		} catch (ExpressionException eE) {
 			System.out.println(eE.getMessage());
 		}

@@ -10,10 +10,10 @@ import org.sagacity.tools.excel.model.ColumnModel;
 import org.sagacity.tools.excel.utils.DBUtil;
 
 /**
- *@project abchina 
- *@description:$<p>请在此说明此文件的功能</p>$
- *@author zhongxuchen $<a href="mailto:zhongxuchen@hotmail.com">联系作者</a>$
- *@version $id:DBQueryConvert.java,Revision:v1.0,Date:Jul 31, 2008 10:12:02 PM $
+ *@project sagacity-core 
+ *@description:$<p>在此说明类的功能</p>$
+ *@author Administrator $<a href="mailto:zhongxuchen@hotmail.com">联系作者</a>$
+ *@version $id:DBQueryConvert.java,Revision:v1.0,Date:2009-1-20 下午04:44:23 $
  */
 public class DBQueryConvert implements IConvert {
 	/**
@@ -36,7 +36,6 @@ public class DBQueryConvert implements IConvert {
 	 */
 	public void setParams(List params) {
 		this.params=params;
-
 	}
 
 }
