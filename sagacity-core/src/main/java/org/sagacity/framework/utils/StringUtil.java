@@ -27,10 +27,6 @@ import org.springframework.security.providers.encoding.ShaPasswordEncoder;
  * @version $id:StringUtil.java,Revision:v1.0,Date:Oct 19, 2007 10:09:42 AM $
  */
 public class StringUtil {
-	// size is 40,为了提高性能避免循环补零,提供字符串补零的�?
-	private final static String ZEROSTR = "0000000000000000000000000000000000000000";
-	private final static String BLANKSTR = "                                        ";
-
 	/**
 	 * private constructor,bannot be instantiated by other class
 	 */
@@ -90,79 +86,6 @@ public class StringUtil {
 	}
 
 	/**
-	 * 将字符串前加字符"0"转换成多位字符串 比如 1-> 01 两位 1->001 三位
-	 * 
-	 * @param str
-	 * @param length
-	 * @return String
-	 */
-	public static String formatString(String str, int length) {
-		StringBuffer sb = new StringBuffer();
-
-		// 如果为空指针,空字符串则返回空字符�?,否则进行处理
-
-		if (str != null && !(str.trim().equals("null"))) {
-
-			// 字符串长度小于需要长度时前面�?"0"
-
-			if (str.length() < length) {
-				for (int i = 0; i < length - str.length(); i++) {
-					sb.append("0");
-				}
-				sb.append(str);
-			} else { // 直接返回
-
-				sb.append(str);
-			}
-		} else {
-			return "";
-		}
-
-		return sb.toString();
-	}
-
-	/**
-	 * 将字符串前加字符"0"转换成多位字符串 比如 1-> 01 两位 1->001 三位
-	 * 
-	 * @param intStr
-	 * @param length
-	 * @return String
-	 */
-	public static String formatString(int intStr, int length) {
-		return formatString(String.valueOf(intStr), length);
-	}
-
-	/**
-	 * 将字符串前加字符"0"转换成多位字符串 比如 1-> 01 两位 1->001 三位
-	 * 
-	 * @param intStr
-	 * @param length
-	 * @return String
-	 */
-	public static String formatString(long intStr, int length) {
-		return formatString(String.valueOf(intStr), length);
-	}
-
-	/**
-	 * 将字符串前加字符"0"转换成多位字符串 比如 1-> 01 两位 1->001 三位
-	 * 
-	 * @param intStr
-	 * @param length
-	 * @return String
-	 */
-	public static String formatString(BigDecimal intStr, int length) {
-		return formatString(String.valueOf(intStr), length);
-	}
-
-	public static String formatString(String str) {
-		return formatString(str, 2);
-	}
-
-	public static String formatString(int intStr) {
-		return formatString(Integer.toString(intStr), 2);
-	}
-
-	/**
 	 * 比较两个字符串，如果第一个参数为空，就取第二个参�?
 	 * 
 	 * @param firstStr
@@ -218,14 +141,12 @@ public class StringUtil {
 			sourceInt = sourceInt / 10;
 
 			if (temp == 0) {
-
 				if (ii == 4) {
-					targetStr = "�?" + targetStr;
+					targetStr = "万" + targetStr;
 				} else if (ii == 8) {
-					targetStr = "�?" + targetStr;
+					targetStr = "亿" + targetStr;
 				} else if (ii != 0) {
-					targetStr = "�?" + targetStr;
-
+					targetStr = "零" + targetStr;
 				}
 				continue;
 			}
@@ -234,37 +155,37 @@ public class StringUtil {
 				targetStr = targetStr
 						+ convertSingleDigitToChineseCharacter(temp);
 			} else if (ii == 1) {
-				targetStr = convertSingleDigitToChineseCharacter(temp) + "�?"
+				targetStr = convertSingleDigitToChineseCharacter(temp) + "十"
 						+ targetStr;
 			} else if (ii == 2) {
-				targetStr = convertSingleDigitToChineseCharacter(temp) + "�?"
+				targetStr = convertSingleDigitToChineseCharacter(temp) + "百"
 						+ targetStr;
 			} else if (ii == 3) {
-				targetStr = convertSingleDigitToChineseCharacter(temp) + "�?"
+				targetStr = convertSingleDigitToChineseCharacter(temp) + "千"
 						+ targetStr;
 			} else if (ii == 4) {
-				targetStr = convertSingleDigitToChineseCharacter(temp) + "�?"
+				targetStr = convertSingleDigitToChineseCharacter(temp) + "万"
 						+ targetStr;
 			} else if (ii == 5) {
-				targetStr = convertSingleDigitToChineseCharacter(temp) + "�?"
+				targetStr = convertSingleDigitToChineseCharacter(temp) + "十"
 						+ targetStr;
 			} else if (ii == 6) {
-				targetStr = convertSingleDigitToChineseCharacter(temp) + "�?"
+				targetStr = convertSingleDigitToChineseCharacter(temp) + "百"
 						+ targetStr;
 			} else if (ii == 7) {
-				targetStr = convertSingleDigitToChineseCharacter(temp) + "�?"
+				targetStr = convertSingleDigitToChineseCharacter(temp) + "千"
 						+ targetStr;
 			} else if (ii == 8) {
-				targetStr = convertSingleDigitToChineseCharacter(temp) + "�?"
+				targetStr = convertSingleDigitToChineseCharacter(temp) + "亿"
 						+ targetStr;
 			} else if (ii == 9) {
-				targetStr = convertSingleDigitToChineseCharacter(temp) + "�?"
+				targetStr = convertSingleDigitToChineseCharacter(temp) + "十"
 						+ targetStr;
 			} else if (ii == 10) {
-				targetStr = convertSingleDigitToChineseCharacter(temp) + "�?"
+				targetStr = convertSingleDigitToChineseCharacter(temp) + "百"
 						+ targetStr;
 			} else if (ii == 11) {
-				targetStr = convertSingleDigitToChineseCharacter(temp) + "�?"
+				targetStr = convertSingleDigitToChineseCharacter(temp) + "千"
 						+ targetStr;
 			}
 
@@ -399,9 +320,7 @@ public class StringUtil {
 		if (sourceStr.length() == 1)
 			return sourceStr.toUpperCase();
 
-		return formatString(sourceStr.substring(0, 1).toUpperCase()
-				+ sourceStr.substring(1));
-
+		return sourceStr.substring(0, 1).toUpperCase() + sourceStr.substring(1);
 	}
 
 	/**
@@ -468,88 +387,147 @@ public class StringUtil {
 	}
 
 	/**
-	 * 左补零 length <= 30
+	 * 左补零
 	 * 
 	 * @param source
-	 *            String
 	 * @param length
-	 *            int
-	 * @return String
+	 * @return
 	 */
 	public static String addLeftZero2Len(String source, int length) {
-		if (isNullOrBlank(source))
-			return ZEROSTR.substring(0, length);
-		else {
-			if (source.length() > length)
-				return source.substring(source.length() - length);
-			else
-				return ZEROSTR.substring(0, length - source.length()) + source;
-		}
+		return addSign2Len(source, length, 0, 0);
 	}
 
 	/**
-	 * 右补零 length <= 30
+	 * 右补零
 	 * 
 	 * @param source
-	 *            String
 	 * @param length
-	 *            int
-	 * @return String
+	 * @return
 	 */
 	public static String addRightZero2Len(String source, int length) {
-		if (isNullOrBlank(source))
-			return ZEROSTR.substring(0, length);
-		else {
-			if (source.length() > length)
-				return source.substring(source.length() - length);
-			else
-				return source + ZEROSTR.substring(0, length - source.length());
-		}
+		return addSign2Len(source, length, 0, 1);
 	}
 
 	/**
 	 * 用空字符给字符串补足不足指定长度部分
 	 * 
 	 * @param source
-	 *            String
 	 * @param length
-	 *            int
-	 * @return String
+	 * @return
 	 */
 	public static String addRightBlank2Len(String source, int length) {
-		if (isNullOrBlank(source))
-			return BLANKSTR.substring(0, length);
-		else {
-			if (source.length() > length)
-				return source.substring(source.length() - length);
-			else
-				return source + BLANKSTR.substring(0, length - source.length());
-		}
-
+		return addSign2Len(source, length, 1, 1);
 	}
 
 	/**
 	 * 用空字符给字符串补足不足指定长度部分
 	 * 
 	 * @param source
-	 *            String
 	 * @param length
-	 *            int
-	 * @return String
+	 * @return
 	 */
 	public static String addLeftBlank2Len(String source, int length) {
-		String result;
-		if (isNullOrBlank(source))
-			result = BLANKSTR.substring(0, length);
-		else {
-			if (source.length() > length)
-				result = source.substring(source.length() - length);
-			else
-				result = BLANKSTR.substring(0, length - source.length())
-						+ source;
-		}
+		return addSign2Len(source, length, 1, 0);
+	}
 
-		return result;
+	/**
+	 * @param source
+	 * @param length
+	 * @param flag
+	 * @param leftOrRight
+	 * @return
+	 */
+	private static String addSign2Len(String source, int length, int flag,
+			int leftOrRight) {
+		if (source == null || source.length() >= length)
+			return source;
+		int addSize = length - source.length();
+		StringBuffer addStr = new StringBuffer();
+		// 右边
+		if (leftOrRight == 1)
+			addStr.append(source);
+		// 补空白
+		if (flag == 1) {
+			switch (addSize) {
+			case 1:
+				addStr.append(" ");
+				break;
+			case 2:
+				addStr.append("  ");
+				break;
+			case 3:
+				addStr.append("   ");
+				break;
+			case 4:
+				addStr.append("    ");
+				break;
+			case 5:
+				addStr.append("     ");
+				break;
+			case 6:
+				addStr.append("      ");
+				break;
+			case 7:
+				addStr.append("       ");
+				break;
+			case 8:
+				addStr.append("        ");
+				break;
+			case 9:
+				addStr.append("         ");
+				break;
+			case 10:
+				addStr.append("          ");
+				break;
+			default:
+				addStr.append("          ");
+				for (int i = 0; i < addSize - 10; i++)
+					addStr.append(" ");
+				break;
+			}
+		} else {
+			switch (addSize) {
+			case 1:
+				addStr.append("0");
+				break;
+			case 2:
+				addStr.append("00");
+				break;
+			case 3:
+				addStr.append("000");
+				break;
+			case 4:
+				addStr.append("0000");
+				break;
+			case 5:
+				addStr.append("00000");
+				break;
+			case 6:
+				addStr.append("000000");
+				break;
+			case 7:
+				addStr.append("0000000");
+				break;
+			case 8:
+				addStr.append("00000000");
+				break;
+			case 9:
+				addStr.append("000000000");
+				break;
+			case 10:
+				addStr.append("0000000000");
+				break;
+			default:
+				addStr.append("0000000000");
+				for (int i = 0; i < addSize - 10; i++)
+					addStr.append("0");
+				break;
+			}
+		}
+		// 左边
+		if (leftOrRight == 0)
+			addStr.append(source);
+		return addStr.toString();
 	}
 
 	/**
@@ -729,8 +707,8 @@ public class StringUtil {
 		}
 		System.err.println(StringUtil.encodeByMd5("admin"));
 		System.err.println(StringUtil.encodeBySha("admin"));
-		System.err.println(StringUtil.addLeftZero2Len("1",3));
-		
+		System.err.println(StringUtil.addLeftZero2Len("1", 3));
+
 	}
 
 }
