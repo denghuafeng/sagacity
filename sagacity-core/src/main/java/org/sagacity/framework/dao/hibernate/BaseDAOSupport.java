@@ -5,14 +5,10 @@ package org.sagacity.framework.dao.hibernate;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.SQLWarning;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -27,13 +23,10 @@ import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.impl.SessionImpl;
 import org.sagacity.framework.dao.exception.CreateSequenceException;
 import org.sagacity.framework.dao.handler.CriteriaCallbackHandler;
 import org.sagacity.framework.dao.handler.RowCallbackHandler;
 import org.sagacity.framework.dao.model.TableSequence;
-import org.sagacity.framework.dao.model.sp.StoreProcParam;
-import org.sagacity.framework.dao.model.sp.StoreProcParamNotSupportException;
 import org.sagacity.framework.dao.utils.SqlUtil;
 import org.sagacity.framework.dao.utils.SqlUtil.QueryParam;
 import org.sagacity.framework.log.Log;
@@ -67,32 +60,6 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	 * 批次取出财务应付单当前日期10条sequence
 	 */
 	protected final BigDecimal ONE_BIGDECIMAL = new BigDecimal(1);
-
-	/**
-	 * 长日期格式
-	 * @deprecated 启用DF_xxxx名称常量 2009.1.21
-	 */
-	protected final String DATE_FORMAT_LONG = "yyyyMMdd";
-	
-	/**
-	 * @deprecated 启用DF_xxxx名称常量
-	 */
-	protected final String DATE_FORMAT_SHORT = "yyMMdd";
-	
-	/**
-	 * @deprecated 启用DF_xxxx名称常量
-	 */
-	protected final String DATE_FORMAT_YEAR = "yyyy";
-	
-	/**
-	 * @deprecated 启用DF_xxxx名称常量
-	 */
-	protected final String DATE_FORMAT_SHORTYEAR = "yy";
-	
-	/**
-	 * @deprecated 启用DF_xxxx名称常量
-	 */
-	protected final String DATE_FORMAT_YEARMONTH = "yyyyMM";
 	
 	/**
 	 * 日期型序号样式
@@ -208,8 +175,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	}
 
 	/**
-	 * Criteria 查询
-	 * 
+	 * Criteria 条件查询
 	 * @param detachedCriteria
 	 * @return
 	 */
@@ -230,7 +196,6 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 
 	/**
 	 * Criteria分页查询记录总笔数
-	 * 
 	 * @param detachedCriteria
 	 * @return
 	 */
@@ -258,16 +223,14 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	 * @return
 	 * @throws Exception
 	 */
-	protected List findByJdbcQuery(String sqlOrNamedSql,
-			PreparedStatementSetter preparHandler, Object paramsObj,
+	protected List findByJdbcQuery(String sqlOrNamedSql,Object paramsObj,
 			RowCallbackHandler rowCallHandler) throws Exception {
-		return findByJdbcQuery(sqlOrNamedSql, preparHandler, paramsObj,
+		return findByJdbcQuery(sqlOrNamedSql, paramsObj,
 				rowCallHandler, null);
 	}
 
 	/**
 	 * sql 查询并返回结果
-	 * 
 	 * @param queryStr
 	 * @param preparHandler
 	 * @param paramsObj
@@ -275,8 +238,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	 * @return
 	 * @throws Exception
 	 */
-	protected List findByJdbcQuery(String sqlOrNamedSql,
-			PreparedStatementSetter preparHandler, Object paramsObj,
+	protected List findByJdbcQuery(String sqlOrNamedSql,Object paramsObj,
 			RowCallbackHandler rowCallHandler, Connection conn)
 			throws Exception {
 		String queryStr = SqlUtil.processQuery(sqlOrNamedSql,
@@ -296,9 +258,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 			else
 				pst = this.getSession().connection().prepareStatement(
 						queryParam.getQueryStr());
-			if (preparHandler != null)
-				preparHandler.setValues(pst);
-			else if (params != null && params.length > 0) {
+			if (params != null && params.length > 0) {
 				SqlUtil.setParamsValue(pst, params, 0);
 			}
 
@@ -670,8 +630,9 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 		else if (StringUtil.IndexOfIgnoreCase(dbDialect, "sybase") != -1)
 			result = findPageBySybaseJdbc(queryStr, rowCallbackHandler, params,
 					paginationModel, conn);
+		//游标方式查询
 		else
-			result = findPageByJdbcSick(queryStr, rowCallbackHandler, params,
+			result = findPageByJdbcCursor(queryStr, rowCallbackHandler, params,
 					paginationModel, conn);
 		logger.debug("findPageByJdbc"
 				+ (result == null ? "结果为空" : "记录条数:" + result.getRecordCount()
@@ -942,8 +903,6 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	/**
 	 * 本方法一般针对非主流数据库没有提供分页机制的查询, 采用先取出所有结果集,再通过页编号过滤取出当前页数据 一般不建议采取这种方式
 	 * 通过游标的方式实现分页
-	 * 
-	 * @deprecated 2008.08.26 修正了findPageByJdbc,此方法停止使用
 	 * @param queryStr
 	 * @param rowCallbackHandler
 	 * @param params
@@ -951,7 +910,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	 * @return
 	 * @throws Exception
 	 */
-	protected PaginationModel findPageByJdbcSick(String queryStr,
+	private PaginationModel findPageByJdbcCursor(String queryStr,
 			final RowCallbackHandler rowCallbackHandler, final Object[] params,
 			final PaginationModel paginationModel, Connection conn)
 			throws Exception {
@@ -1486,12 +1445,5 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 			String property, boolean isChar) throws Exception {
 		return SqlUtil
 				.combineQueryInStr(conditions, colIndex, property, isChar);
-	}
-
-	public static void main(String[] args) {
-		String queryStr = " select * from HR_ORGAN_INFO where 1=1 and CREATE_DATE>=? and CREATE_DATE<=?  ";
-
-		BaseDAOSupport test = new BaseDAOSupport();
-		test.getJdbcRecordCount(queryStr, new Object[] { "", "" }, null);
 	}
 }
