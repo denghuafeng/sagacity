@@ -66,21 +66,42 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 
 	/**
 	 * 长日期格式
+	 * @deprecated 启用DF_xxxx名称常量
 	 */
 	protected final String DATE_FORMAT_LONG = "yyyyMMdd";
-
-	protected final String DATE_FORMAT_SHORT = "yyMMdd";
-
-	protected final String DATE_FORMAT_YEAR = "yyyy";
-
-	protected final String DATE_FORMAT_SHORTYEAR = "yy";
-
-	protected final String DATE_FORMAT_YEARMONTH = "yyyyMM";
-
+	
 	/**
-	 * 是否输出DAO日志的标志
+	 * @deprecated 启用DF_xxxx名称常量
 	 */
-	private static String isOutDAOLogFlag = "";
+	protected final String DATE_FORMAT_SHORT = "yyMMdd";
+	
+	/**
+	 * @deprecated 启用DF_xxxx名称常量
+	 */
+	protected final String DATE_FORMAT_YEAR = "yyyy";
+	
+	/**
+	 * @deprecated 启用DF_xxxx名称常量
+	 */
+	protected final String DATE_FORMAT_SHORTYEAR = "yy";
+	
+	/**
+	 * @deprecated 启用DF_xxxx名称常量
+	 */
+	protected final String DATE_FORMAT_YEARMONTH = "yyyyMM";
+	
+	/**
+	 * 长日期格式
+	 */
+	protected final String DF_yyyyMMdd = "yyyyMMdd";
+	
+	protected final String DF_yyMMdd = "yyMMdd";
+
+	protected final String DF_yyyy = "yyyy";
+
+	protected final String DF_yy = "yy";
+
+	protected final String DF_yyyyMM = "yyyyMM";
 
 	/**
 	 * 定义全局日志
@@ -89,27 +110,30 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 
 	/**
 	 * 获取当前会话的数据库类型
-	 * 
-	 * @return 数据库的类型
+	 * @return
 	 */
 	protected String getCurrentSessionDBDialect() throws SQLException {
 		return getCurrentSessionDBDialect(null);
 	}
 
 	/**
-	 * 获取当前会话的数据库类型
-	 * 
-	 * @return 数据库的类型
+	 * 获取数据库类型和版本信息
+	 * @param conn
+	 * @return
+	 * @throws SQLException
 	 */
 	protected String getCurrentSessionDBDialect(Connection conn)
 			throws SQLException {
 		String dialect;
 		if (conn != null) {
-			dialect = conn.getMetaData().getDatabaseProductName()
+			dialect = conn.getMetaData().getDatabaseProductName() + "|"
 					+ conn.getMetaData().getDatabaseProductVersion();
 		} else
-			dialect = ((SessionImpl) this.getSession()).getFactory()
-					.getDialect().getClass().getName();
+			dialect = this.getSession().connection().getMetaData()
+					.getDatabaseProductName()
+					+ "|"
+					+ this.getSession().connection().getMetaData()
+							.getDatabaseProductVersion();
 		logger.debug("current session dataBase dialect:" + dialect);
 		return dialect;
 	}
@@ -951,7 +975,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 				recordCount = 0;
 				realStartPage = -1;
 			}
-			
+
 			if (conn != null)
 				pst = conn.prepareStatement(queryStr,
 						ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -975,7 +999,8 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 				// 将游标移动到第一条记录
 				rs.absolute(1);
 				// 游标移动到要输出的第一条记录
-				rs.relative((realStartPage - 1) * paginationModel.getPageSize()-1);
+				rs.relative((realStartPage - 1) * paginationModel.getPageSize()
+						- 1);
 			}
 			while (rs.next()) {
 				if (rowCallbackHandler != null)
