@@ -902,7 +902,6 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 				this.executeJdbcSql("drop table " + tmpTable, null, null);
 				hasCreateTmp = false;
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -953,13 +952,6 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 				realStartPage = -1;
 			}
 			
-			// 游标类型：
-			//ResultSet.TYPE_FORWORD_ONLY:只进游标
-			//ResultSet.TYPE_SCROLL_INSENSITIVE:可滚动。但是不受其他用户对数据库更改的影响。
-            //ResultSet.TYPE_SCROLL_SENSITIVE:可滚动。当其他用户更改数据库时这个记录也会改变。
-			//能否更新记录：
-			//ResultSet.CONCUR_READ_ONLY,只读
-			//ResultSet.CONCUR_UPDATABLE,可更新
 			if (conn != null)
 				pst = conn.prepareStatement(queryStr,
 						ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -973,17 +965,18 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 			}
 
 			// 设置最大查询行
-			pst.setMaxRows(realStartPage * paginationModel.getPageSize());
+			if (realStartPage != -1)
+				pst.setMaxRows(realStartPage * paginationModel.getPageSize());
 			rs = pst.executeQuery();
 
 			List items = null;
 			int rowCnt = rs.getMetaData().getColumnCount();
-			//将游标移动到第一条记录
-			rs.first();
-			//游标移动到要输出的第一条记录
-			rs
-					.relative((realStartPage - 1)
-							* paginationModel.getPageSize() + 1);
+			if (realStartPage > 1) {
+				// 将游标移动到第一条记录
+				rs.absolute(1);
+				// 游标移动到要输出的第一条记录
+				rs.relative((realStartPage - 1) * paginationModel.getPageSize()-1);
+			}
 			while (rs.next()) {
 				if (rowCallbackHandler != null)
 					rowCallbackHandler.processRow(rs);
@@ -1106,6 +1099,11 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 		return columnsMeta;
 	}
 
+	/**
+	 * 快速删除表
+	 * 
+	 * @param tableName
+	 */
 	protected void truncate(String tableName) {
 		truncate(tableName, null);
 	}
@@ -1138,123 +1136,6 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * 此来自宁波农行绩效考核一期，暂没有修改
-	 * 
-	 * @param procedureName
-	 * @param params
-	 * @return
-	 * @throws Exception
-	 */
-	protected List storeProcedure(String procedureName, List params)
-			throws Exception {
-		Connection conn = getHibernateTemplate().getSessionFactory()
-				.getCurrentSession().connection();
-		StringBuffer sql = new StringBuffer();
-		StringBuffer debug = new StringBuffer();
-		sql.append("{?=call ");
-		debug.append("{?=call ");
-		sql.append(procedureName);
-		debug.append(procedureName);
-		if (params != null) {
-			sql.append("(");
-			debug.append("(");
-			for (int i = 0; i < params.size(); i++) {
-				StoreProcParam param = (StoreProcParam) params.get(i);
-				if (i == (params.size() - 1)) {
-					sql.append("?");
-					if (param.getParamValue() instanceof String) {
-						debug.append("'" + param.getParamValue() + "'");
-					} else {
-						debug.append(param.getParamValue());
-					}
-				} else {
-					sql.append("?,");
-					if (param.getParamValue() instanceof String) {
-						debug.append("'" + param.getParamValue() + "',");
-					} else {
-						debug.append(param.getParamValue() + ",");
-					}
-				}
-			}
-			sql.append(")");
-			debug.append(")");
-		}
-
-		sql.append("}");
-		debug.append("}");
-
-		CallableStatement call = conn.prepareCall(sql.toString());
-		logger.info("StoreProcedure Grammar Is :" + debug.toString());
-
-		call.registerOutParameter(1, Types.INTEGER);
-		if (params != null) {
-			for (int i = 2; i <= params.size() + 1; i++) {
-				if (!(params.get(i - 2) instanceof StoreProcParam)) {
-					throw new StoreProcParamNotSupportException();
-				}
-				StoreProcParam param = (StoreProcParam) params.get(i - 2);
-				if (param.getType().equals(StoreProcParam.IN)) {
-					if (param.getParamValue() == null) {
-						call.setNull(i, param.getSqlType());
-					} else {
-						call.setObject(i, param.getParamValue());
-					}
-				} else {
-					call.registerOutParameter(i, param.getSqlType());
-				}
-			}
-		}
-		List result = new ArrayList();
-
-		ResultSet rs = null;
-		try {
-			/*
-			 * update by chenrenfei 2007-10-11 解决存储过程返回多个结果集问题，取最后一个结果集
-			 */
-			Object obj = call.executeQuery();
-
-			if (obj instanceof Object[]) {
-				ResultSet[] rss = (ResultSet[]) obj;
-				rs = rss[rss.length - 1];
-			} else
-				rs = (ResultSet) obj;
-		} catch (Exception e) {
-			logger.info("StoreProc is no ResultSet Return!");
-			e.printStackTrace();
-			logger.error("存储过程调用错误信息:" + e.getMessage());
-			return new ArrayList();
-		}
-
-		if (rs != null) {
-			ResultSetMetaData meta = rs.getMetaData();
-			while (rs.next()) {
-				List row = new ArrayList();
-				for (int i = 0; i < meta.getColumnCount(); i++) {
-					row.add(rs.getObject(i + 1));
-				}
-				result.add(row.toArray());
-			}
-			rs.close();
-		}
-
-		SQLWarning warn = call.getWarnings();
-
-		while (warn != null) {
-			if (warn.getErrorCode() == 0 && warn.getSQLState() == null) {
-				logger.error(warn.getMessage());
-			}
-			warn = warn.getNextWarning();
-		}
-
-		int rtnFlag = call.getInt(1);
-		if (rtnFlag != 0) {
-			return new ArrayList();
-		}
-		call.close();
-		return result;
 	}
 
 	/**
@@ -1358,6 +1239,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 
 	/**
 	 * hql语句分页获取其总记录数
+	 * 
 	 * @param hql
 	 * @param paramNames
 	 * @param paramValues
@@ -1507,6 +1389,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 
 	/**
 	 * 转换sql参数,判断对象值是否为"",是则设置对象[或对象数组中的]值为null
+	 * 
 	 * @param params
 	 * @return
 	 */
@@ -1515,8 +1398,8 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	}
 
 	/**
-	 * 转换sql参数,将对象数组中的值与给定的参照数值比较，
-	 * 如果相等则置数组中的值为null
+	 * 转换sql参数,将对象数组中的值与给定的参照数值比较， 如果相等则置数组中的值为null
+	 * 
 	 * @param params
 	 * @param contrasts
 	 * @return
