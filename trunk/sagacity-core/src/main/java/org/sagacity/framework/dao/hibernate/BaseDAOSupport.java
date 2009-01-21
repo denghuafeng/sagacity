@@ -56,17 +56,21 @@ import org.springframework.util.Assert;
  * @version $id:BaseDAOSupport.java,Revision:v1.0,Date:2008-10-22 下午04:21:51 $
  */
 public class BaseDAOSupport extends HibernateDaoSupport {
+	/**
+	 * 定义全局日志
+	 */
+	protected final Log logger = LogFactory.getFactory().getLog(getClass());
 
 	/**
 	 * 常量，提供给获取表Sequence,like
-	 * this.getDateSequence(fiApHead.class,this.DATE_FORMAT_LONG, 10)
+	 * this.getDateSequence(fiApHead.class,this.DF_YYYYMMDD, 10)
 	 * 批次取出财务应付单当前日期10条sequence
 	 */
 	protected final BigDecimal ONE_BIGDECIMAL = new BigDecimal(1);
 
 	/**
 	 * 长日期格式
-	 * @deprecated 启用DF_xxxx名称常量
+	 * @deprecated 启用DF_xxxx名称常量 2009.1.21
 	 */
 	protected final String DATE_FORMAT_LONG = "yyyyMMdd";
 	
@@ -91,22 +95,16 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	protected final String DATE_FORMAT_YEARMONTH = "yyyyMM";
 	
 	/**
-	 * 长日期格式
+	 * 日期型序号样式
 	 */
-	protected final String DF_yyyyMMdd = "yyyyMMdd";
-	
-	protected final String DF_yyMMdd = "yyMMdd";
-
-	protected final String DF_yyyy = "yyyy";
-
-	protected final String DF_yy = "yy";
-
-	protected final String DF_yyyyMM = "yyyyMM";
-
-	/**
-	 * 定义全局日志
-	 */
-	protected final Log logger = LogFactory.getFactory().getLog(getClass());
+	public final class DateSequenceStyle
+	{
+		public static final String DF_YYYYMMDD = "yyyyMMdd";
+		public static final String DF_YYMMDD = "yyMMdd";
+		public static final String DF_YYYY = "yyyy";
+		public static final String DF_YY = "yy";
+		public static final String DF_YYYYMM = "yyyyMM";
+	}
 
 	/**
 	 * 获取当前会话的数据库类型
@@ -348,7 +346,8 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 			throws Exception {
 		executeJdbcSql(sqlOrNamedSql, preparHandler, paramsObj, null);
 	}
-
+	
+	
 	/**
 	 * 无返回结果的SQL执行
 	 * 
@@ -422,7 +421,6 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 
 	/**
 	 * 根据日期获取SEQNO
-	 * 
 	 * @param entityClass
 	 * @param nowDate
 	 * @param dateStyle
@@ -459,7 +457,6 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 
 	/**
 	 * hql分页查询
-	 * 
 	 * @param hql
 	 * @param params
 	 *            :条件参数值
@@ -556,8 +553,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	}
 
 	/**
-	 * 条件查询分页
-	 * 
+	 * 条件查询分页 
 	 * @param detachedCriteria
 	 * @param paginationModel
 	 * @return
@@ -651,6 +647,8 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 		params = queryParam.getParamsValue();
 		logger.debug("findPageByJdbc:分页查询sql为:" + queryStr);
 		String dbDialect = getCurrentSessionDBDialect(conn);
+		String dbversion=dbDialect.substring(dbDialect.indexOf("|")+1);
+		
 		PaginationModel result = null;
 		if (StringUtil.IndexOfIgnoreCase(dbDialect, "oracle") != -1)
 			result = findPageCommonJdbc(queryStr, rowCallbackHandler, params,
@@ -658,13 +656,15 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 		else if (StringUtil.IndexOfIgnoreCase(dbDialect, "db2") != -1)
 			result = findPageCommonJdbc(queryStr, rowCallbackHandler, params,
 					paginationModel, 2, conn);
-		else if (StringUtil.IndexOfIgnoreCase(dbDialect, "sqlserver") != -1)
+		//仅支持2000以及以上版本
+		else if (StringUtil.IndexOfIgnoreCase(dbDialect, "sqlserver") != -1 && dbversion.indexOf("2000")!=0)
 			result = findPageCommonJdbc(queryStr, rowCallbackHandler, params,
 					paginationModel, 3, conn);
 		else if (StringUtil.IndexOfIgnoreCase(dbDialect, "mysql") != -1)
 			result = findPageCommonJdbc(queryStr, rowCallbackHandler, params,
 					paginationModel, 4, conn);
-		else if (StringUtil.IndexOfIgnoreCase(dbDialect, "informix") != -1)
+		//只考虑9以及以上版本
+		else if (StringUtil.IndexOfIgnoreCase(dbDialect, "informix") != -1&& dbversion.indexOf("9")!=0)
 			result = findPageCommonJdbc(queryStr, rowCallbackHandler, params,
 					paginationModel, 5, conn);
 		else if (StringUtil.IndexOfIgnoreCase(dbDialect, "sybase") != -1)
