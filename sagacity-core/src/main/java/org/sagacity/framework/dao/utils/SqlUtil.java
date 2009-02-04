@@ -3,6 +3,7 @@
  */
 package org.sagacity.framework.dao.utils;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -152,7 +153,9 @@ public class SqlUtil {
 			for (int i = 0; i < params.length; i++) {
 				param = params[i];
 				paramIndex = fromIndex + 1 + i;
-				if (param instanceof java.lang.String)
+				if (param == null)
+					pst.setNull(paramIndex, java.sql.Types.NULL);
+				else if (param instanceof java.lang.String)
 					pst.setString(paramIndex, (String) param);
 				else if (param instanceof java.lang.Long)
 					pst.setLong(paramIndex, ((Long) param).longValue());
@@ -167,6 +170,16 @@ public class SqlUtil {
 					pst.setDouble(paramIndex, ((Double) param).doubleValue());
 				else if (param instanceof java.lang.Float)
 					pst.setFloat(paramIndex, ((Float) param).floatValue());
+				else if (param instanceof java.lang.Boolean)
+					pst.setBoolean(paramIndex, (Boolean) param);
+				else if (param instanceof java.lang.Character)
+					pst.setString(paramIndex, ((Character) param).toString());
+				else if (param instanceof java.lang.Byte)
+					pst.setByte(paramIndex, (Byte) param);
+				else if (param instanceof BigDecimal)
+					pst.setBigDecimal(paramIndex, (BigDecimal) param);
+				else
+					pst.setObject(paramIndex, param);
 			}
 		}
 	}
@@ -239,10 +252,24 @@ public class SqlUtil {
 						+ " "
 						+ queryStr.substring(endMarkIndex
 								+ Constants.SQL_PSEUDO_END_MARK.length());
+			boolean sqlhasIs = false;
 			// 从最后一个#[]中的参数开始处理
 			for (int i = preParamCnt; i < preParamCnt + paramCnt; i++) {
-				// 参数值为null，剔除#[]部分内容，同时将参数从数组中剔除
-				if (paramsValue[i] == null) {
+				// 判断是否存在is 条件
+				if (StringUtil.matchs(markContentSql.toLowerCase(),
+						"\\s+is\\s+\\?")
+						|| (paramsName != null && paramsName.length != 0 && StringUtil
+								.matchs(markContentSql.toLowerCase(),
+										"\\s+is\\s+\\:" + paramsName[i])))
+					sqlhasIs = true;
+
+				/**
+				 *  1、参数值为null且非is 条件sql语句
+				 *  2、is 条件sql语句值非null、true、false
+				 *  剔除#[]部分内容，同时将参数从数组中剔除
+				 */
+				if ((paramsValue[i] == null && !sqlhasIs)
+						|| (sqlhasIs && paramsValue[i] != null && !(paramsValue[i] instanceof java.lang.Boolean))) {
 					// sql中剔除最后部分的#[]内容
 					queryStr = queryStr.substring(0, beginMarkIndex)
 							+ " "
@@ -283,8 +310,9 @@ public class SqlUtil {
 										+ "\'");
 						paramsName = (String[]) subArray(paramsName, i, 1);
 						paramsValue = subArray(paramsValue, i, 1);
-						// // 去除in (?)部分
-					} else if (StringUtil.matchs(markContentSql.toLowerCase(),
+
+					} // 去除in (?)部分
+					else if (StringUtil.matchs(markContentSql.toLowerCase(),
 							"\\s+in\\s+\\(\\s*\\?\\s*\\)")) {
 						queryStr += markContentSql.replace("?", paramsValue[i]
 								.toString());
@@ -299,9 +327,7 @@ public class SqlUtil {
 								paramsValue[i].toString());
 						paramsName = (String[]) subArray(paramsName, i, 1);
 						paramsValue = subArray(paramsValue, i, 1);
-					}
-
-					else
+					} else
 						queryStr += markContentSql;
 					queryStr += " " + endSql;
 				}
@@ -426,11 +452,12 @@ public class SqlUtil {
 		queryStr.append("select *  ");
 		queryStr.append("from OA_CAR_REGIST t ");
 		queryStr.append("where 1=1 ");
+		queryStr.append("      #[and t.create is ? ]");
 		queryStr.append("      #[and t.REGIST_DATE>=? and t.REGIST_DATE<= ? ]");
 		queryStr.append("      #[and t.CAR_MODE like ? ] ");
 		queryStr.append("      and t.IS_ACTIVE=?");
 
-		Object[] paramsValue = new Object[] { null, null, null, "1" };
+		Object[] paramsValue = new Object[] { true, null, null, null, "1" };
 		QueryParam sqlParam = SqlUtil.filterNullConditions(queryStr.toString(),
 				null, paramsValue);
 		System.err.println("tmp=" + sqlParam.getQueryStr());
