@@ -12,19 +12,20 @@ import org.sagacity.framework.log.LogFactory;
 
 /**
  * @project sagacity-core
- * @description:$
- *          <p>
- *          数据库连接工具类
- *          </p>$
+ * @description:$ <p>
+ *                数据库连接工具类
+ *                </p>
+ *                $
  * @author Administrator $<a href="mailto:zhongxuchen@hotmail.com">联系作者</a>$
  * @version $id:DBUtil.java,Revision:v1.0,Date:Dec 24, 2008 3:52:05 PM $
  */
 public class DBUtil {
 	protected final static Log logger = LogFactory.getFactory().getLog(
 			DBUtil.class);
-	
+
 	/**
 	 * 获取数据库连接
+	 * 
 	 * @param driver
 	 * @param url
 	 * @param username
@@ -47,5 +48,19 @@ public class DBUtil {
 			logger.error("获取数据库失败!" + connectionException.getStackTrace());
 		}
 		return conn;
+	}
+
+	/**
+	 * 销毁数据库连接
+	 * 
+	 * @param conn
+	 */
+	public void destroy(Connection conn) {
+		try {
+			if (conn != null)
+				conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
