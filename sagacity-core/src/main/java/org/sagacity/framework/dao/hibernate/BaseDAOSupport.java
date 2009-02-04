@@ -61,18 +61,12 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	 */
 	protected final BigDecimal ONE_BIGDECIMAL = new BigDecimal(1);
 	
-	/**
-	 * 日期型序号样式
-	 */
-	public final class DateSequenceStyle
-	{
-		public static final String DF_YYYYMMDD = "yyyyMMdd";
-		public static final String DF_YYMMDD = "yyMMdd";
-		public static final String DF_YYYY = "yyyy";
-		public static final String DF_YY = "yy";
-		public static final String DF_YYYYMM = "yyyyMM";
-	}
-
+	protected final String DF_YYYYMMDD = "yyyyMMdd";
+	protected final String DF_YYMMDD = "yyMMdd";
+	protected final String DF_YYYY = "yyyy";
+	protected final String DF_YY = "yy";
+	protected final String DF_YYYYMM = "yyyyMM";
+	
 	/**
 	 * 获取当前会话的数据库类型
 	 * @return
@@ -788,7 +782,6 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 
 	/**
 	 * sybase jdbc 方式分页查询，sybase12.5及以下版本因为不能使用top嵌套 只提供采用临时表方式实现分页
-	 * 
 	 * @param queryStr
 	 * @param rowCallbackHandler
 	 * @param params
