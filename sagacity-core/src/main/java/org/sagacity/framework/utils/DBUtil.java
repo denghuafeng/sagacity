@@ -55,7 +55,7 @@ public class DBUtil {
 	 * 
 	 * @param conn
 	 */
-	public void destroy(Connection conn) {
+	public static void destroy(Connection conn) {
 		try {
 			if (conn != null)
 				conn.close();
