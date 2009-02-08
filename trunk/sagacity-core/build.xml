@@ -124,7 +124,7 @@
 				<exclude name="**/.svn/**" />
 			</fileset>
 		</zip>
-		
+
 		<!--select组件 -->
 		<zip destfile="${sagacity.classes}/components/select1.0.zip">
 			<fileset dir="${sagacity.components}/select/">
