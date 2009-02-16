@@ -34,18 +34,24 @@ import net.sf.excelutils.ExcelUtils;
  *@version $id:ExcelUtil.java,Revision:v1.0,Date:2008-12-14 下午10:02:07 $
  */
 public class ExcelUtil {
+	public static List read(Object excelData, Integer beginRow,Integer endRow, Integer beginCol, Integer endCol)
+			throws Exception {
+		return read(excelData,null, beginRow,endRow, beginCol, endCol);
+	}
+	
 	/**
 	 * 读取excel文件
-	 * 
-	 * @param excelBytes
+	 * @param excelData
 	 * @param beginRow
+	 * @param sheetName
 	 * @param endRow
 	 * @param beginCol
 	 * @param endCol
 	 * @return
+	 * @throws Exception
 	 */
-	public static List read(Object excelData, Integer beginRow,
-			String sheetName, Integer endRow, Integer beginCol, Integer endCol)
+	public static List read(Object excelData,String sheetName,Integer beginRow,
+			 Integer endRow, Integer beginCol, Integer endCol)
 			throws Exception {
 		if (excelData == null)
 			return null;
@@ -245,8 +251,8 @@ public class ExcelUtil {
 		}
 		ExcelUtil.writer(new String[] { "datas" }, new Object[] { datas },
 				config, fo);
-		List data = ExcelUtil.read(new File("D:/test.xls"), new Integer(3),
-				null, null, new Integer(1), new Integer(7));
+		List data = ExcelUtil.read(new File("D:/test.xls"),null, new Integer(3),
+				null, new Integer(1), new Integer(7));
 		for (int i = 0; i < data.size(); i++) {
 			System.err.println(((List) data.get(i)).get(6));
 		}
