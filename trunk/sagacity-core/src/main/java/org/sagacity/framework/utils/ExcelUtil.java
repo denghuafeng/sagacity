@@ -28,7 +28,7 @@ import net.sf.excelutils.ExcelUtils;
 
 /**
  * 
- *@project sagacity-core 
+ *@project sagacity-core
  *@description:$<p>读取Excel工具,主要以excelUtils开源项目为基础</p>$
  *@author Administrator $<a href="mailto:zhongxuchen@hotmail.com">联系作者</a>$
  *@version $id:ExcelUtil.java,Revision:v1.0,Date:2008-12-14 下午10:02:07 $
@@ -44,8 +44,9 @@ public class ExcelUtil {
 	 * @param endCol
 	 * @return
 	 */
-	public static List read(Object excelData, Integer beginRow, Integer endRow,
-			Integer beginCol, Integer endCol) throws Exception {
+	public static List read(Object excelData, Integer beginRow,
+			String sheetName, Integer endRow, Integer beginCol, Integer endCol)
+			throws Exception {
 		if (excelData == null)
 			return null;
 		InputStream excelInputStream = null;
@@ -68,7 +69,11 @@ public class ExcelUtil {
 			return null;
 
 		Workbook wb = Workbook.getWorkbook(excelInputStream);
-		Sheet sheet = wb.getSheet(0);
+		Sheet sheet;
+		if (StringUtil.isNotNullAndBlank(sheetName))
+			sheet = wb.getSheet(sheetName);
+		else
+			sheet = wb.getSheet(0);
 		// excel数据为空
 		if (sheet.getRows() <= 1 || sheet.getColumns() < 1)
 			return null;
@@ -241,7 +246,7 @@ public class ExcelUtil {
 		ExcelUtil.writer(new String[] { "datas" }, new Object[] { datas },
 				config, fo);
 		List data = ExcelUtil.read(new File("D:/test.xls"), new Integer(3),
-				null, new Integer(1), new Integer(7));
+				null, null, new Integer(1), new Integer(7));
 		for (int i = 0; i < data.size(); i++) {
 			System.err.println(((List) data.get(i)).get(6));
 		}
