@@ -34,13 +34,23 @@ import net.sf.excelutils.ExcelUtils;
  *@version $id:ExcelUtil.java,Revision:v1.0,Date:2008-12-14 下午10:02:07 $
  */
 public class ExcelUtil {
+	/**
+	 * 读取excel文件
+	 * @param excelData
+	 * @param beginRow
+	 * @param endRow
+	 * @param beginCol
+	 * @param endCol
+	 * @return
+	 * @throws Exception
+	 */
 	public static List read(Object excelData, Integer beginRow,Integer endRow, Integer beginCol, Integer endCol)
 			throws Exception {
 		return read(excelData,null, beginRow,endRow, beginCol, endCol);
 	}
 	
 	/**
-	 * 读取excel文件
+	 * 读取指定sheet的excel文件
 	 * @param excelData
 	 * @param beginRow
 	 * @param sheetName
