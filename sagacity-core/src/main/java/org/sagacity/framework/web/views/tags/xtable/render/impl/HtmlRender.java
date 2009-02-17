@@ -184,13 +184,11 @@ public class HtmlRender implements Render {
 		}
 		headTemplate = StringUtil.replaceAllStr(headTemplate,
 				"#{toolbarStyle}", tableModel.getToolBarStyle());
-		// 增加分页工具条按钮等
+		
+		// 增加工具条按钮等
 		if (headTemplate.indexOf("#{pageExtToolbar}") != -1) {
 			String pageExtBar = tableModel.getTagBodyDefine().get("pageExt") == null ? ""
 					: (String) tableModel.getTagBodyDefine().get("pageExt");
-			if (tableModel.isHasExport() == false && pageExtBar == null
-					|| pageExtBar.trim().equalsIgnoreCase(""))
-				return;
 			headTemplate = StringUtil.replaceStr(headTemplate,
 					"#{pageExtToolbar}", pageExtBar);
 		}
