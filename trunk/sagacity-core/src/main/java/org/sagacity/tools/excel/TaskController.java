@@ -20,19 +20,16 @@ import org.sagacity.tools.excel.task.ITask;
 import org.sagacity.tools.excel.utils.TaskXMLParse;
 
 /**
- * @project abchina
- * @description:$ <p>
- *                excel任务控制调度主程序
- *                </p>
- *                $
- * @author zhongxuchen $<a href="mailto:zhongxuchen@hotmail.com">联系作者</a>$
- * @version $id:DBExcel.java,Revision:v1.0,Date:Jul 29, 2008 11:07:07 AM $
+ *@project sagacity-core 
+ *@description:$<p>excel任务控制调度主程序</p>$
+ *@author Administrator $<a href="mailto:zhongxuchen@hotmail.com">联系作者</a>$
+ *@version $id:TaskController.java,Revision:v1.0,Date:2009-2-18 上午10:29:15 $
  */
 public class TaskController {
 	/**
 	 * 日志参数定义文件
 	 */
-	private final static String logFile = "/com/abchina/tools/excel/dbexcellog.properties";
+	private final static String logFile = "/org/sagacity/tools/excel/dbexcellog.properties";
 
 	private final Log logger;
 
@@ -50,13 +47,13 @@ public class TaskController {
 		this.loadEnv();
 		logger = LogFactory.getFactory().getLog(getClass());
 		logger
-				.info("=======================         系统提示           ==================================");
+				.info("=======================       系统提示           ==================================");
 		logger
-				.info("Copyright @2008 AGRICULTURAL BANK OF CHINA, All Rights Reserved 中国农业银行宁波市分行");
+				.info("     Copyright @2008 SAGACITY.ORG, All Rights Reserved 求索实业                        ");
 		logger
-				.info("======================= 项目实施方上海南天(陈仁飞倾情提供) =============================");
+				.info("======================= SAGACITY 睿智开发团队(陈仁飞倾情提供) ================");
 		logger
-				.info("-----------------------------------------------------------------------------------");
+				.info("----------------------------------------------------------------------------");
 	}
 
 	/**
@@ -66,14 +63,14 @@ public class TaskController {
 	 */
 	public final void parse(String taskFile) {
 		if (taskFile == null) {
-			logger.error("taskFile 为空,任务调用方式为:java abchina.jar excelTask.xml");
+			logger.error("taskFile 为空,任务调用方式为:java sagacity-core1.0.jar excelTask.xml");
 			isRunFlag = false;
 			return;
 		}
 		// 去掉空格
 		taskFile = taskFile.trim();
 		if (taskFile.toLowerCase().indexOf(".xml") != taskFile.length() - 4) {
-			logger.error("请用xml格式定义任务,任务调用方式为:java abchina.jar ***.xml");
+			logger.error("请用xml格式定义任务,任务调用方式为:java sagacity-core1.0.jar ***.xml");
 			isRunFlag = false;
 			return;
 		}
@@ -135,15 +132,6 @@ public class TaskController {
 			props.load(stream);
 			PropertyConfigurator.configure(props);
 			System.out.println("log4j properties is loaded");
-
-			/**
-			 * 动态加载当前目录下的jar,减少配置 URLClassLoader classLoader = null; List jars =
-			 * new ArrayList(); File file = new File("."); if
-			 * (file.isDirectory()) { File[] files = file.listFiles(); for (int
-			 * i = 0; i < files.length; i++) { if
-			 * (files[i].getName().indexOf(".jar") != -1) { jars.add(new
-			 * JarFile(files[i])); } } }
-			 */
 		} catch (IOException io) {
 			io.printStackTrace();
 		}
