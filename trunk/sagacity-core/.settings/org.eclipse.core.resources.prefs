@@ -1,8 +1,9 @@
-#Sat Dec 20 17:16:04 CST 2008
+#Wed Feb 18 10:35:14 CST 2009
 eclipse.preferences.version=1
 encoding//resources/sagacity/scripts/sagacity-framework.js=UTF-8
 encoding//resources/sagacity/scripts/sagacity-html.js=UTF-8
 encoding//resources/sagacity/scripts/sagacity-utils.js=UTF-8
 encoding//resources/xtable/css/xtable.css=UTF-8
 encoding//resources/xtable/scripts/xtable.js=UTF-8
+encoding//src/main/resources/sagacity.properties=UTF-8
 encoding/<project>=UTF-8
