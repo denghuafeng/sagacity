@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+		<multPannel>true</multPannel>
+		<title>睿智开发展示平台</title>
+		<styles>
+			<style name="favorite" desc="收藏夹模式"/>
+			<style name="tree" desc="树形模式"/>
+			<style name="default" desc="下拉菜单模式"/>
+		</styles>
+		<subsys id="-1" name="收藏夹" image="menu_ico1.png" style="favorite">
+					<module id="001" name="人事管理" image="">
+							<item name="员工管理" url="../hr/employeeMain.html" image=""/>
+							<item name="机构管理" url="../hr/organInfoMain.html" image=""/>
+					</module>
+					<module id="002" name="采购管理" image="">
+							<item name="供应商信息管理" url="../pm/supplierInfoMain.html" image=""/>
+							<item name="供应商产品管理" url="../pm/supplierProdMain.html" image=""/>
+							<item name="采购订单品管理" url="../pm/purchaseOrderMain.html" image=""/>
+					</module>
+					
+					<module id="003" name="办公自动化" image="">
+							<item name="车辆信息维护" url="../oa/carRegist_main.html" image=""/>
+							<item name="日终作业查询" url="../taskMgt/taskSearch.html" image=""/>
+					</module>
+					
+					<module id="004" name="日终管理" image="">
+							<item name="日终作业" url="../taskMgt/taskInvoke.html" image=""/>
+							<item name="日终作业查询" url="../taskMgt/taskSearch.html" image=""/>
+					</module>
+					<module id="005" name="系统管理" image="">
+							<item name="人员维护" url="../system/maintainUser.html" image=""/>
+							<item name="人员授权" url="../system/authUser.html" image=""/>
+							<item name="日终作业维护" url="../taskMgt/editTask.html" image=""/>
+					</module>
+		</subsys>	
+		<subsys id="2" name="工作管理" image="menu_ico2.png" style="favorite" >	
+				<module id="001" name="市场活动管理" image="">
+						<item name="编制市场活动" url="../workManager/markPlan.html" image=""/>
+						<item name="我的市场活动任务" url="../workManager/myMarkTasks.html" image=""/>
+						<item name="市场活动总结" url="../workManager/taskSummary.html" image=""/>
+						<item name="我的工作计划" url="../workManager/myweekPlan.html" image=""/>
+				</module>
+				<module id="002" name="业绩任务管理" image="">
+						<item name="编制年度业绩任务" url="../workManager/performancePlan.html" image=""/>
+						<item name="我的业绩任务" url="../workManager/myPerformanceTask.html" image=""/>
+				</module>	
+				<module id="003" name="工作日历" image="">
+						<item name="我的工作日历" url="../workManager/workCalendar.html" image=""/>
+				</module>	
+		</subsys>	
+		<subsys id="3" name="营销管理" image="menu_ico3.png" style="default">
+					<module id="001" name="主动营销服务" image="">
+							<item name="创建营销活动" url="../tradeManager/searchVendtion.html" image=""/>
+							<item name="定制客户名单" url="../tradeManager/userSearch.html" image=""/>
+					</module>
+					<module id="002" name="客户跟踪服务" image="">
+							<item name="跟踪服务查询" url="../tradeManager/searchUserTrade.html" image=""/>
+							<item name="查看跟踪日志" url="../tradeManager/userTrackServe.html" image=""/>
+					</module>
+					<module id="003" name="客户商机管理" image="">
+							<item name="创建商机" url="../tradeManager/tradeStatSearch.html" image=""/>
+							<item name="商机处理" url="../tradeManager/tradeTransact.html" image=""/>
+					</module>
+					<module id="004" name="客户预约服务" image="">
+							<item name="客户预约管理" url="../tradeManager/searchUserBespoken.html" image=""/>
+					</module>
+		</subsys>	
+		<subsys id="4" name="销售管理" image="menu_ico4.png" style="favorite" >	
+				<module id="001" name="销售合同管理" image="">
+						<item name="销售合同维护" url="../contractManager/contractInfo_main.html" image=""/>
+				</module>
+				<module id="002" name="合同销售员管理" image="">
+						<item name="合同销售员维护" url="../contractManager/contractSaler_main.html" image=""/>
+				</module>	
+				<module id="003" name="合同产品管理" image="">
+						<item name="合同产品维护" url="../contractManager/contractPro_main.html" image=""/>
+				</module>	
+				<module id="004" name="客户信息管理" image="">
+						<item name="客户信息维护" url="../contractManager/customInfo_main.html" image=""/>
+				</module>	
+				<module id="005" name="销售维保管理" image="">
+						<item name="销售维保维护" url="../contractManager/maintenance_main.html" image=""/>
+				</module>	
+		</subsys>	
+</project>

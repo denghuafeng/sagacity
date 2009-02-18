@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<build>
+	<!-- ant检查 -->
+	<step name="checkAnt">
+		<desc><![CDATA[检查系统是否安装了Ant!]]></desc>
+		<action class="org.sagacity.ide.step.CheckAnt">
+			<args tip="" result=""/>
+			<property name="script"></property>
+		</action>
+	</step>
+	<!-- maven检查 -->
+	<step name="checkMaven">
+	</step>
+	<step name="AntSetup" ref="checkAnt">
+		<desc><![CDATA[检查系统是否安装了Ant!]]></desc>
+		<action class="org.sagacity.ide.step.SetupAnt">
+			<args tip="" result=""/>
+		</action>
+	</step>
+	<step name="MavenSetup" ref="checkMaven">
+	</step>
+	<step name=""></step>
+</build>

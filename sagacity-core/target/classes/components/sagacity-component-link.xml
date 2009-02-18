@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources version="1.0">
+	<description><![CDATA[标签或组件对应的css,js等资源配置]]></description>
+	<component id="base">
+		<description>基础平台所需要的资源信息</description>
+		<urls>
+			<url>
+			</url>
+		</urls>
+	</component>
+	<component id="xgrid">
+		<description>基于dhtmlGrid的组件</description>
+		<urls>
+			<url>
+			<![CDATA[<link rel="stylesheet" type="text/css" href="${contextPath}/resources/components/yui/fonts-min.css" />]]>
+			</url>
+			<url>
+			<![CDATA[<link rel="stylesheet" type="text/css" href="${contextPath}/resources/components/yui/tabview.css" />]]>
+			</url>
+		</urls>
+	</component>
+	<component id="xtable">
+		<description>xtable的组件资源</description>
+		<urls>
+			<url>
+			<![CDATA[<link rel="stylesheet" type="text/css" href="${contextPath}/resources/components/xtable/css/xtable.css" />]]>
+			</url>
+			<url>
+			<![CDATA[<script type="text/javascript" src="${contextPath}/resources/components/xtable/scripts/xtable.js"></script>]]>
+			</url>
+		</urls>
+	</component>
+	<component id="xtree">
+		<description>树需要的资源</description>
+		<urls>
+			<url>
+			<![CDATA[<link rel="stylesheet" type="text/css" href="${contextPath}/resources/components/yui/fonts-min.css" />]]>
+			</url>
+			<url>
+			<![CDATA[<link rel="stylesheet" type="text/css" href="${contextPath}/resources/components/yui/tabview.css" />]]>
+			</url>
+		</urls>
+	</component>
+	<component id="yuitab">
+		<description>基于yaho ui tabview的组件</description>
+		<urls>
+			<url>
+			<![CDATA[<link rel="stylesheet" type="text/css" href="${contextPath}/resources/components/yui/fonts-min.css" />]]>
+			</url>
+			<url>
+			<![CDATA[<link rel="stylesheet" type="text/css" href="${contextPath}/resources/components/yui/tabview.css" />]]>
+			</url>
+			<url>
+			<![CDATA[<script type="text/javascript" src="${contextPath}/resources/components/yui/yahoo-dom-event.js"></script>]]>
+			</url>
+			<url>
+			<![CDATA[<script type="text/javascript" src="${contextPath}/resources/components/yui/element-beta-min.js"></script>]]>
+			</url>
+			<url>
+			<![CDATA[<script type="text/javascript" src="${contextPath}/resources/components/yui/tabview-min.js"></script>]]>
+			</url>
+		</urls>
+	</component>
+	<component id="DatePicker">
+		<description>基于my97DatePicker的日期组件</description>
+		<urls>
+			<url>
+			<![CDATA[<script type="text/javascript" src="${contextPath}/resources/components/calendar/WdatePicker.js" defer></script>]]>
+			</url>
+		</urls>
+	</component>
+	<component id="select">
+		<description>select组件</description>
+		<urls>
+			<url>
+			<![CDATA[<script type="text/javascript" src="${contextPath}/resources/components/select/scripts/select.js" defer></script>]]>
+			</url>
+		</urls>
+	</component>
+</resources>

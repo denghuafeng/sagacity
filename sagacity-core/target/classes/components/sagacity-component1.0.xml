@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components version="1.0">
+	<description>定义组件对应的资源以及listener解压释放于应用的路径,实现开包即用</description>
+	<component id="grid" name="dhtmlGrid">
+		<description>基于dhtmlGrid的组件</description>
+		<url><![CDATA[]]></url>
+		<resource><![CDATA[/components/dhtml.zip]]></resource>
+		<unzipPath>/resources/components/dhtml/</unzipPath>
+	</component>
+	<component id="xtable" name="xtable">
+		<description>由陈仁飞独自开发的多功能表格组件</description>
+		<url><![CDATA[]]></url>
+		<resource><![CDATA[/components/xtable1.0.zip]]></resource>
+		<unzipPath>/resources/components/xtable/</unzipPath>
+	</component>
+	<component id="97DatePicker" name="97DatePicker">
+		<description>引自My97DatePicker</description>
+		<url><![CDATA[]]></url>
+		<resource><![CDATA[/components/calendar4.1.zip]]></resource>
+		<unzipPath>/resources/components/calendar/</unzipPath>
+	</component>
+	<component id="sagacity-core" name="sagacity-core">
+		<description>sagacity框架中的基本资源</description>
+		<url><![CDATA[]]></url>
+		<resource><![CDATA[/components/sagacity-core1.0.zip]]></resource>
+		<unzipPath>/resources/sagacity/</unzipPath>
+	</component>
+	<component id="prompt" name="prompt">
+		<description>提示脚本资源</description>
+		<url><![CDATA[]]></url>
+		<resource><![CDATA[/components/prompt3.1.zip]]></resource>
+		<unzipPath>/resources/components/prompt/</unzipPath>
+	</component>
+	<component id="select" name="select">
+		<description>select组件</description>
+		<url><![CDATA[]]></url>
+		<resource><![CDATA[/components/select1.0.zip]]></resource>
+		<unzipPath>/resources/components/select/</unzipPath>
+	</component>
+</components>
