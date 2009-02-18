@@ -4,7 +4,6 @@
 package org.sagacity.tools.excel.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @project abchina
@@ -22,6 +21,11 @@ public class ExcelModel implements Serializable {
 	private String excelFile;
 	
 	/**
+	 * excel文件sheet
+	 */
+	private String sheet;
+	
+	/**
 	 * 开始行
 	 */
 	private int beginRow = 0;
@@ -31,6 +35,14 @@ public class ExcelModel implements Serializable {
 	 */
 	private int endRow = -1;
 	
+	public String getSheet() {
+		return sheet;
+	}
+
+	public void setSheet(String sheet) {
+		this.sheet = sheet;
+	}
+
 	/**
 	 * 行的第一个为空则终止
 	 */
