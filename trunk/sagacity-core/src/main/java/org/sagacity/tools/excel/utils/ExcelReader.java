@@ -23,13 +23,11 @@ import org.sagacity.tools.excel.model.ColumnModel;
 import org.sagacity.tools.excel.model.ExcelModel;
 
 /**
- * @project abchina
- * @description:$
- *          <p>
- *          请在此说明此文件的功能
- *          </p>$
- * @author zhongxuchen $<a href="mailto:zhongxuchen@hotmail.com">联系作者</a>$
- * @version $id:ExcelReader.java,Revision:v1.0,Date:Jul 29, 2008 2:27:18 PM $
+ * 
+ *@project sagacity-core 
+ *@description:$<p>excel文件读取</p>$
+ *@author Administrator $<a href="mailto:zhongxuchen@hotmail.com">联系作者</a>$
+ *@version $id:ExcelReader.java,Revision:v1.0,Date:2009-2-18 上午10:40:31 $
  */
 public class ExcelReader {
 	private final static Log logger = LogFactory.getFactory().getLog(
@@ -48,7 +46,11 @@ public class ExcelReader {
 			try {
 				FileInputStream fi = new FileInputStream(excelFile);
 				Workbook wb = Workbook.getWorkbook(fi);
-				Sheet sheet = wb.getSheet(0);
+				Sheet sheet;
+				if(StringUtil.isNotNullAndBlank(excelModel.getSheet()))
+					sheet = wb.getSheet(excelModel.getSheet());
+				else	
+					sheet = wb.getSheet(0);
 			
 				// 开始行
 				int beginRow = excelModel.getBeginRow() - 1;
