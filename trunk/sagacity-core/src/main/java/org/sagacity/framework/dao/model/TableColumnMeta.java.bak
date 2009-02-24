@@ -1,0 +1,44 @@
+package org.sagacity.framework.dao.model;
+
+/**
+ * 
+ *@project sagacity-core
+ *@description:$<p>数据库表字段属性</p>$
+ *@author Administrator $<a href="mailto:zhongxuchen@hotmail.com">联系作者</a>$
+ *@version $id:TableColumnMeta.java,Revision:v1.0,Date:2009-2-24 下午03:27:29 $
+ */
+public class TableColumnMeta implements java.io.Serializable {
+	/**
+	 * 字段名称
+	 */
+	private String colName;
+	
+	/**
+	 * 字段类型
+	 */
+	private int dataType;
+	
+	private String typeName;
+	
+	private boolean nullable;
+	
+	/**
+	 * 字段注释
+	 */
+	private String colRemark;
+	
+	
+	private int decimalDigits;
+	
+	private int numPrecRadix;
+	
+	/**
+	 * 字段长度
+	 */
+	private int colSize;
+	
+	/**
+	 * 字段默认值
+	 */
+	private String colDefault;
+}

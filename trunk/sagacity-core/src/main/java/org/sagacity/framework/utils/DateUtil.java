@@ -70,13 +70,14 @@ public class DateUtil {
 			System.err.println("The date string is null!");
 			return null;
 		}
-
 		try {
 			dateString = dateString.trim();
 			if (dateString.length() == 4)
 				dateString = dateString + "0101";
 			else if (dateString.length() == 6)
 				dateString = dateString + "01";
+			else if (dateString.length() == 7)
+				dateString = dateString + "/01";
 			boolean isCommon = true;
 			if (dateString.indexOf("-") != -1) {
 				dateString = dateString.replaceAll("-", "/");
@@ -673,5 +674,7 @@ public class DateUtil {
 		System.err.println(DateUtil.getDayOfWeek(null));
 		System.err.println(DateUtil.getWeekOfMonth("20090104"));
 		System.err.println(DateUtil.getWeekOfYear("20081227"));
+		
+		System.err.println(DateUtil.formatDate("2008-10", "yyyy-MM"));
 	}
 }
