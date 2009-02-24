@@ -8,8 +8,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.Query;
@@ -208,7 +211,7 @@ public class SqlUtil {
 					" from "));
 		}
 		// 去除掉空格符
-		tmpStr = tmpStr.replaceAll(" ", "");
+		// tmpStr = tmpStr.replaceAll(" ", "");
 		String sign = "?";
 		if (tmpStr.indexOf("?") == -1)
 			sign = ":";
@@ -225,10 +228,30 @@ public class SqlUtil {
 	 * #[and t1.auditTime=?]
 	 * 
 	 * @param queryStr
-	 * @param params
+	 * @param paramsNamed
+	 * @param paramsValue
+	 * @return
 	 */
 	public static QueryParam filterNullConditions(String queryStr,
-			String[] paramsName, Object[] paramsValue) {
+			String[] paramsNamed, Object[] paramsValue) {
+		//queryStr+" " 目的在于sql语句
+		// 将paramNamed查询统一成?条件
+		QueryParam sqlParam = processNamedParamsQuery(queryStr, paramsNamed,
+				paramsValue);
+		return processNullConditions(sqlParam.getQueryStr(), sqlParam
+				.getParamsValue());
+	}
+
+	/**
+	 * 判断条件为null,过滤sql的组合查询条件,如果可能where 后没有任何条件， 建议在where后增加 1=1，程序不对此特征做处理
+	 * example: queryStr= select t1.* from xx_table t1 where #[t1.status=?]
+	 * #[and t1.auditTime=?]
+	 * 
+	 * @param queryStr
+	 * @param params
+	 */
+	private static QueryParam processNullConditions(String queryStr,
+			Object[] paramsValue) {
 		QueryParam sqlParam = new QueryParam();
 		// 判断是否需要过滤处理
 		if (queryStr != null
@@ -257,16 +280,12 @@ public class SqlUtil {
 			for (int i = preParamCnt; i < preParamCnt + paramCnt; i++) {
 				// 判断是否存在is 条件
 				if (StringUtil.matchs(markContentSql.toLowerCase(),
-						"\\s+is\\s+\\?")
-						|| (paramsName != null && paramsName.length != 0 && StringUtil
-								.matchs(markContentSql.toLowerCase(),
-										"\\s+is\\s+\\:" + paramsName[i])))
+						"\\s+is\\s+\\?"))
 					sqlhasIs = true;
 
 				/**
-				 *  1、参数值为null且非is 条件sql语句
-				 *  2、is 条件sql语句值非null、true、false
-				 *  剔除#[]部分内容，同时将参数从数组中剔除
+				 * 1、参数值为null且非is 条件sql语句 2、is 条件sql语句值非null、true、false
+				 * 剔除#[]部分内容，同时将参数从数组中剔除
 				 */
 				if ((paramsValue[i] == null && !sqlhasIs)
 						|| (sqlhasIs && paramsValue[i] != null && !(paramsValue[i] instanceof java.lang.Boolean))) {
@@ -275,9 +294,6 @@ public class SqlUtil {
 							+ " "
 							+ queryStr.substring(endMarkIndex
 									+ Constants.SQL_PSEUDO_END_MARK.length());
-					// 重新构造参数条件数组
-					paramsName = (String[]) subArray(paramsName, preParamCnt,
-							paramCnt);
 					paramsValue = subArray(paramsValue, preParamCnt, paramCnt);
 					break;
 				}
@@ -296,36 +312,12 @@ public class SqlUtil {
 												"%") != -1 ? paramsValue[i]
 												: "%" + paramsValue[i] + "%")
 										+ "\'");
-						paramsName = (String[]) subArray(paramsName, i, 1);
 						paramsValue = subArray(paramsValue, i, 1);
-					} else if (paramsName != null
-							&& paramsName.length != 0
-							&& StringUtil.matchs(markContentSql.toLowerCase(),
-									"\\s+like\\s+\\:" + paramsName[i])) {
-						queryStr += markContentSql.replace(":" + paramsName[i],
-								"\'"
-										+ (paramsValue[i].toString().indexOf(
-												"%") != -1 ? paramsValue[i]
-												: "%" + paramsValue[i] + "%")
-										+ "\'");
-						paramsName = (String[]) subArray(paramsName, i, 1);
-						paramsValue = subArray(paramsValue, i, 1);
-
 					} // 去除in (?)部分
 					else if (StringUtil.matchs(markContentSql.toLowerCase(),
 							"\\s+in\\s+\\(\\s*\\?\\s*\\)")) {
 						queryStr += markContentSql.replace("?", paramsValue[i]
 								.toString());
-						paramsName = (String[]) subArray(paramsName, i, 1);
-						paramsValue = subArray(paramsValue, i, 1);
-					} else if (paramsName != null
-							&& paramsName.length != 0
-							&& StringUtil.matchs(markContentSql.toLowerCase(),
-									"\\s+in\\s+\\(\\s*\\:" + paramsName[i]
-											+ "\\s*\\)")) {
-						queryStr += markContentSql.replace(":" + paramsName[i],
-								paramsValue[i].toString());
-						paramsName = (String[]) subArray(paramsName, i, 1);
 						paramsValue = subArray(paramsValue, i, 1);
 					} else
 						queryStr += markContentSql;
@@ -333,11 +325,10 @@ public class SqlUtil {
 				}
 			}
 			// 递归检查
-			return filterNullConditions(queryStr, paramsName, paramsValue);
+			return processNullConditions(queryStr, paramsValue);
 		}
 		// 没有#[]则将结果以QueryParam 对象返回
 		sqlParam.setQueryStr(queryStr);
-		sqlParam.setParamsName(paramsName);
 		sqlParam.setParamsValue(paramsValue);
 		return sqlParam;
 
@@ -357,7 +348,63 @@ public class SqlUtil {
 						.trim().indexOf("\\r") != -1))
 			return false;
 		return true;
+	}
 
+	/**
+	 * 处理named 条件参数，将所有:param 替换成? 并重构参数值数组
+	 * 
+	 * @param queryStr
+	 * @param paramsNamed
+	 * @param paramsValue
+	 * @return
+	 */
+	private static QueryParam processNamedParamsQuery(String queryStr,
+			String[] paramsNamed, Object[] paramsValue) {
+		// 提取sql语句中的命名参数
+		QueryParam queryParam = new QueryParam();
+		queryParam.setParamsValue(paramsValue);
+		queryParam.setQueryStr(queryStr);
+
+		// 提取条件参数
+		String regexp = "\\:\\s*\\w*\\s*";
+		Pattern p = Pattern.compile(regexp);
+		Matcher m = p.matcher(queryStr);
+		String mapStr;
+		int paramCnt = 0;
+		HashMap paramIndexMap = new HashMap();
+		// 用来替换:param
+		List paramsList = new ArrayList();
+		while (m.find()) {
+			mapStr = m.group();
+			paramsList.add(mapStr);
+			paramIndexMap.put(paramCnt, mapStr.replace(":", "").trim());
+			paramCnt++;
+		}
+
+		// 没有别名参数
+		if (paramCnt == 0)
+			return queryParam;
+
+		// 构造参数值对象数组
+		Object[] paramsRealValue = new Object[paramCnt];
+		String paramName;
+		for (int i = 0; i < paramCnt; i++) {
+			paramName = (String) paramIndexMap.get(i);
+			for (int j = 0; j < paramsNamed.length; j++) {
+				if (paramName.equalsIgnoreCase(paramsNamed[j]))
+					paramsRealValue[i] = paramsValue[j];
+			}
+		}
+
+		// 替换条件参数为?号
+		String realQueryStr = queryStr;
+		for (int i = 0; i < paramsList.size(); i++)
+			realQueryStr = realQueryStr.replaceAll(
+					paramsList.get(i).toString(), "? ");
+
+		queryParam.setParamsValue(paramsRealValue);
+		queryParam.setQueryStr(realQueryStr);
+		return queryParam;
 	}
 
 	/**
@@ -418,7 +465,7 @@ public class SqlUtil {
 
 	public static class QueryParam {
 		private String queryStr;
-		private String[] paramsName;
+		//private String[] paramsName;
 		private Object[] paramsValue;
 
 		public String getQueryStr() {
@@ -427,14 +474,6 @@ public class SqlUtil {
 
 		public void setQueryStr(String queryStr) {
 			this.queryStr = queryStr;
-		}
-
-		public String[] getParamsName() {
-			return paramsName;
-		}
-
-		public void setParamsName(String[] paramsName) {
-			this.paramsName = paramsName;
 		}
 
 		public Object[] getParamsValue() {
@@ -452,17 +491,19 @@ public class SqlUtil {
 		queryStr.append("select *  ");
 		queryStr.append("from OA_CAR_REGIST t ");
 		queryStr.append("where 1=1 ");
-		queryStr.append("      #[and t.create is ? ]");
-		queryStr.append("      #[and t.REGIST_DATE>=? and t.REGIST_DATE<= ? ]");
-		queryStr.append("      #[and t.CAR_MODE like ? ] ");
-		queryStr.append("      and t.IS_ACTIVE=?");
-
+		queryStr.append("      #[and t.create is :create ]");
+		queryStr.append("      #[and t.REGIST_DATE>=:beginDate and t.REGIST_DATE<= :endDate ]");
+		queryStr.append("      #[and t.CAR_MODE like :like ] ");
+		queryStr.append("      and t.IS_ACTIVE=:active");
+		String[] paramsNamed=new String[]{"create","beginDate","endDate","like","active"};
 		Object[] paramsValue = new Object[] { true, null, null, null, "1" };
 		QueryParam sqlParam = SqlUtil.filterNullConditions(queryStr.toString(),
-				null, paramsValue);
+				paramsNamed, paramsValue);
 		System.err.println("tmp=" + sqlParam.getQueryStr());
 		for (int i = 0; i < sqlParam.getParamsValue().length; i++)
 			System.err.println(sqlParam.getParamsValue()[i]);
+
+		
 		/*
 		 * System.err.println(SqlUtil.isNamedQuery(" from table")); Object[]
 		 * tmpAry = new Object[] { "1", "2", "3", "4", "5" }; tmpAry =

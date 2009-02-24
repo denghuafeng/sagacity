@@ -21,7 +21,7 @@ import org.sagacity.framework.web.views.tags.xtable.util.XTableUtil;
 
 /**
  * 
- *@project sagacity-core 
+ *@project sagacity-core
  *@description:$<p>xtable 表格标签向页面输出html</p>$
  *@author Administrator $<a href="mailto:zhongxuchen@hotmail.com">联系作者</a>$
  *@version $id:HtmlRender.java,Revision:v1.0,Date:2008-12-14 下午03:55:28 $
@@ -29,7 +29,12 @@ import org.sagacity.framework.web.views.tags.xtable.util.XTableUtil;
 public class HtmlRender implements Render {
 	/*
 	 * (non-Javadoc)
-	 * @see org.sagacity.framework.web.views.tags.xtable.render.Render#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.BodyContent, javax.servlet.jsp.JspWriter, org.sagacity.framework.web.views.tags.xtable.model.XTableModel)
+	 * 
+	 * @see
+	 * org.sagacity.framework.web.views.tags.xtable.render.Render#render(javax
+	 * .servlet.jsp.PageContext, javax.servlet.jsp.tagext.BodyContent,
+	 * javax.servlet.jsp.JspWriter,
+	 * org.sagacity.framework.web.views.tags.xtable.model.XTableModel)
 	 */
 	public void render(PageContext pageContext, BodyContent bodyContent,
 			JspWriter writer, XTableModel xTableModel) {
@@ -158,7 +163,11 @@ public class HtmlRender implements Render {
 						"#{showAllOrPagination}", (String) tableConstantNames
 								.get("showAllPageName"));
 			}
-			paginationTemplate = executePaginationMarco(tableModel,
+
+			List marcos = XTableUtil.parseMarco(paginationTemplate, tableModel
+					.getMarcoSplitSign(), XTableUtil.getInstance()
+					.getMarcExtLanguage());
+			paginationTemplate = executePaginationMarco(tableModel, marcos,
 					paginationTemplate, tableModel.getMarcoSplitSign());
 
 			writer.println(paginationTemplate);
@@ -174,7 +183,6 @@ public class HtmlRender implements Render {
 	 */
 	private void printPageHeader(JspWriter writer, XTableModel tableModel)
 			throws Exception {
-
 		String headTemplate = XTableUtil.getInstance().getTableHeadTemplate()
 				.toString();
 		// 替换上下文路径
@@ -184,14 +192,17 @@ public class HtmlRender implements Render {
 		}
 		headTemplate = StringUtil.replaceAllStr(headTemplate,
 				"#{toolbarStyle}", tableModel.getToolBarStyle());
-		
+		boolean hasExtBar = true;
 		// 增加工具条按钮等
 		if (headTemplate.indexOf("#{pageExtToolbar}") != -1) {
 			String pageExtBar = tableModel.getTagBodyDefine().get("pageExt") == null ? ""
 					: (String) tableModel.getTagBodyDefine().get("pageExt");
+			if (StringUtil.isNullOrBlank(pageExtBar))
+				hasExtBar = false;
 			headTemplate = StringUtil.replaceStr(headTemplate,
 					"#{pageExtToolbar}", pageExtBar);
 		}
+
 		HashMap tableConstantNames = XTableUtil.getInstance()
 				.getTableConstantNames();
 		Iterator iter = tableConstantNames.keySet().iterator();
@@ -202,7 +213,12 @@ public class HtmlRender implements Render {
 					+ constantName + "}", (String) tableConstantNames
 					.get(constantName));
 		}
-		headTemplate = executePaginationMarco(tableModel, headTemplate,
+		List marcos = XTableUtil.parseMarco(headTemplate, tableModel
+				.getMarcoSplitSign(), XTableUtil.getInstance()
+				.getMarcExtLanguage());
+		if ((marcos == null || marcos.isEmpty()) && !hasExtBar)
+			return;
+		headTemplate = executePaginationMarco(tableModel, marcos, headTemplate,
 				tableModel.getMarcoSplitSign());
 
 		writer.println(headTemplate);
@@ -215,10 +231,12 @@ public class HtmlRender implements Render {
 	 * @param splitSign
 	 * @return
 	 */
-	private String executePaginationMarco(XTableModel tableModel,
+	private String executePaginationMarco(XTableModel tableModel, List marcos,
 			String paginationStr, String splitSign) {
-		List marcos = XTableUtil.parseMarco(paginationStr, splitSign,
-				XTableUtil.getInstance().getMarcExtLanguage());
+		/*
+		 * List marcos = XTableUtil.parseMarco(paginationStr, splitSign,
+		 * XTableUtil.getInstance().getMarcExtLanguage());
+		 */
 		if (marcos != null && !marcos.isEmpty()) {
 			MarcoModel marcoModel;
 			String result;
@@ -269,7 +287,7 @@ public class HtmlRender implements Render {
 		for (int i = 0; i < rowDatas.size(); i++) {
 			trClass = new StringBuffer();
 			trClass.append("<tr ");
-			//奇偶行样式
+			// 奇偶行样式
 			if (i % 2 == 1)
 				lineStyle = tableModel.getOddLine();
 			else
