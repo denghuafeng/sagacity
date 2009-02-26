@@ -302,7 +302,7 @@ public class XTableModel implements Serializable {
 	/**
 	 * @return the hasExport
 	 */
-	public boolean isHasExport() {
+	public boolean getHasExport() {
 		return hasExport;
 	}
 
@@ -317,7 +317,7 @@ public class XTableModel implements Serializable {
 	/**
 	 * @return the hasPaging
 	 */
-	public boolean isHasPaging() {
+	public boolean getHasPaging() {
 		return hasPaging;
 	}
 

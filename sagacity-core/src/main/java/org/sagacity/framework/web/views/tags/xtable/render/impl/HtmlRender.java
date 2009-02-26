@@ -164,10 +164,7 @@ public class HtmlRender implements Render {
 								.get("showAllPageName"));
 			}
 
-			List marcos = XTableUtil.parseMarco(paginationTemplate, tableModel
-					.getMarcoSplitSign(), XTableUtil.getInstance()
-					.getMarcExtLanguage());
-			paginationTemplate = executePaginationMarco(tableModel, marcos,
+			paginationTemplate = executePaginationMarco(tableModel,
 					paginationTemplate, tableModel.getMarcoSplitSign());
 
 			writer.println(paginationTemplate);
@@ -202,7 +199,8 @@ public class HtmlRender implements Render {
 			headTemplate = StringUtil.replaceStr(headTemplate,
 					"#{pageExtToolbar}", pageExtBar);
 		}
-
+		if(!tableModel.getHasExport()&&!hasExtBar)
+			return;
 		HashMap tableConstantNames = XTableUtil.getInstance()
 				.getTableConstantNames();
 		Iterator iter = tableConstantNames.keySet().iterator();
@@ -213,12 +211,7 @@ public class HtmlRender implements Render {
 					+ constantName + "}", (String) tableConstantNames
 					.get(constantName));
 		}
-		List marcos = XTableUtil.parseMarco(headTemplate, tableModel
-				.getMarcoSplitSign(), XTableUtil.getInstance()
-				.getMarcExtLanguage());
-		if ((marcos == null || marcos.isEmpty()) && !hasExtBar)
-			return;
-		headTemplate = executePaginationMarco(tableModel, marcos, headTemplate,
+		headTemplate = executePaginationMarco(tableModel, headTemplate,
 				tableModel.getMarcoSplitSign());
 
 		writer.println(headTemplate);
@@ -231,12 +224,11 @@ public class HtmlRender implements Render {
 	 * @param splitSign
 	 * @return
 	 */
-	private String executePaginationMarco(XTableModel tableModel, List marcos,
+	private String executePaginationMarco(XTableModel tableModel,
 			String paginationStr, String splitSign) {
-		/*
-		 * List marcos = XTableUtil.parseMarco(paginationStr, splitSign,
-		 * XTableUtil.getInstance().getMarcExtLanguage());
-		 */
+		List marcos = XTableUtil.parseMarco(paginationStr, splitSign,
+		XTableUtil.getInstance().getMarcExtLanguage());
+		 
 		if (marcos != null && !marcos.isEmpty()) {
 			MarcoModel marcoModel;
 			String result;
