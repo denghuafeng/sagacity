@@ -15,6 +15,8 @@ import org.sagacity.framework.web.views.struts2.BaseActionSupport;
  *
  */
 public class BasicActionSupport extends BaseActionSupport {
+
+	
 	/**
 	 * 
 	 */

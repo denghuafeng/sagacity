@@ -27,11 +27,13 @@ import org.sagacity.framework.dao.exception.CreateSequenceException;
 import org.sagacity.framework.dao.handler.CriteriaCallbackHandler;
 import org.sagacity.framework.dao.handler.RowCallbackHandler;
 import org.sagacity.framework.dao.model.TableColumnMeta;
+import org.sagacity.framework.dao.model.TableMeta;
 import org.sagacity.framework.dao.model.TableSequence;
 import org.sagacity.framework.dao.utils.SqlUtil;
 import org.sagacity.framework.dao.utils.SqlUtil.QueryParam;
 import org.sagacity.framework.log.Log;
 import org.sagacity.framework.log.LogFactory;
+import org.sagacity.framework.utils.DBUtil;
 import org.sagacity.framework.utils.DateUtil;
 import org.sagacity.framework.utils.StringUtil;
 import org.sagacity.framework.web.model.PaginationModel;
@@ -353,6 +355,18 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	}
 
 	/**
+	 * 
+	 * @param sqlOrNamedSql
+	 * @param preparHandler
+	 * @param paramsObj
+	 * @throws Exception
+	 */
+	protected void executeJdbcSql(String sqlOrNamedSql, Object paramsObj,Connection conn)
+			throws Exception {
+		executeJdbcSql(sqlOrNamedSql, null, convertParams(paramsObj), conn);
+	}
+	
+	/**
 	 * 无返回结果的SQL执行
 	 * 
 	 * @param executeSql
@@ -661,7 +675,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 		QueryParam queryParam = SqlUtil.filterNullConditions(SqlUtil
 				.processQuery(sqlOrNamedSql, getHibernateTemplate()
 						.getSessionFactory().getCurrentSession()), paramsNamed,
-						paramsObj);
+				paramsObj);
 		String queryStr = queryParam.getQueryStr();
 		Object[] params = queryParam.getParamsValue();
 		logger.debug("findPageByJdbc:分页查询sql为:" + queryStr);
@@ -1105,8 +1119,8 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	 * @param tableName
 	 * @return
 	 */
-	protected List getTableColumnsMeta(String tableName) {
-		return getTableColumnsMeta(tableName, null);
+	protected List getTableColumnMeta(String tableName) {
+		return getTableColumnMeta(tableName, null);
 	}
 
 	/**
@@ -1116,7 +1130,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	 * @param conn
 	 * @return
 	 */
-	protected List getTableColumnsMeta(String tableName, Connection conn) {
+	protected List getTableColumnMeta(String tableName, Connection conn) {
 		List columnsMeta = new ArrayList();
 		ResultSet rs = null;
 		try {
@@ -1126,12 +1140,19 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 				rs = this.getSession().connection().getMetaData().getColumns(
 						null, null, tableName, null);
 			while (rs.next()) {
-				TableColumnMeta colMeta=new TableColumnMeta();
-				colMeta.
-				Object[] colMeta1 = { rs.getString("COLUMN_NAME"),
-						rs.getString("TYPE_NAME"), rs.getInt("COLUMN_SIZE"),
-						rs.getInt("DECIMAL_DIGITS"), rs.getInt("NULLABLE"),
-						rs.getString("COMMENTS")};
+				TableColumnMeta colMeta = new TableColumnMeta();
+				colMeta.setColName(rs.getString("COLUMN_NAME"));
+				colMeta.setColDefault(rs.getString("COLUMN_DEF"));
+				colMeta.setDataType(rs.getInt("DATA_TYPE"));
+				colMeta.setTypeName(rs.getString("TYPE_NAME"));
+				colMeta.setColRemark(rs.getString("REMARKS"));
+				colMeta.setColSize(rs.getInt("COLUMN_SIZE"));
+				colMeta.setDecimalDigits(rs.getInt("DECIMAL_DIGITS"));
+				colMeta.setNumPrecRadix(rs.getInt("NUM_PREC_RADIX"));
+				if (rs.getInt("NULLABLE") == 1)
+					colMeta.setNullable(true);
+				else
+					colMeta.setNullable(false);
 				columnsMeta.add(colMeta);
 			}
 		} catch (SQLException se) {
@@ -1146,6 +1167,106 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 			}
 		}
 		return columnsMeta;
+	}
+
+	/**
+	 * 获取数据库的catalog
+	 * 
+	 * @param conn
+	 * @return
+	 */
+	protected List getConnectionCatalog(Connection conn) {
+		List catalog = new ArrayList();
+		ResultSet rs = null;
+		try {
+			if (conn != null)
+				rs = conn.getMetaData().getCatalogs();
+			else
+				rs = this.getSession().connection().getMetaData().getCatalogs();
+			while (rs.next()) {
+				catalog.add(rs.getString(1));
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException se) {
+
+			}
+		}
+		return catalog;
+	}
+	
+	/**
+	 * 获取数据库连接的schema
+	 * @param conn
+	 * @return
+	 */
+	protected List getConnectionSchema(Connection conn) {
+		List schema = new ArrayList();
+		ResultSet rs = null;
+		try {
+			if (conn != null)
+				rs = conn.getMetaData().getSchemas();
+			else
+				rs = this.getSession().connection().getMetaData().getSchemas();
+			while (rs.next()) {
+				schema.add(rs.getString(1));
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException se) {
+
+			}
+		}
+		return schema;
+	}
+
+	/**
+	 * 获取数据库的表信息
+	 * @param conn
+	 * @param catalog
+	 * @param schema
+	 * @return
+	 */
+	protected List getConnectionTables(Connection conn, String catalog,
+			String schema) {
+		List tables = new ArrayList();
+		ResultSet rs = null;
+		try {
+			if (conn != null)
+				rs = conn.getMetaData().getTables(catalog, schema, null, null);
+			else
+				rs = this.getSession().connection().getMetaData().getTables(
+						catalog, schema, null, null);
+			while (rs.next()) {
+				TableMeta tableMeta = new TableMeta();
+				tableMeta.setTableName(rs.getString("TABLE_NAME"));
+				tableMeta.setSchema(rs.getString(1));
+				tableMeta.setTableType(rs.getString("TABLE_TYPE"));
+				tableMeta.setTableRemark(rs.getString("REMARKS"));
+				tables.add(tableMeta);
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException se) {
+
+			}
+		}
+		return tables;
 	}
 
 	/**
@@ -1510,5 +1631,23 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 			String property, boolean isChar) throws Exception {
 		return SqlUtil
 				.combineQueryInStr(conditions, colIndex, property, isChar);
+	}
+	
+	public static void main(String[] args)throws Exception
+	{
+		String url="jdbc:mysql://10.50.13.26:3306/nt_gims?useUnicode=true&characterEncoding=utf-8";
+		String driver="com.mysql.jdbc.Driver";
+		Connection conn=DBUtil.getConnection(driver, url,"nt", "nt");
+		BaseDAOSupport dao=new BaseDAOSupport();
+		
+		List result=dao.getConnectionTables(conn,"nt_gims",null);
+		TableMeta tm;
+		for(int i=0;i<result.size();i++)
+		{
+			tm=(TableMeta)result.get(i);
+			System.err.println(tm.getTableName()+"  getTableType="+tm.getTableType()+"  getTableAlias="+tm.getTableAlias());
+			//
+			//System.err.println(tm.getColName()+"getColRemark="+tm.getColRemark()+"colSize="+tm.getColSize());
+		}
 	}
 }

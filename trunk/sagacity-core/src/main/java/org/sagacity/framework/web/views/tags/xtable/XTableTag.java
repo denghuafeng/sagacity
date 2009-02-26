@@ -23,23 +23,22 @@ import org.sagacity.framework.web.views.tags.xtable.util.XTableUtil;
 
 /**
  * @project abchina
- * @description:$ <p>
- *                xtable目标:
- *                实现介于普通页面列表如displaytag和BI报表工具(如birt)之间的报表工具，适应非BI报表之外的 报表页面展示需求
- *                xtable 发展路线图： v1.0β版本：初始版本因时间和项目周期原因代码没有很好的优化，结构相对凌乱，满足现有应用
- *                v1.0GA版本:在β版上进行代码重构，优化结构形成稳定的接口，对部分代码进行优化，完善注释和错误提示，
- *                并统一xtable和xgrid接口
- *                v2.0β版本:整合分组汇总求平均值等功能，文件导出方式增加pdf,xml方式，形成完整的常用的宏扩展库，提供底层接口处理
- *                v2.0GA版本:优化2.0β版本代码部分代码重构，对外开源进行推广采纳用户的建议
- *                v3.0β版本:融入四维度以内交叉功能，优化底层接口方法，部分支持中国式报表，支持国际化
- *                v3.0GA版本:优化交叉算法，编写完整的使用文档和函数接口说明
- *                xtable源于陈仁飞的sagacity开源项目中的xtable,根据农行的要求将其迁移到农行的框架
- *                体系中，在众多开源table标签可选择的情况下特别开发xtable意义在于xtable有强于displaytag
- *                ,extrameTable
- *                之处，xtable支持以@xxx()方式定义的扩展标记，xtable除了一般页面所拥有的分页，导excel功能之外，它是支持
- *                真正意义上的分组合并，xtable支持求和，求平均值，xtable支持四维以内的交叉
- *                </p>
- *                $
+ * @description:$
+ *          <p>
+ *          xtable目标: 实现介于普通页面列表如displaytag和BI报表工具(如birt)之间的报表工具，适应非BI报表之外的
+ *          报表页面展示需求 xtable 发展路线图： v1.0β版本：初始版本因时间和项目周期原因代码没有很好的优化，结构相对凌乱，满足现有应用
+ *          v1.0GA版本:在β版上进行代码重构，优化结构形成稳定的接口，对部分代码进行优化，完善注释和错误提示，
+ *          并统一xtable和xgrid接口
+ *          v2.0β版本:整合分组汇总求平均值等功能，文件导出方式增加pdf,xml方式，形成完整的常用的宏扩展库，提供底层接口处理
+ *          v2.0GA版本:优化2.0β版本代码部分代码重构，对外开源进行推广采纳用户的建议
+ *          v3.0β版本:融入四维度以内交叉功能，优化底层接口方法，部分支持中国式报表，支持国际化
+ *          v3.0GA版本:优化交叉算法，编写完整的使用文档和函数接口说明
+ *          xtable源于陈仁飞的sagacity开源项目中的xtable,根据农行的要求将其迁移到农行的框架
+ *          体系中，在众多开源table标签可选择的情况下特别开发xtable意义在于xtable有强于displaytag
+ *          ,extrameTable
+ *          之处，xtable支持以@xxx()方式定义的扩展标记，xtable除了一般页面所拥有的分页，导excel功能之外，它是支持
+ *          真正意义上的分组合并，xtable支持求和，求平均值，xtable支持四维以内的交叉
+ *          </p> $
  * @author zhongxuchen $<a href="mailto:zhongxuchen@hotmail.com">联系作者</a>$
  * @version $id:XTableTag.java,Revision:v1.0β,Date:May 21, 2008 3:48:34 PM $
  * @publish Copyright@2008 版权归陈仁飞，不得抄袭，如引用请注明出处。
@@ -183,16 +182,16 @@ public class XTableTag extends BaseTagSupport {
 				this.release();
 				return this.SKIP_BODY;
 			}
-			
+
 			// 获取表格的数据源
-			Object dataSource = this.getDataResource();		
+			Object dataSource = this.getDataResource();
 			if (dataSource == null) {
 				logger.debug("the " + this.property + " XTable is Null!");
 				return this.SKIP_BODY;
 			}
-			//构造数据模型
+			// 构造数据模型
 			construtDataModel(dataSource);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return this.SKIP_BODY;
@@ -255,14 +254,14 @@ public class XTableTag extends BaseTagSupport {
 		release();
 		return this.EVAL_PAGE;
 	}
-		
+
 	/**
 	 * 构造数据模型
+	 * 
 	 * @param dataSource
 	 * @throws Exception
 	 */
-	private void construtDataModel(Object dataSource) throws Exception
-	{
+	private void construtDataModel(Object dataSource) throws Exception {
 		// 数据源的类型标志
 		int dataClassFlag = 0;
 		// 处理数据源的格式类型,类型包括xtableModel,list,pagination三类格式
@@ -275,8 +274,7 @@ public class XTableTag extends BaseTagSupport {
 			xTableModel = new XTableModel();
 			if (dataSource instanceof PaginationModel) {
 				dataClassFlag = 1;
-				xTableModel
-						.setPaginationModel((PaginationModel) dataSource);
+				xTableModel.setPaginationModel((PaginationModel) dataSource);
 				xTableModel.setItems(xTableModel.getPaginationModel()
 						.getItems());
 				xTableModel.setPageSize(Integer.toString(xTableModel
@@ -290,7 +288,10 @@ public class XTableTag extends BaseTagSupport {
 		if (xTableModel.getItems() != null) {
 			this.displayProperties = XTableUtil.processDisplayProperties(
 					this.displayProperties, xTableModel.getItems());
-			List rowsData = TagUtil.getInstance().reflactList(xTableModel.getItems(),
+			List rowsData = TagUtil
+					.getInstance()
+					.reflactList(
+							xTableModel.getItems(),
 							this.displayProperties,
 							true,
 							this.model
@@ -301,8 +302,7 @@ public class XTableTag extends BaseTagSupport {
 			if (this.model
 					.equalsIgnoreCase(XTableConstants.XTABLE_MODEL.XTABLE_MODEL_UNLIMITWIDTH)) {
 				xTableModel.setHeaderList(rowsData.subList(0, 1));
-				xTableModel.setRowsData(rowsData
-						.subList(1, rowsData.size()));
+				xTableModel.setRowsData(rowsData.subList(1, rowsData.size()));
 			} else
 				xTableModel.setRowsData(rowsData);
 
@@ -320,8 +320,7 @@ public class XTableTag extends BaseTagSupport {
 					.println("table "
 							+ (this.caption == null ? (this.id == null ? this.datasource
 									: this.id)
-									: this.caption)
-							+ " datasource is empty!");
+									: this.caption) + " datasource is empty!");
 		}
 
 		xTableModel.setTableId(this.styleId);
@@ -335,8 +334,7 @@ public class XTableTag extends BaseTagSupport {
 						+ ".paginationModel.pageNo");
 			} else if (dataClassFlag == 1) {
 				xTableModel.setPageNoProperty(this.datasource + ".pageNo");
-				xTableModel.setPageSizeProperty(this.datasource
-						+ ".pageSize");
+				xTableModel.setPageSizeProperty(this.datasource + ".pageSize");
 			}
 		} else {
 			xTableModel.setPageNoProperty(this.styleId + "PageNo");
@@ -367,8 +365,7 @@ public class XTableTag extends BaseTagSupport {
 
 		// 设置标题
 		xTableModel.setCaption(this.caption);
-		xTableModel.setExportTypes(XTableUtil.getInstance()
-				.getExportTypes());
+		xTableModel.setExportTypes(XTableUtil.getInstance().getExportTypes());
 
 		// 设置上下文路径
 		xTableModel.setContextPath(((HttpServletRequest) this.pageContext
@@ -393,13 +390,13 @@ public class XTableTag extends BaseTagSupport {
 				this.exportAction,
 				(HttpServletRequest) this.pageContext.getRequest(),
 				xTableModel.getPageNoProperty());
-
-		exportUrl += (exportUrl.indexOf("?") != -1 ? "&" : "?")
-				+ xTableModel.getPageNoProperty() + "="
-				+ URLEncoder.encode("-1");
+		if (xTableModel.getPaginationModel() != null)
+			exportUrl += (exportUrl.indexOf("?") != -1 ? "&" : "?")
+					+ xTableModel.getPageNoProperty() + "="
+					+ URLEncoder.encode("-1");
 		xTableModel.setExportAction(exportUrl);
 	}
-	
+
 	/**
 	 * 释放资源
 	 */
