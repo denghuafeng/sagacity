@@ -69,16 +69,16 @@ public class XTableUtil implements Serializable {
 	 * 自定义扩展标记宏文件,文件路径和名称不能修改
 	 */
 	private final static String xtableConfigFile = "/components/xtable/xtable.xml";
-	
+
 	/**
 	 * 表头模板
 	 */
-	private final static String xtableHeadTemplate="/components/xtable/header.txt";
-	
+	private final static String xtableHeadTemplate = "/components/xtable/header.txt";
+
 	/**
 	 * 分页部分模板
 	 */
-	private final static String xtablePageTemplate="/components/xtable/pagination.txt";
+	private final static String xtablePageTemplate = "/components/xtable/pagination.txt";
 
 	/**
 	 * 分页模板
@@ -208,7 +208,8 @@ public class XTableUtil implements Serializable {
 	 */
 	public StringBuffer getTableHeadTemplate() {
 		if (tableHeadTemplate == null) {
-			InputStream inputStream = this.getClass().getResourceAsStream(xtableHeadTemplate);
+			InputStream inputStream = this.getClass().getResourceAsStream(
+					xtableHeadTemplate);
 			tableHeadTemplate = StringUtil.inputStream2Buffer(inputStream);
 		}
 
@@ -223,7 +224,8 @@ public class XTableUtil implements Serializable {
 	 */
 	public StringBuffer getPaginationTemplate() {
 		if (paginationTemplate == null) {
-			InputStream is = this.getClass().getResourceAsStream(xtablePageTemplate);
+			InputStream is = this.getClass().getResourceAsStream(
+					xtablePageTemplate);
 			paginationTemplate = StringUtil.inputStream2Buffer(is);
 		}
 		return paginationTemplate;
@@ -258,33 +260,42 @@ public class XTableUtil implements Serializable {
 					exportAction += "?";
 				else
 					exportAction += "&";
-				exportAction += this.EVENT_PARAM + "="
-						+ request.getParameter(this.EVENT_PARAM);
+				exportAction += this.EVENT_PARAM
+						+ "="
+						+ URLEncoder.encode(request
+								.getParameter(this.EVENT_PARAM));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		String paramValue = "";
 		for (Enumeration em = request.getParameterNames(); em.hasMoreElements();) {
 			param = (String) em.nextElement();
-			if (!param.equalsIgnoreCase(this.EVENT_PARAM) || !hasMethod) {
-				if (!param.equalsIgnoreCase(filter)) {
-					if (i == 0) {
-						if (exportAction.indexOf("?") == -1)
-							exportAction += "?";
-						else
-							exportAction += "&";
-						exportAction += param
-								+ "="
-								+ URLEncoder
-										.encode(request.getParameter(param));
-					} else
-						exportAction += "&"
-								+ param
-								+ "="
-								+ URLEncoder
-										.encode(request.getParameter(param));
-					i++;
+			try {
+				if (!param.equalsIgnoreCase(this.EVENT_PARAM) || !hasMethod) {
+					paramValue = request.getParameter(param);
+					if (!param.equalsIgnoreCase(filter)) {
+						if (i == 0) {
+							if (exportAction.indexOf("?") == -1)
+								exportAction += "?";
+							else
+								exportAction += "&";
+							exportAction += param
+									+ "="
+									+ URLEncoder.encode(new String(paramValue
+											.getBytes(), "UTF-8"));
+						} else
+							exportAction += "&"
+									+ param
+									+ "="
+									+ URLEncoder.encode(new String(paramValue
+											.getBytes(), "UTF-8"));
+						i++;
+					}
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 		return exportAction;
@@ -614,11 +625,12 @@ public class XTableUtil implements Serializable {
 							marcoModel.setParam(mapStr.substring(mapStr
 									.indexOf("(") + 1, mapStr
 									.indexOf(splitSign)));
-							
+
 							marcoModel.setTemplate(mapStr.substring(mapStr
 									.indexOf(splitSign)
-									+ splitSign.length(), StringUtil.getMarkEndIndex("(", ")", mapStr, 0)));
-							
+									+ splitSign.length(), StringUtil
+									.getMarkEndIndex("(", ")", mapStr, 0)));
+
 							marcoModel.setTemplate(mapStr.substring(mapStr
 									.indexOf(splitSign)
 									+ splitSign.length(), mapStr
