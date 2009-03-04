@@ -361,11 +361,11 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	 * @param paramsObj
 	 * @throws Exception
 	 */
-	protected void executeJdbcSql(String sqlOrNamedSql, Object paramsObj,Connection conn)
-			throws Exception {
+	protected void executeJdbcSql(String sqlOrNamedSql, Object paramsObj,
+			Connection conn) throws Exception {
 		executeJdbcSql(sqlOrNamedSql, null, convertParams(paramsObj), conn);
 	}
-	
+
 	/**
 	 * 无返回结果的SQL执行
 	 * 
@@ -1114,31 +1114,90 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 	}
 
 	/**
-	 * 获取表的列字段类型信息
+	 * 获取表的主键信息
 	 * 
+	 * @param catalog
+	 * @param schema
 	 * @param tableName
 	 * @return
 	 */
-	protected List getTableColumnMeta(String tableName) {
-		return getTableColumnMeta(tableName, null);
+	protected List getTablePrimaryKeys(String catalog, String schema,
+			String tableName) {
+		return getTablePrimaryKeys(catalog, schema, tableName, null);
+	}
+
+	/**
+	 * 获取表的主键信息
+	 * 
+	 * @param catalog
+	 * @param schema
+	 * @param tableName
+	 * @param conn
+	 * @return
+	 */
+	protected List getTablePrimaryKeys(String catalog, String schema,
+			String tableName, Connection conn) {
+		List primaryKeys = new ArrayList();
+		ResultSet rs = null;
+		try {
+			if (conn != null)
+				rs = conn.getMetaData().getPrimaryKeys(catalog, schema,
+						tableName);
+			else
+				rs = this.getSession().connection().getMetaData()
+						.getPrimaryKeys(catalog, schema, tableName);
+			// rs.getMetaData();
+			while (rs.next()) {
+				primaryKeys.add(rs.getString("COLUMN_NAME"));
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
+		return primaryKeys;
 	}
 
 	/**
 	 * 获取表的列字段类型信息
 	 * 
+	 * @param catalog
+	 * @param schema
+	 * @param tableName
+	 * @return
+	 */
+	protected List getTableColumnMeta(String catalog, String schema,
+			String tableName) {
+		return getTableColumnMeta(catalog, schema, tableName, null);
+	}
+
+	/**
+	 * 获取表的列字段类型信息
+	 * 
+	 * @param catalog
+	 * @param schema
 	 * @param tableName
 	 * @param conn
 	 * @return
 	 */
-	protected List getTableColumnMeta(String tableName, Connection conn) {
+	protected List getTableColumnMeta(String catalog, String schema,
+			String tableName, Connection conn) {
 		List columnsMeta = new ArrayList();
 		ResultSet rs = null;
 		try {
 			if (conn != null)
-				rs = conn.getMetaData().getColumns(null, null, tableName, null);
+				rs = conn.getMetaData().getColumns(catalog, schema, tableName,
+						null);
 			else
 				rs = this.getSession().connection().getMetaData().getColumns(
-						null, null, tableName, null);
+						catalog, schema, tableName, null);
+			// rs.getMetaData();
 			while (rs.next()) {
 				TableColumnMeta colMeta = new TableColumnMeta();
 				colMeta.setColName(rs.getString("COLUMN_NAME"));
@@ -1163,7 +1222,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 					rs.close();
 				}
 			} catch (SQLException se) {
-
+				se.printStackTrace();
 			}
 		}
 		return columnsMeta;
@@ -1194,14 +1253,15 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 					rs.close();
 				}
 			} catch (SQLException se) {
-
+				se.printStackTrace();
 			}
 		}
 		return catalog;
 	}
-	
+
 	/**
 	 * 获取数据库连接的schema
+	 * 
 	 * @param conn
 	 * @return
 	 */
@@ -1224,7 +1284,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 					rs.close();
 				}
 			} catch (SQLException se) {
-
+				se.printStackTrace();
 			}
 		}
 		return schema;
@@ -1232,6 +1292,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 
 	/**
 	 * 获取数据库的表信息
+	 * 
 	 * @param conn
 	 * @param catalog
 	 * @param schema
@@ -1263,7 +1324,7 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 					rs.close();
 				}
 			} catch (SQLException se) {
-
+				se.printStackTrace();
 			}
 		}
 		return tables;
@@ -1632,22 +1693,22 @@ public class BaseDAOSupport extends HibernateDaoSupport {
 		return SqlUtil
 				.combineQueryInStr(conditions, colIndex, property, isChar);
 	}
-	
-	public static void main(String[] args)throws Exception
-	{
-		String url="jdbc:mysql://10.50.13.26:3306/nt_gims?useUnicode=true&characterEncoding=utf-8";
-		String driver="com.mysql.jdbc.Driver";
-		Connection conn=DBUtil.getConnection(driver, url,"nt", "nt");
-		BaseDAOSupport dao=new BaseDAOSupport();
-		
-		List result=dao.getConnectionTables(conn,"nt_gims",null);
+
+	public static void main(String[] args) throws Exception {
+		String url = "jdbc:mysql://10.50.13.26:3306/nt_gims?useUnicode=true&characterEncoding=utf-8";
+		String driver = "com.mysql.jdbc.Driver";
+		Connection conn = DBUtil.getConnection(driver, url, "nt", "nt");
+		BaseDAOSupport dao = new BaseDAOSupport();
+
+		List result = dao.getConnectionTables(conn, "nt_gims", null);
 		TableMeta tm;
-		for(int i=0;i<result.size();i++)
-		{
-			tm=(TableMeta)result.get(i);
-			System.err.println(tm.getTableName()+"  getTableType="+tm.getTableType()+"  getTableAlias="+tm.getTableAlias());
+		for (int i = 0; i < result.size(); i++) {
+			tm = (TableMeta) result.get(i);
+			System.err.println(tm.getTableName() + "  getTableType="
+					+ tm.getTableType() + "  getTableAlias="
+					+ tm.getTableAlias());
 			//
-			//System.err.println(tm.getColName()+"getColRemark="+tm.getColRemark()+"colSize="+tm.getColSize());
+			// System.err.println(tm.getColName()+"getColRemark="+tm.getColRemark()+"colSize="+tm.getColSize());
 		}
 	}
 }

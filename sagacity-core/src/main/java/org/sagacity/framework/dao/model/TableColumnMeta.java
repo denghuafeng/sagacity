@@ -47,6 +47,11 @@ public class TableColumnMeta implements java.io.Serializable {
 	private int colSize;
 	
 	/**
+	 * 是否为主键
+	 */
+	private boolean isPrimaryKey;
+	
+	/**
 	 * 字段默认值
 	 */
 	private String colDefault;
@@ -121,5 +126,13 @@ public class TableColumnMeta implements java.io.Serializable {
 
 	public void setColDefault(String colDefault) {
 		this.colDefault = colDefault;
+	}
+
+	public boolean getIsPrimaryKey() {
+		return isPrimaryKey;
+	}
+
+	public void setIsPrimaryKey(boolean isPrimaryKey) {
+		this.isPrimaryKey = isPrimaryKey;
 	}
 }
