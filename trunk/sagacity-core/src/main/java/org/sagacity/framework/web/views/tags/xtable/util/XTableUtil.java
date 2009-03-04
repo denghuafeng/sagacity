@@ -274,23 +274,16 @@ public class XTableUtil implements Serializable {
 			param = (String) em.nextElement();
 			try {
 				if (!param.equalsIgnoreCase(this.EVENT_PARAM) || !hasMethod) {
-					paramValue = request.getParameter(param);
+					paramValue = request.getParameter(param).trim();
 					if (!param.equalsIgnoreCase(filter)) {
 						if (i == 0) {
 							if (exportAction.indexOf("?") == -1)
 								exportAction += "?";
 							else
 								exportAction += "&";
-							exportAction += param
-									+ "="
-									+ URLEncoder.encode(new String(paramValue
-											.getBytes(), "UTF-8"));
+							exportAction += param + "=" + paramValue;
 						} else
-							exportAction += "&"
-									+ param
-									+ "="
-									+ URLEncoder.encode(new String(paramValue
-											.getBytes(), "UTF-8"));
+							exportAction += "&" + param + "=" + paramValue;
 						i++;
 					}
 				}
