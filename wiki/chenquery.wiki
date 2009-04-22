@@ -1,0 +1,16 @@
+#labels 陈氏查询,数据库查询的最佳实现,sagacity
+<!-- 办公用品领用申请sql和hql -->
+<sql-query name="oa_searchOaProductAppList">
+<![CDATA[
+		select app.*,s_users.login_name 
+		from oa_product_app  app ,s_users  
+		where s_users.user_id=app.create_by
+		and app.create_by=?
+		and status=?
+		#[and app.create_date>=?]
+		#[and app.create_date<=?]
+
+	]]>
+</sql-query>
+
+采用#[]作为判断机制，sql简洁实用，简化开发过程！
